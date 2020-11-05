@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "43724472288",
+    "firebase_url": "https://loans-93f8a.firebaseio.com",
+    "project_id": "loans-93f8a",
+    "storage_bucket": "loans-93f8a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:43724472288:android:804e2e23e8df2cba75f585",
+        "android_client_info": {
+          "package_name": "com.example.loans"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "43724472288-9dgdpi8vhotqd9mv164cgn0ssppn3shp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBgBjuV28UdEM9z0l7UJC3d3XjwXTUrCVQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "43724472288-9dgdpi8vhotqd9mv164cgn0ssppn3shp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
