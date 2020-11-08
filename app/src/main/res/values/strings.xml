@@ -5,4 +5,9 @@
 
     <string name="facebook_app_id">[APP_ID]</string>
     <string name="fb_login_protocol_scheme">fb[APP_ID]</string>
+
+    <string name="loans_page">Займы</string>
+    <string name="cards_page">Карты</string>
+    <string name="credits_page">Кредиты</string>
+    <string name="favourites_page">Избранное</string>
 </resources>

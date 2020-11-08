@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/loansPage"
+        android:enabled="true"
+        android:icon="@drawable/loans_page_selected"
+        android:title="@string/loans_page" />
+    <item
+        android:id="@+id/cardsPage"
+        android:enabled="true"
+        android:icon="@drawable/cards_page"
+        android:title="@string/cards_page"/>
+    <item
+        android:id="@+id/creditsPage"
+        android:enabled="true"
+        android:icon="@drawable/credits_page"
+        android:title="@string/credits_page"/>
+    <item
+        android:id="@+id/favouritesPage"
+        android:enabled="true"
+        android:icon="@drawable/favourites_page"
+        android:title="@string/favourites_page"/>
+</menu>
