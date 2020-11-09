@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -31,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        final TextView pageLabelTextView = findViewById(R.id.pageLabelTextView);
+
         final FragmentManager fragmentManager = getSupportFragmentManager();
         final Fragment loansFragment = LoansFragment.newInstance("a", "b");
         final Fragment cardsFragment = CardsFragment.newInstance("a", "b");
@@ -50,18 +53,23 @@ public class MainActivity extends AppCompatActivity {
                 switch (item.getItemId())
                 {
                     case R.id.loansPage:
+                        pageLabelTextView.setText(getString(R.string.loans_page));
                         fragmentManager.beginTransaction().hide(active[0]).show(loansFragment).commit();
                         active[0] = loansFragment;
+
                         return true;
                     case R.id.cardsPage:
+                        pageLabelTextView.setText(getString(R.string.cards_page));
                         fragmentManager.beginTransaction().hide(active[0]).show(cardsFragment).commit();
                         active[0] = cardsFragment;
                         return true;
                     case R.id.creditsPage:
+                        pageLabelTextView.setText(getString(R.string.credits_page));
                         fragmentManager.beginTransaction().hide(active[0]).show(creditsFragment).commit();
                         active[0] = creditsFragment;
                         return true;
                     case R.id.favouritesPage:
+                        pageLabelTextView.setText(getString(R.string.favourites_page));
                         fragmentManager.beginTransaction().hide(active[0]).show(favouritesFragment).commit();
                         active[0] = favouritesFragment;
                         return true;

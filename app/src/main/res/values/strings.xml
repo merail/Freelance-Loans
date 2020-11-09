@@ -10,6 +10,4 @@
     <string name="cards_page">Карты</string>
     <string name="credits_page">Кредиты</string>
     <string name="favourites_page">Избранное</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
