@@ -7,6 +7,8 @@ import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -15,7 +17,12 @@ import com.google.firebase.messaging.FirebaseMessaging;
 
 public class MainActivity extends AppCompatActivity {
 
-    private String TAG = "onComplete";
+    private final String TAG = "onComplete";
+
+    private final String LOANS_FRAGMENT_TAG = "onComplete";
+    private final String CARDS_FRAGMENT_TAG = "onComplete";
+    private final String CREDITS_FRAGMENT_TAG = "onComplete";
+    private final String FAVOURITES_FRAGMENT_TAG = "onComplete";
 
     BottomNavigationView bottomNavigationView;
 
@@ -23,6 +30,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        final FragmentManager fragmentManager = getSupportFragmentManager();
+        final Fragment loansFragment = LoansFragment.newInstance("a", "b");
+        final Fragment cardsFragment = CardsFragment.newInstance("a", "b");
+        final Fragment creditsFragment = CreditsFragment.newInstance("a", "b");
+        final Fragment favouritesFragment = FavouritesFragment.newInstance("a", "b");
+        final Fragment[] active = {loansFragment};
+        fragmentManager.beginTransaction().add(R.id.main_container, favouritesFragment, FAVOURITES_FRAGMENT_TAG).hide(favouritesFragment).commit();
+        fragmentManager.beginTransaction().add(R.id.main_container, creditsFragment, CREDITS_FRAGMENT_TAG).hide(creditsFragment).commit();
+        fragmentManager.beginTransaction().add(R.id.main_container, cardsFragment, CARDS_FRAGMENT_TAG).hide(cardsFragment).commit();
+        fragmentManager.beginTransaction().add(R.id.main_container, loansFragment, LOANS_FRAGMENT_TAG).commit();
 
         bottomNavigationView = findViewById(R.id.bottom_navigation);
 
@@ -32,12 +50,20 @@ public class MainActivity extends AppCompatActivity {
                 switch (item.getItemId())
                 {
                     case R.id.loansPage:
+                        fragmentManager.beginTransaction().hide(active[0]).show(loansFragment).commit();
+                        active[0] = loansFragment;
                         return true;
                     case R.id.cardsPage:
+                        fragmentManager.beginTransaction().hide(active[0]).show(cardsFragment).commit();
+                        active[0] = cardsFragment;
                         return true;
                     case R.id.creditsPage:
+                        fragmentManager.beginTransaction().hide(active[0]).show(creditsFragment).commit();
+                        active[0] = creditsFragment;
                         return true;
                     case R.id.favouritesPage:
+                        fragmentManager.beginTransaction().hide(active[0]).show(favouritesFragment).commit();
+                        active[0] = favouritesFragment;
                         return true;
                     default:
                         return false;

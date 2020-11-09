@@ -3,7 +3,7 @@
     <item
         android:id="@+id/loansPage"
         android:enabled="true"
-        android:icon="@drawable/loans_page_selected"
+        android:icon="@drawable/loans_page"
         android:title="@string/loans_page" />
     <item
         android:id="@+id/cardsPage"
