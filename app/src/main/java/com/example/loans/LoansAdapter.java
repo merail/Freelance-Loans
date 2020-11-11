@@ -4,9 +4,15 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
 public class LoansAdapter extends RecyclerView.Adapter<LoansAdapter.LoansHolder> {
     private Context context;
@@ -26,8 +32,16 @@ public class LoansAdapter extends RecyclerView.Adapter<LoansAdapter.LoansHolder>
     }
 
     @Override
-    public void onBindViewHolder(@NonNull LoansHolder holder, int position) {
-
+    public void onBindViewHolder(@NonNull final LoansHolder holder, int position) {
+        holder.detailsImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(holder.detailsConstraintLayout.getVisibility() == View.GONE)
+                    holder.detailsConstraintLayout.setVisibility(View.VISIBLE);
+                else
+                    holder.detailsConstraintLayout.setVisibility(View.GONE);
+            }
+        });
     }
 
     @Override
@@ -36,8 +50,12 @@ public class LoansAdapter extends RecyclerView.Adapter<LoansAdapter.LoansHolder>
     }
 
     static class LoansHolder extends RecyclerView.ViewHolder {
+        ImageButton detailsImageButton;
+        ConstraintLayout detailsConstraintLayout;
         public LoansHolder(@NonNull View itemView) {
             super(itemView);
+            detailsImageButton = itemView.findViewById(R.id.detailsImageButton);
+            detailsConstraintLayout = itemView.findViewById(R.id.detailsConstraintLayout);
         }
     }
 }
