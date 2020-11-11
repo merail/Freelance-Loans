@@ -37,9 +37,29 @@ public class LoansAdapter extends RecyclerView.Adapter<LoansAdapter.LoansHolder>
             @Override
             public void onClick(View v) {
                 if(holder.detailsConstraintLayout.getVisibility() == View.GONE)
+                {
+                    holder.detailsImageButton.setBackgroundResource(R.drawable.hide_details);
                     holder.detailsConstraintLayout.setVisibility(View.VISIBLE);
+                }
                 else
+                {
+                    holder.detailsImageButton.setBackgroundResource(R.drawable.details);
                     holder.detailsConstraintLayout.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        holder.checkoutImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        holder.favouriteImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
             }
         });
     }
@@ -52,10 +72,14 @@ public class LoansAdapter extends RecyclerView.Adapter<LoansAdapter.LoansHolder>
     static class LoansHolder extends RecyclerView.ViewHolder {
         ImageButton detailsImageButton;
         ConstraintLayout detailsConstraintLayout;
+        ImageButton checkoutImageButton;
+        ImageButton favouriteImageButton;
         public LoansHolder(@NonNull View itemView) {
             super(itemView);
             detailsImageButton = itemView.findViewById(R.id.detailsImageButton);
             detailsConstraintLayout = itemView.findViewById(R.id.detailsConstraintLayout);
+            checkoutImageButton = itemView.findViewById(R.id.checkoutImageButton);
+            favouriteImageButton = itemView.findViewById(R.id.favouriteImageButton);
         }
     }
 }
