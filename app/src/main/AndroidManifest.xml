@@ -32,18 +32,6 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name="com.google.android.gms.analytics.CampaignTrackingReceiver"
-            android:enabled="true"
-            android:exported="true"
-            tools:ignore="ExportedReceiver">
-            <intent-filter>
-                <action android:name="com.android.vending.INSTALL_REFERRER" />
-            </intent-filter>
-        </receiver>
-        <service android:name="com.google.android.gms.analytics.CampaignTrackingService"
-            android:enabled="true"
-            android:exported="false" />
-
         <service
             android:name=".MessagingService"
             android:exported="false">
