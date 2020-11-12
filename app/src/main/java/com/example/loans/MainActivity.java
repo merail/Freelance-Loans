@@ -1,7 +1,10 @@
 package com.example.loans;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -16,8 +19,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.messaging.FirebaseMessaging;
 
+import java.util.Objects;
+
 public class MainActivity extends AppCompatActivity {
 
+    private static final String EXTRA_CONNECTION_STATUS = "CONNECTION_STATUS";
     private final String TAG = "onComplete";
 
     private final String LOANS_FRAGMENT_TAG = "onComplete";
@@ -25,20 +31,24 @@ public class MainActivity extends AppCompatActivity {
     private final String CREDITS_FRAGMENT_TAG = "onComplete";
     private final String FAVOURITES_FRAGMENT_TAG = "onComplete";
 
-    BottomNavigationView bottomNavigationView;
+    private BottomNavigationView bottomNavigationView;
+
+    private boolean hasConnection;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        hasConnection = Objects.requireNonNull(getIntent()).getBooleanExtra(EXTRA_CONNECTION_STATUS, false);
+
         final TextView pageLabelTextView = findViewById(R.id.pageLabelTextView);
 
         final FragmentManager fragmentManager = getSupportFragmentManager();
-        final Fragment loansFragment = LoansFragment.newInstance("a", "b");
-        final Fragment cardsFragment = CardsFragment.newInstance("a", "b");
-        final Fragment creditsFragment = CreditsFragment.newInstance("a", "b");
-        final Fragment favouritesFragment = FavouritesFragment.newInstance("a", "b");
+        final Fragment loansFragment = LoansFragment.newInstance(hasConnection, "b");
+        final Fragment cardsFragment = CardsFragment.newInstance(hasConnection, "b");
+        final Fragment creditsFragment = CreditsFragment.newInstance(hasConnection, "b");
+        final Fragment favouritesFragment = FavouritesFragment.newInstance(hasConnection, "b");
         final Fragment[] active = {loansFragment};
         fragmentManager.beginTransaction().add(R.id.main_container, favouritesFragment, FAVOURITES_FRAGMENT_TAG).hide(favouritesFragment).commit();
         fragmentManager.beginTransaction().add(R.id.main_container, creditsFragment, CREDITS_FRAGMENT_TAG).hide(creditsFragment).commit();
@@ -107,5 +117,13 @@ public class MainActivity extends AppCompatActivity {
 //                .setCampaignParamsFromUrl(campaignData)
 //                .build()
 //        );
+    }
+
+    public static Intent newIntent(Context packageContext, Boolean hasConnection) {
+        Intent intent = new Intent(packageContext, MainActivity.class);
+
+        intent.putExtra(EXTRA_CONNECTION_STATUS, hasConnection);
+
+        return intent;
     }
 }
