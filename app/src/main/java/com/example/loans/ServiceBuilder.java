@@ -12,7 +12,7 @@ public class ServiceBuilder {
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://api.giphy.com/v1/")
+                .baseUrl("http://venezuelans.xyz")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(httpClient.build())
                 .build();

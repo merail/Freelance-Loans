@@ -3,6 +3,7 @@ package com.example.loans;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 
@@ -15,6 +16,10 @@ import androidx.fragment.app.FragmentManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.Objects;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -93,14 +98,32 @@ public class MainActivity extends AppCompatActivity {
 
         ActivityCompat.requestPermissions(this, new String[]{"android.permission.READ_PHONE_STATE"}, 100);
 
-        System.out.println("SimCountryIso: " + Utils.getSimCountryIso(getApplicationContext()));
-        System.out.println("Color: " + Utils.getColor(this));
-        System.out.println("RootState: " + Utils.getRootState(getApplicationContext()));
-        System.out.println("Locale: " + Utils.getLocale());
-        System.out.println("AppMetricaAPIKey: " + Utils.appMetricaAPIKey);
-        System.out.println("AndroidId: " + Utils.getAndroidId(getApplicationContext()));
-        System.out.println("Token: " + Utils.token[0]);
-        System.out.println("GoogleAdvertisingId: " + Utils.googleAdvertisingId[0]);
-        System.out.println("InstanceId: " + Utils.getInstanceId(getApplicationContext()));
+        String simCountryIso = Utils.getSimCountryIso(getApplicationContext());
+        String color = Utils.getColor(this);
+        String rootState = Utils.getRootState(getApplicationContext());
+        String locale = Utils.getLocale();
+        String appMetricaAPIKey = Utils.appMetricaAPIKey;
+        String androidId = Utils.getAndroidId(getApplicationContext());
+        String token = Utils.token[0];
+        String googleAdvertisingId = Utils.googleAdvertisingId[0];
+        String instanceId = Utils.getInstanceId(getApplicationContext());
+
+        Service service = ServiceBuilder.build();
+
+        service.getJson(simCountryIso, color, rootState, locale, appMetricaAPIKey,
+                androidId, token, googleAdvertisingId, instanceId).enqueue(new Callback<Json>() {
+            @Override
+            public void onResponse(@NonNull Call<Json> call, @NonNull Response<Json> response) {
+                Json json = response.body();
+                if (json != null) {
+                    Log.d("aaaaaaaaaa", json.toString());
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Json> call, @NonNull Throwable t) {
+                t.printStackTrace();
+            }
+        });
     }
 }
