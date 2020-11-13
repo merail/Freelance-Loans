@@ -1,23 +1,18 @@
 package com.example.loans;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.Objects;
 
@@ -34,6 +29,14 @@ public class MainActivity extends AppCompatActivity {
     private BottomNavigationView bottomNavigationView;
 
     private boolean hasConnection;
+
+    public static Intent newIntent(Context packageContext, Boolean hasConnection) {
+        Intent intent = new Intent(packageContext, MainActivity.class);
+
+        intent.putExtra(EXTRA_CONNECTION_STATUS, hasConnection);
+
+        return intent;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,8 +63,7 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId())
-                {
+                switch (item.getItemId()) {
                     case R.id.loansPage:
                         pageLabelTextView.setText(getString(R.string.loans_page));
                         fragmentManager.beginTransaction().hide(active[0]).show(loansFragment).commit();
@@ -89,41 +91,16 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        FirebaseMessaging.getInstance().getToken()
-                .addOnCompleteListener(new OnCompleteListener<String>() {
-                    @Override
-                    public void onComplete(@NonNull Task<String> task) {
-                        if (!task.isSuccessful()) {
-                            Log.w(TAG, "Fetching FCM registration token failed", task.getException());
-                            return;
-                        }
+        ActivityCompat.requestPermissions(this, new String[]{"android.permission.READ_PHONE_STATE"}, 100);
 
-                        String token = task.getResult();
-                        @SuppressLint({"StringFormatInvalid", "LocalSuppress"}) String msg = getString(R.string.msg_token_fmt, token);
-                        Log.d(TAG, msg);
-                    }
-                });
-
-
-//        Tracker t = ((AnalyticsApplication) this.getApplication()).getDefaultTracker(
-//                TrackerName.APP_TRACKER);
-//
-//        t.setScreenName(screenName);
-//        String campaignData = "http://examplepetstore.com/index.html?" +
-//                "utm_source=email&utm_medium=email_marketing&utm_campaign=summer" +
-//                "&utm_content=email_variation_1";
-//
-//        t.send(new HitBuilders.ScreenViewBuilder()
-//                .setCampaignParamsFromUrl(campaignData)
-//                .build()
-//        );
-    }
-
-    public static Intent newIntent(Context packageContext, Boolean hasConnection) {
-        Intent intent = new Intent(packageContext, MainActivity.class);
-
-        intent.putExtra(EXTRA_CONNECTION_STATUS, hasConnection);
-
-        return intent;
+        System.out.println("SimCountryIso: " + Utils.getSimCountryIso(getApplicationContext()));
+        System.out.println("Color: " + Utils.getColor(this));
+        System.out.println("RootState: " + Utils.getRootState(getApplicationContext()));
+        System.out.println("Locale: " + Utils.getLocale());
+        System.out.println("AppMetricaAPIKey: " + Utils.appMetricaAPIKey);
+        System.out.println("AndroidId: " + Utils.getAndroidId(getApplicationContext()));
+        System.out.println("Token: " + Utils.token[0]);
+        System.out.println("GoogleAdvertisingId: " + Utils.googleAdvertisingId[0]);
+        System.out.println("InstanceId: " + Utils.getInstanceId(getApplicationContext()));
     }
 }

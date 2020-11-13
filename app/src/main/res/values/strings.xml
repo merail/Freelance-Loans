@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">Loans</string>
-    <string name="msg_token_fmt">FCM</string>
     <string name="fcm_message">Message</string>
 
     <string name="facebook_app_id">[APP_ID]</string>
