@@ -94,33 +94,5 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-
-        String simCountryIso = Utils.getSimCountryIso(getApplicationContext());
-        String color = Utils.getColor(this);
-        String rootState = Utils.getRootState(getApplicationContext());
-        String locale = Utils.getLocale();
-        String appMetricaAPIKey = Utils.appMetricaAPIKey;
-        String androidId = Utils.getAndroidId(getApplicationContext());
-        String token = Utils.token[0];
-        String googleAdvertisingId = Utils.googleAdvertisingId[0];
-        String instanceId = Utils.getInstanceId(getApplicationContext());
-
-        Service service = ServiceBuilder.build();
-
-        service.getJson(simCountryIso, color, rootState, locale, appMetricaAPIKey,
-                androidId, token, googleAdvertisingId, instanceId).enqueue(new Callback<Json>() {
-            @Override
-            public void onResponse(@NonNull Call<Json> call, @NonNull Response<Json> response) {
-                Json json = response.body();
-                if (json != null) {
-                    Log.d("aaaaaaaaaa", json.toString());
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<Json> call, @NonNull Throwable t) {
-                t.printStackTrace();
-            }
-        });
     }
 }

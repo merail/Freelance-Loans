@@ -21,7 +21,36 @@
             android:textSize="16sp"
             android:textColor="@color/labelColor"
             android:fontFamily="@font/ubuntu"/>
-
     </com.google.android.material.card.MaterialCardView>
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="true"
+        android:button="@drawable/checkbox"
+        android:textSize="12sp"
+        android:layout_marginStart="16dp"
+        android:paddingStart="5dp"
+        android:text="Я согласен с политикой конфиденциальности"
+        app:layout_constraintBottom_toTopOf="@id/denyImageButton"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageButton
+        android:id="@+id/denyImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:background="@drawable/deny"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <ImageButton
+        android:id="@+id/acceptImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:background="@drawable/accept"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

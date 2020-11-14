@@ -2,8 +2,8 @@
     <string name="app_name">Онлайн займы без %</string>
     <string name="fcm_message">Message</string>
 
-    <string name="facebook_app_id">[APP_ID]</string>
-    <string name="fb_login_protocol_scheme">fb[APP_ID]</string>
+    <string name="facebook_app_id">3608536345870402</string>
+    <string name="fb_login_protocol_scheme">fb3608536345870402</string>
 
     <string name="loans_page">Займы</string>
     <string name="cards_page">Карты</string>
