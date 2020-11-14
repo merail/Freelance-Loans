@@ -1,4 +1,4 @@
-package com.example.loans;
+package com.onlinecash.loanswithout;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;

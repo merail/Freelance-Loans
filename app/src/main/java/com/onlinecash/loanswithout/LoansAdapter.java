@@ -1,4 +1,4 @@
-package com.example.loans;
+package com.onlinecash.loanswithout;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,11 +8,7 @@ import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.google.android.material.appbar.CollapsingToolbarLayout;
-import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
 public class LoansAdapter extends RecyclerView.Adapter<LoansAdapter.LoansHolder> {
     private Context context;

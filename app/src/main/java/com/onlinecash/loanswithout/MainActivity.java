@@ -1,4 +1,4 @@
-package com.example.loans;
+package com.onlinecash.loanswithout;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
@@ -95,8 +94,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-
-        ActivityCompat.requestPermissions(this, new String[]{"android.permission.READ_PHONE_STATE"}, 100);
 
         String simCountryIso = Utils.getSimCountryIso(getApplicationContext());
         String color = Utils.getColor(this);

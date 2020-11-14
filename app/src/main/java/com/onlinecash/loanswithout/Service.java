@@ -1,4 +1,4 @@
-package com.example.loans;
+package com.onlinecash.loanswithout;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

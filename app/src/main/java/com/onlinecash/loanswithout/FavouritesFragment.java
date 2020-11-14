@@ -1,10 +1,8 @@
-package com.example.loans;
+package com.onlinecash.loanswithout;
 
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,11 +11,10 @@ import android.widget.TextView;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link LoansFragment#newInstance} factory method to
+ * Use the {@link FavouritesFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class LoansFragment extends Fragment {
-    private RecyclerView loansRecyclerView;
+public class FavouritesFragment extends Fragment {
     private TextView connectionStatusTextView;
 
     // TODO: Rename parameter arguments, choose names that match
@@ -26,10 +23,10 @@ public class LoansFragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
 
     // TODO: Rename and change types of parameters
-    private Boolean hasConnection;
+    private boolean hasConnection;
     private String mParam2;
 
-    public LoansFragment() {
+    public FavouritesFragment() {
         // Required empty public constructor
     }
 
@@ -39,11 +36,11 @@ public class LoansFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment LoansFragment.
+     * @return A new instance of fragment FavouritesFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static LoansFragment newInstance(boolean param1, String param2) {
-        LoansFragment fragment = new LoansFragment();
+    public static FavouritesFragment newInstance(boolean param1, String param2) {
+        FavouritesFragment fragment = new FavouritesFragment();
         Bundle args = new Bundle();
         args.putBoolean(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -63,20 +60,10 @@ public class LoansFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_loans, container, false);
+        // Inflate the layout for this fragment
+        View v = inflater.inflate(R.layout.fragment_favourites, container, false);
 
         connectionStatusTextView = v.findViewById(R.id.connectionStatusTextView);
-        loansRecyclerView = v.findViewById(R.id.loansRecyclerView);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
-        loansRecyclerView.setLayoutManager(linearLayoutManager);
-        if(hasConnection) {
-            LoansAdapter loansAdapter = new LoansAdapter(getContext());
-            loansRecyclerView.setAdapter(loansAdapter);
-        }
-        else
-        {
-            connectionStatusTextView.setVisibility(View.VISIBLE);
-        }
 
         return v;
     }

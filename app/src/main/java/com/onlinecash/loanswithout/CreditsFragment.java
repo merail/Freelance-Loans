@@ -1,4 +1,4 @@
-package com.example.loans;
+package com.onlinecash.loanswithout;
 
 import android.os.Bundle;
 
@@ -11,10 +11,10 @@ import android.widget.TextView;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link FavouritesFragment#newInstance} factory method to
+ * Use the {@link CreditsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FavouritesFragment extends Fragment {
+public class CreditsFragment extends Fragment {
     private TextView connectionStatusTextView;
 
     // TODO: Rename parameter arguments, choose names that match
@@ -26,7 +26,7 @@ public class FavouritesFragment extends Fragment {
     private boolean hasConnection;
     private String mParam2;
 
-    public FavouritesFragment() {
+    public CreditsFragment() {
         // Required empty public constructor
     }
 
@@ -36,11 +36,11 @@ public class FavouritesFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment FavouritesFragment.
+     * @return A new instance of fragment CreditsFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static FavouritesFragment newInstance(boolean param1, String param2) {
-        FavouritesFragment fragment = new FavouritesFragment();
+    public static CreditsFragment newInstance(boolean param1, String param2) {
+        CreditsFragment fragment = new CreditsFragment();
         Bundle args = new Bundle();
         args.putBoolean(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
