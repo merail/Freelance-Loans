@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".OfferActivity">
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/materialCardView"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="24dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="Займ"
+            android:textSize="16sp"
+            android:textColor="@color/labelColor"
+            android:fontFamily="@font/ubuntu"/>
+    </com.google.android.material.card.MaterialCardView>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/moneyConstraintLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/materialCardView">
+            <com.onlinecash.loanswithout.CircularSeekBar
+                android:id="@+id/moneySeekBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:circle_stroke_width="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:start_angle="180"
+                app:end_angle="360"
+                app:layout_constraintTop_toTopOf="parent"
+                app:progress="50"
+                app:pointer_color="#0066BF"
+                app:pointer_halo_color="@color/colorWhite"
+                app:pointer_halo_color_ontouch="@color/colorWhite"
+                app:circle_color="#100066BF"
+                app:circle_progress_color="#0066BF"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="35dp"
+                android:layout_marginBottom="20dp"
+                app:layout_constraintStart_toStartOf="@+id/moneySeekBar"
+                android:textSize="14sp"
+                android:text="5 000"
+                android:textColor="#500066BF"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="35dp"
+                android:layout_marginBottom="20dp"
+                app:layout_constraintEnd_toEndOf="@+id/moneySeekBar"
+                android:textSize="14sp"
+                android:text="30 000"
+                android:textColor="#500066BF"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <TextView
+                android:id="@+id/moneyProgressTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="17 500"
+                android:textSize="24sp"
+                android:textColor="#0066BF"
+                android:layout_marginTop="90dp"
+                app:layout_constraintTop_toTopOf="@id/moneySeekBar"
+                app:layout_constraintStart_toStartOf="@id/moneySeekBar"
+                app:layout_constraintEnd_toEndOf="@id/moneySeekBar"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Сумма займа"
+                android:textSize="14sp"
+                android:textColor="#0066BF"
+                android:layout_marginTop="20dp"
+                app:layout_constraintStart_toStartOf="@id/moneySeekBar"
+                app:layout_constraintEnd_toEndOf="@id/moneySeekBar"
+                app:layout_constraintTop_toBottomOf="@id/moneyProgressTextView"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/timeConstraintLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/moneyConstraintLayout"
+            android:translationY="-220dp"
+            android:layout_marginTop="300dp"
+            app:layout_constraintBottom_toBottomOf="parent">
+        <com.onlinecash.loanswithout.CircularSeekBar
+                android:id="@+id/timeSeekBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:circle_stroke_width="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:start_angle="180"
+                app:end_angle="360"
+                app:layout_constraintTop_toTopOf="parent"
+                app:progress="50"
+                app:pointer_color="#FF0054"
+                app:pointer_halo_color="@color/colorWhite"
+                app:pointer_halo_color_ontouch="@color/colorWhite"
+                app:circle_color="#10FF0054"
+                app:circle_progress_color="#FF0054"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="35dp"
+                android:layout_marginBottom="20dp"
+                app:layout_constraintStart_toStartOf="@+id/timeSeekBar"
+                android:textSize="14sp"
+                android:text="3"
+                android:textColor="#50FF0054"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="35dp"
+                android:layout_marginBottom="20dp"
+                app:layout_constraintEnd_toEndOf="@+id/timeSeekBar"
+                android:textSize="14sp"
+                android:text="30"
+                android:textColor="#50FF0054"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <TextView
+                android:id="@+id/timeProgressTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="16"
+                android:textSize="24sp"
+                android:textColor="#FF0054"
+                android:layout_marginTop="90dp"
+                app:layout_constraintTop_toTopOf="@id/timeSeekBar"
+                app:layout_constraintStart_toStartOf="@id/timeSeekBar"
+                app:layout_constraintEnd_toEndOf="@id/timeSeekBar"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Срок займа"
+                android:textSize="14sp"
+                android:textColor="#FF0054"
+                android:layout_marginTop="20dp"
+                app:layout_constraintStart_toStartOf="@id/timeSeekBar"
+                app:layout_constraintEnd_toEndOf="@id/timeSeekBar"
+                app:layout_constraintTop_toBottomOf="@id/timeProgressTextView"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/sumToReturnLabelTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:translationY="-370dp"
+        android:layout_marginStart="10dp"
+        app:layout_constraintTop_toBottomOf="@id/timeConstraintLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        android:text="Сумма к возврату"
+        android:textSize="14sp"
+        android:textColor="@color/textColor"
+        android:fontFamily="@font/ubuntu"/>
+    <TextView
+        android:id="@+id/sumToReturnTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:translationY="-370dp"
+        android:text="18 000"
+        android:textSize="16sp"
+        android:textColor="@color/labelColor"
+        android:fontFamily="@font/ubuntu"
+        app:layout_constraintTop_toBottomOf="@id/timeConstraintLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="10dp"/>
+
+    <TextView
+        android:id="@+id/interestRateLabelTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:translationY="-355dp"
+        app:layout_constraintTop_toBottomOf="@id/sumToReturnLabelTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        android:text="Процентная ставка"
+        android:textSize="14sp"
+        android:textColor="@color/textColor"
+        android:fontFamily="@font/ubuntu"/>
+    <TextView
+        android:id="@+id/interestRateTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:translationY="-355dp"
+        android:text="1%"
+        android:textSize="16sp"
+        android:textColor="@color/labelColor"
+        android:fontFamily="@font/ubuntu"
+        app:layout_constraintTop_toBottomOf="@id/sumToReturnTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="10dp"/>
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/interestRateTextView"
+        android:translationY="-340dp"
+        android:background="@drawable/take"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

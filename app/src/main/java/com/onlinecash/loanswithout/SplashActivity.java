@@ -30,43 +30,40 @@ public class SplashActivity extends AppCompatActivity {
         }
 
         Handler h = new Handler();
-        h.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                String simCountryIso = Utils.getSimCountryIso(getApplicationContext());
-                String color = Utils.getColor(SplashActivity.this);
-                String rootState = Utils.getRootState(getApplicationContext());
-                String locale = Utils.getLocale();
-                String appMetricaAPIKey = Utils.appMetricaAPIKey;
-                String androidId = Utils.getAndroidId(getApplicationContext());
-                String token = Utils.token[0];
-                String googleAdvertisingId = Utils.googleAdvertisingId[0];
-                String instanceId = Utils.getInstanceId(getApplicationContext());
+        h.postDelayed(() -> {
+            String simCountryIso = Utils.getSimCountryIso(getApplicationContext());
+            String color = Utils.getColor(SplashActivity.this);
+            String rootState = Utils.getRootState(getApplicationContext());
+            String locale = Utils.getLocale();
+            String appMetricaAPIKey = Utils.appMetricaAPIKey;
+            String androidId = Utils.getAndroidId(getApplicationContext());
+            String token = Utils.token[0];
+            String googleAdvertisingId = Utils.googleAdvertisingId[0];
+            String instanceId = Utils.getInstanceId(getApplicationContext());
 
-                Service service = ServiceBuilder.build();
+            Service service = ServiceBuilder.build();
 
-                service.getJson(simCountryIso, color, rootState, locale, appMetricaAPIKey,
-                        androidId, token, googleAdvertisingId, instanceId).enqueue(new Callback<Json>() {
-                    @Override
-                    public void onResponse(@NonNull Call<Json> call, @NonNull Response<Json> response) {
-                        Json json = response.body();
-                        if (json != null) {
-                            if(json.actualBackend != null)
-                            {
-                                Log.d("aaaaaaaaaa", json.toString());
-                                startActivity(MainActivity.newIntent(getApplicationContext(), hasConnection));
-                            }
-                            else
-                                startActivity(new Intent(SplashActivity.this, UserAgreementActivity.class));
+            service.getJson(simCountryIso, color, rootState, locale, appMetricaAPIKey,
+                    androidId, token, googleAdvertisingId, instanceId).enqueue(new Callback<Json>() {
+                @Override
+                public void onResponse(@NonNull Call<Json> call, @NonNull Response<Json> response) {
+                    Json json = response.body();
+                    if (json != null) {
+                        if(json.actualBackend != null)
+                        {
+                            Log.d("aaaaaaaaaa", json.toString());
+                            startActivity(MainActivity.newIntent(getApplicationContext(), hasConnection));
                         }
+                        else
+                            startActivity(new Intent(SplashActivity.this, UserAgreementActivity.class));
                     }
+                }
 
-                    @Override
-                    public void onFailure(@NonNull Call<Json> call, @NonNull Throwable t) {
-                        t.printStackTrace();
-                    }
-                });
-            }
+                @Override
+                public void onFailure(@NonNull Call<Json> call, @NonNull Throwable t) {
+                    t.printStackTrace();
+                }
+            });
         }, 2000);
     }
 
