@@ -17,13 +17,22 @@
             android:layout_height="24dp"
             android:layout_gravity="center"
             android:gravity="center"
-            android:text="Пользовательское соглашение"
+            android:text="Политика конфиденциальности"
             android:textSize="16sp"
             android:textColor="@color/labelColor"
             android:fontFamily="@font/ubuntu"/>
     </com.google.android.material.card.MaterialCardView>
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/userAgreementRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:requiresFadingEdge="vertical"
+        app:layout_constraintTop_toBottomOf="@id/materialCardView"
+        app:layout_constraintBottom_toTopOf="@id/userAgreementCheckbox"/>
+
     <CheckBox
+        android:id="@+id/userAgreementCheckbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:checked="true"

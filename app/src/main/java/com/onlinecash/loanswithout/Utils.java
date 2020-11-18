@@ -67,7 +67,7 @@ public class Utils {
     }
 
     public static String getLocale() {
-        return Locale.getDefault().getCountry();
+        return Locale.getDefault().getLanguage();
     }
 
     @SuppressLint("HardwareIds")
