@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
@@ -27,6 +29,10 @@ public class UserAgreementActivity extends AppCompatActivity {
 
         ImageButton acceptImageButton = findViewById(R.id.acceptImageButton);
         acceptImageButton.setOnClickListener(view -> {
+
+            SharedPreferences sharedPreferences = getSharedPreferences("PREFS", Context.MODE_PRIVATE);
+            sharedPreferences.edit().putBoolean("ua_accept", true).apply();
+
             startActivity(new Intent(this, OfferActivity.class));
         });
 

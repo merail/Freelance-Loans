@@ -219,11 +219,12 @@
         android:layout_marginEnd="10dp"/>
 
     <ImageButton
+        android:id="@+id/getImageButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/interestRateTextView"
         android:translationY="-340dp"
-        android:background="@drawable/take"
+        android:background="@drawable/get"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

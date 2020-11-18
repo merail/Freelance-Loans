@@ -1,7 +1,9 @@
 package com.onlinecash.loanswithout;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -63,5 +65,8 @@ public class OfferActivity extends AppCompatActivity {
 
             }
         });
+
+        ImageButton getImageButton = findViewById(R.id.getImageButton);
+        getImageButton.setOnClickListener(view -> startActivity(new Intent(OfferActivity.this, FormActivity.class)));
     }
 }

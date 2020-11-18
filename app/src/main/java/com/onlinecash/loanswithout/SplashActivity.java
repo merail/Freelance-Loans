@@ -2,6 +2,7 @@ package com.onlinecash.loanswithout;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -51,11 +52,16 @@ public class SplashActivity extends AppCompatActivity {
                     if (json != null) {
                         if(json.actualBackend != null)
                         {
-                            Log.d("aaaaaaaaaa", json.toString());
                             startActivity(MainActivity.newIntent(getApplicationContext(), hasConnection));
                         }
                         else
-                            startActivity(new Intent(SplashActivity.this, UserAgreementActivity.class));
+                        {
+                            SharedPreferences sharedPreferences = getSharedPreferences("PREFS", Context.MODE_PRIVATE);
+                            if(sharedPreferences.getBoolean("ua_accept", false))
+                                startActivity(new Intent(SplashActivity.this, OfferActivity.class));
+                            else
+                                startActivity(new Intent(SplashActivity.this, UserAgreementActivity.class));
+                        }
                     }
                 }
 
