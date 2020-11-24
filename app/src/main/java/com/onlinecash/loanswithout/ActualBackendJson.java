@@ -1,6 +1,6 @@
 package com.onlinecash.loanswithout;
 
-public class Json {
+public class ActualBackendJson {
 
     public String actualBackend;
 }

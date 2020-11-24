@@ -28,49 +28,15 @@ public class SplashActivity extends AppCompatActivity {
         if (hasConnection) {
             Utils.getToken(getApplicationContext());
             Utils.getGoogleAdvertisingId(getApplicationContext());
+            Utils.getColor(SplashActivity.this);
+
+            Handler h = new Handler();
+            h.postDelayed(this::sendRequest, 2000);
         }
-
-        Handler h = new Handler();
-        h.postDelayed(() -> {
-            String simCountryIso = Utils.getSimCountryIso(getApplicationContext());
-            String color = Utils.getColor(SplashActivity.this);
-            String rootState = Utils.getRootState(getApplicationContext());
-            String locale = Utils.getLocale();
-            String appMetricaAPIKey = Utils.appMetricaAPIKey;
-            String androidId = Utils.getAndroidId(getApplicationContext());
-            String token = Utils.token[0];
-            String googleAdvertisingId = Utils.googleAdvertisingId[0];
-            String instanceId = Utils.getInstanceId(getApplicationContext());
-
-            Service service = ServiceBuilder.build();
-
-            service.getJson(simCountryIso, color, rootState, locale, appMetricaAPIKey,
-                    androidId, token, googleAdvertisingId, instanceId).enqueue(new Callback<Json>() {
-                @Override
-                public void onResponse(@NonNull Call<Json> call, @NonNull Response<Json> response) {
-                    Json json = response.body();
-                    if (json != null) {
-                        if(json.actualBackend != null)
-                        {
-                            startActivity(MainActivity.newIntent(getApplicationContext(), hasConnection));
-                        }
-                        else
-                        {
-                            SharedPreferences sharedPreferences = getSharedPreferences("PREFS", Context.MODE_PRIVATE);
-                            if(sharedPreferences.getBoolean("ua_accept", false))
-                                startActivity(new Intent(SplashActivity.this, OfferActivity.class));
-                            else
-                                startActivity(new Intent(SplashActivity.this, UserAgreementActivity.class));
-                        }
-                    }
-                }
-
-                @Override
-                public void onFailure(@NonNull Call<Json> call, @NonNull Throwable t) {
-                    t.printStackTrace();
-                }
-            });
-        }, 2000);
+        else
+        {
+            startActivity(MainActivity.newIntent(getApplicationContext(), false, null));
+        }
     }
 
     private boolean isNetworkAvailable() {
@@ -78,5 +44,49 @@ public class SplashActivity extends AppCompatActivity {
                 = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
+    private void sendRequest()
+    {
+        String simCountryIso = "ru";
+        String color = "#0086ab";
+        String rootState = null;
+        String locale = "ru_RU";
+        //String simCountryIso = Utils.getSimCountryIso(getApplicationContext());
+        //String color = Utils.color[0];
+        //String rootState = Utils.getRootState(getApplicationContext());
+        //String locale = Utils.getLocale();
+        String appMetricaAPIKey = Utils.appMetricaAPIKey;
+        String androidId = Utils.getAndroidId(getApplicationContext());
+        String token = Utils.token[0];
+        String googleAdvertisingId = Utils.googleAdvertisingId[0];
+        String instanceId = Utils.getInstanceId(getApplicationContext());
+
+        ActualBackendService actualBackendService = ActualBackendBuilder.build();
+
+        actualBackendService.getActualBackend(simCountryIso, color, rootState, locale, appMetricaAPIKey,
+                androidId, token, googleAdvertisingId, instanceId).enqueue(new Callback<ActualBackendJson>() {
+            @Override
+            public void onResponse(@NonNull Call<ActualBackendJson> call, @NonNull Response<ActualBackendJson> response) {
+                Log.d("aaaaaaaaaa", "onResponse: ConfigurationListener::"+call.request().url());
+                ActualBackendJson actualBackendJson = response.body();
+                if (actualBackendJson != null) {
+                    if (actualBackendJson.actualBackend != null) {
+                        startActivity(MainActivity.newIntent(getApplicationContext(), true, actualBackendJson.actualBackend));
+                    } else {
+                        SharedPreferences sharedPreferences = getSharedPreferences("PREFS", Context.MODE_PRIVATE);
+                        if (sharedPreferences.getBoolean("ua_accept", false))
+                            startActivity(new Intent(SplashActivity.this, OfferActivity.class));
+                        else
+                            startActivity(new Intent(SplashActivity.this, UserAgreementActivity.class));
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<ActualBackendJson> call, @NonNull Throwable t) {
+                t.printStackTrace();
+            }
+        });
     }
 }

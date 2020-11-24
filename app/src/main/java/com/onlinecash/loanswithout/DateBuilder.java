@@ -4,19 +4,19 @@ import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class ServiceBuilder {
+public class DateBuilder {
 
-    public static Service build() {
+    public static DateService build(String actualBackend) {
 
 
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://venezuelans.xyz")
+                .baseUrl("http://venezuelans.xyz/" + actualBackend)
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(httpClient.build())
                 .build();
 
-        return retrofit.create(Service.class);
+        return retrofit.create(DateService.class);
     }
 }

@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "691280870765",
-    "firebase_url": "https://loanswithout.firebaseio.com",
-    "project_id": "loanswithout",
-    "storage_bucket": "loanswithout.appspot.com"
+    "project_number": "328896839218",
+    "firebase_url": "https://id83-a2e30.firebaseio.com",
+    "project_id": "id83-a2e30",
+    "storage_bucket": "id83-a2e30.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:691280870765:android:b79e56c118cca0e4802e64",
+        "mobilesdk_app_id": "1:328896839218:android:3bd3011cb3503fe978462b",
         "android_client_info": {
           "package_name": "com.onlinecash.loanswithout"
         }
       },
       "oauth_client": [
         {
-          "client_id": "691280870765-7spav7fkhrc21djnc3rhrlbk83rdkkok.apps.googleusercontent.com",
+          "client_id": "328896839218-1tt77lbr8qkj2ef5f15fjl8ibto5b1il.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCDAQlwsB_tJOnPDIgj5ea3XT1QEILgztU"
+          "current_key": "AIzaSyDSxddG1c6BimmrzvF-yamLP4qFFj9pmdw"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "691280870765-7spav7fkhrc21djnc3rhrlbk83rdkkok.apps.googleusercontent.com",
+              "client_id": "328896839218-1tt77lbr8qkj2ef5f15fjl8ibto5b1il.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

@@ -124,7 +124,7 @@
 Мы также рекомендуем вам ознакомиться с политикой Google в отношении защиты ваших данных: https://support.google.com/analytics/answer/6004245.
 Для получения дополнительной информации о том, какой тип информации собирает Firebase, посетите веб-страницу Условия конфиденциальности Google: https://policies.google.com/privacy?hl=ru.
 </string>
-    <string name="ua_paragraph_102">\u25CFFirebase is analytics service provided by Google Inc.
+    <string name="ua_paragraph_102">\u25CFFirebase is analytics actualBackendService provided by Google Inc.
 You may opt-out of certain Firebase features through your mobile device settings, such as your device advertising settings or by following the instructions provided by Google in their Privacy Policy: https://policies.google.com/privacy?hl=en
 We also encourage you to review the Google\'s policy for safeguarding your data: https://support.google.com/analytics/answer/6004245.
 For more information on what type of information Firebase collects, please visit the Google Privacy Terms web page: https://policies.google.com/privacy?hl=en

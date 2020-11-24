@@ -11,7 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ResultActivity"></activity>
+        <activity android:name=".ResultActivity" />
         <activity android:name=".ProcessingActivity" />
         <activity android:name=".FormActivity" />
         <activity
@@ -22,7 +22,16 @@
             android:screenOrientation="nosensor" />
         <activity
             android:name=".MainActivity"
-            android:screenOrientation="nosensor" />
+            android:screenOrientation="nosensor">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="ftapp" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".SplashActivity"
             android:screenOrientation="nosensor">
@@ -33,6 +42,7 @@
             </intent-filter>
         </activity>
 
+
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
@@ -42,31 +52,13 @@
         <meta-data
             android:name="com.facebook.sdk.AutoLogAppEventsEnabled"
             android:value="true" />
+
         <meta-data
             android:name="com.facebook.sdk.AdvertiserIDCollectionEnabled"
             android:value="true" />
-
-        <service
-            android:name=".MessagingService"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-
-            <meta-data
-                android:name="com.google.firebase.messaging.default_notification_icon"
-                android:resource="@drawable/common_google_signin_btn_icon_dark" />
-            <meta-data
-                android:name="com.google.firebase.messaging.default_notification_color"
-                android:resource="@color/colorAccent" />
-            <meta-data
-                android:name="com.google.firebase.messaging.default_notification_channel_id"
-                android:value="@string/app_name" />
-        </service>
     </application>
-    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>

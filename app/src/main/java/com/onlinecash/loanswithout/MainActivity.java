@@ -1,14 +1,15 @@
 package com.onlinecash.loanswithout;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.MenuItem;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
@@ -20,34 +21,35 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.onlinecash.loanswithout.Utils.CARDS_FRAGMENT_TAG;
+import static com.onlinecash.loanswithout.Utils.CREDITS_FRAGMENT_TAG;
+import static com.onlinecash.loanswithout.Utils.FAVOURITES_FRAGMENT_TAG;
+import static com.onlinecash.loanswithout.Utils.LOANS_FRAGMENT_TAG;
+
 public class MainActivity extends AppCompatActivity {
 
     private static final String EXTRA_CONNECTION_STATUS = "CONNECTION_STATUS";
-    private final String TAG = "onComplete";
+    private static final String EXTRA_ACTUAL_BACKEND = "ACTUAL_BACKEND";
 
-    private final String LOANS_FRAGMENT_TAG = "onComplete";
-    private final String CARDS_FRAGMENT_TAG = "onComplete";
-    private final String CREDITS_FRAGMENT_TAG = "onComplete";
-    private final String FAVOURITES_FRAGMENT_TAG = "onComplete";
-
-    private BottomNavigationView bottomNavigationView;
-
-    private boolean hasConnection;
-
-    public static Intent newIntent(Context packageContext, Boolean hasConnection) {
+    public static Intent newIntent(Context packageContext, Boolean hasConnection, String actualBackend) {
         Intent intent = new Intent(packageContext, MainActivity.class);
 
         intent.putExtra(EXTRA_CONNECTION_STATUS, hasConnection);
+        intent.putExtra(EXTRA_ACTUAL_BACKEND, actualBackend);
 
         return intent;
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        hasConnection = Objects.requireNonNull(getIntent()).getBooleanExtra(EXTRA_CONNECTION_STATUS, false);
+        boolean hasConnection = Objects.requireNonNull(getIntent()).getBooleanExtra(EXTRA_CONNECTION_STATUS, false);
+        String actualBackend = Objects.requireNonNull(getIntent().getStringExtra(EXTRA_ACTUAL_BACKEND));
+
+        sendDateRequest(actualBackend);
 
         final TextView pageLabelTextView = findViewById(R.id.pageLabelTextView);
 
@@ -62,36 +64,82 @@ public class MainActivity extends AppCompatActivity {
         fragmentManager.beginTransaction().add(R.id.main_container, cardsFragment, CARDS_FRAGMENT_TAG).hide(cardsFragment).commit();
         fragmentManager.beginTransaction().add(R.id.main_container, loansFragment, LOANS_FRAGMENT_TAG).commit();
 
-        bottomNavigationView = findViewById(R.id.bottom_navigation);
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
 
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+        bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.loansPage:
+                    pageLabelTextView.setText(getString(R.string.loans_page));
+                    fragmentManager.beginTransaction().hide(active[0]).show(loansFragment).commit();
+                    active[0] = loansFragment;
+
+                    return true;
+                case R.id.cardsPage:
+                    pageLabelTextView.setText(getString(R.string.cards_page));
+                    fragmentManager.beginTransaction().hide(active[0]).show(cardsFragment).commit();
+                    active[0] = cardsFragment;
+                    return true;
+                case R.id.creditsPage:
+                    pageLabelTextView.setText(getString(R.string.credits_page));
+                    fragmentManager.beginTransaction().hide(active[0]).show(creditsFragment).commit();
+                    active[0] = creditsFragment;
+                    return true;
+                case R.id.favouritesPage:
+                    pageLabelTextView.setText(getString(R.string.favourites_page));
+                    fragmentManager.beginTransaction().hide(active[0]).show(favouritesFragment).commit();
+                    active[0] = favouritesFragment;
+                    return true;
+                default:
+                    return false;
+            }
+        });
+    }
+
+    private void sendDateRequest(String actualBackend)
+    {
+        DateService dateService = DateBuilder.build(actualBackend);
+
+        dateService.getDate().enqueue(new Callback<DateJson>() {
             @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.loansPage:
-                        pageLabelTextView.setText(getString(R.string.loans_page));
-                        fragmentManager.beginTransaction().hide(active[0]).show(loansFragment).commit();
-                        active[0] = loansFragment;
+            public void onResponse(@NonNull Call<DateJson> call, @NonNull Response<DateJson> response) {
+                DateJson dateJson = response.body();
+                if (dateJson != null) {
+                    SharedPreferences sharedPreferences = getSharedPreferences("PREFS", Context.MODE_PRIVATE);
+                    if(Objects.equals(sharedPreferences.getString("date", ""), dateJson.date))
+                    {
 
-                        return true;
-                    case R.id.cardsPage:
-                        pageLabelTextView.setText(getString(R.string.cards_page));
-                        fragmentManager.beginTransaction().hide(active[0]).show(cardsFragment).commit();
-                        active[0] = cardsFragment;
-                        return true;
-                    case R.id.creditsPage:
-                        pageLabelTextView.setText(getString(R.string.credits_page));
-                        fragmentManager.beginTransaction().hide(active[0]).show(creditsFragment).commit();
-                        active[0] = creditsFragment;
-                        return true;
-                    case R.id.favouritesPage:
-                        pageLabelTextView.setText(getString(R.string.favourites_page));
-                        fragmentManager.beginTransaction().hide(active[0]).show(favouritesFragment).commit();
-                        active[0] = favouritesFragment;
-                        return true;
-                    default:
-                        return false;
+                    }
+                    else
+                    {
+                        sharedPreferences.edit().putString("date", dateJson.date).apply();
+
+                        sendDatabaseRequest(actualBackend);
+                    }
                 }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<DateJson> call, @NonNull Throwable t) {
+                t.printStackTrace();
+            }
+        });
+    }
+
+    private void sendDatabaseRequest(String actualBackend)
+    {
+        DatabaseService databaseService = DatabaseBuilder.build(actualBackend);
+
+        databaseService.getDatabase().enqueue(new Callback<DatabaseJson>() {
+            @Override
+            public void onResponse(@NonNull Call<DatabaseJson> call, @NonNull Response<DatabaseJson> response) {
+                DatabaseJson databaseJson = response.body();
+                if (databaseJson != null) {
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<DatabaseJson> call, @NonNull Throwable t) {
+                t.printStackTrace();
             }
         });
     }

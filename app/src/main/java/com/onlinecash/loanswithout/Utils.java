@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.provider.Settings;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -26,6 +27,12 @@ import java.io.IOException;
 import java.util.Locale;
 
 public class Utils {
+    public static final String LOANS_FRAGMENT_TAG = "onComplete";
+    public static final String CARDS_FRAGMENT_TAG = "onComplete";
+    public static final String CREDITS_FRAGMENT_TAG = "onComplete";
+    public static final String FAVOURITES_FRAGMENT_TAG = "onComplete";
+
+    public static final String[] color = {null};
     public static final String[] googleAdvertisingId = {null};
     public static final String[] token = {null};
     public static String appMetricaAPIKey = "77704704188920986930";
@@ -35,8 +42,7 @@ public class Utils {
         return telephonyManager.getSimCountryIso();
     }
 
-    public static String getColor(Activity activity) {
-        final String[] color = {null};
+    public static void getColor(Activity activity) {
         final FirebaseRemoteConfig firebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
         FirebaseRemoteConfigSettings configSettings = new FirebaseRemoteConfigSettings.Builder()
                 .setMinimumFetchIntervalInSeconds(5)
@@ -44,19 +50,14 @@ public class Utils {
         firebaseRemoteConfig.setConfigSettingsAsync(configSettings);
 
         firebaseRemoteConfig.fetchAndActivate()
-                .addOnCompleteListener(activity, new OnCompleteListener<Boolean>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Boolean> task) {
-                        try {
-                            JSONObject jColor = new JSONObject(firebaseRemoteConfig.getString("color"));
-                            color[0] = jColor.getString("color");
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+                .addOnCompleteListener(activity, task -> {
+                    try {
+                        JSONObject jColor = new JSONObject(firebaseRemoteConfig.getString("cl"));
+                        color[0] = jColor.get("color").toString();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
                 });
-
-        return color[0];
     }
 
     public static String getRootState(Context context) {
