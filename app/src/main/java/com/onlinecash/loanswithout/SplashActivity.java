@@ -3,8 +3,6 @@ package com.onlinecash.loanswithout;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -23,7 +21,7 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        final boolean hasConnection = isNetworkAvailable();
+        final boolean hasConnection = Utils.isNetworkAvailable(getApplicationContext());
 
         if (hasConnection) {
             Utils.getToken(getApplicationContext());
@@ -35,19 +33,11 @@ public class SplashActivity extends AppCompatActivity {
         }
         else
         {
-            startActivity(MainActivity.newIntent(getApplicationContext(), false, null));
+        startActivity(MainActivity.newIntent(getApplicationContext(), true, ""));
         }
     }
 
-    private boolean isNetworkAvailable() {
-        ConnectivityManager connectivityManager
-                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
-    }
-
-    private void sendRequest()
-    {
+    private void sendRequest() {
         String simCountryIso = "ru";
         String color = "#0086ab";
         String rootState = null;
@@ -68,7 +58,7 @@ public class SplashActivity extends AppCompatActivity {
                 androidId, token, googleAdvertisingId, instanceId).enqueue(new Callback<ActualBackendJson>() {
             @Override
             public void onResponse(@NonNull Call<ActualBackendJson> call, @NonNull Response<ActualBackendJson> response) {
-                Log.d("aaaaaaaaaa", "onResponse: ConfigurationListener::"+call.request().url());
+                Log.d("aaaaaaaaaa", "onResponse: ConfigurationListener::" + call.request().url());
                 ActualBackendJson actualBackendJson = response.body();
                 if (actualBackendJson != null) {
                     if (actualBackendJson.actualBackend != null) {

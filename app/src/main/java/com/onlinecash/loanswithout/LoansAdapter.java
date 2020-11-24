@@ -11,11 +11,13 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class LoansAdapter extends RecyclerView.Adapter<LoansAdapter.LoansHolder> {
-    private Context context;
+    private final Context context;
+    private final String order;
 
-    public LoansAdapter(Context context)
+    public LoansAdapter(Context context, String order)
     {
         this.context = context;
+        this.order = order;
     }
 
 
@@ -29,34 +31,23 @@ public class LoansAdapter extends RecyclerView.Adapter<LoansAdapter.LoansHolder>
 
     @Override
     public void onBindViewHolder(@NonNull final LoansHolder holder, int position) {
-        holder.detailsImageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(holder.detailsConstraintLayout.getVisibility() == View.GONE)
-                {
-                    holder.detailsImageButton.setBackgroundResource(R.drawable.hide_details);
-                    holder.detailsConstraintLayout.setVisibility(View.VISIBLE);
-                }
-                else
-                {
-                    holder.detailsImageButton.setBackgroundResource(R.drawable.details);
-                    holder.detailsConstraintLayout.setVisibility(View.GONE);
-                }
+        holder.detailsImageButton.setOnClickListener(v -> {
+            if(holder.detailsConstraintLayout.getVisibility() == View.GONE)
+            {
+                holder.detailsImageButton.setBackgroundResource(R.drawable.hide_details);
+                holder.detailsConstraintLayout.setVisibility(View.VISIBLE);
+            }
+            else
+            {
+                holder.detailsImageButton.setBackgroundResource(R.drawable.details);
+                holder.detailsConstraintLayout.setVisibility(View.GONE);
             }
         });
 
-        holder.checkoutImageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        holder.registrationButton.setOnClickListener(view -> context.startActivity(RegistrationActivity.newIntent(context, order)));
 
-            }
-        });
+        holder.favouriteImageButton.setOnClickListener(view -> {
 
-        holder.favouriteImageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
         });
     }
 
@@ -68,13 +59,13 @@ public class LoansAdapter extends RecyclerView.Adapter<LoansAdapter.LoansHolder>
     static class LoansHolder extends RecyclerView.ViewHolder {
         ImageButton detailsImageButton;
         ConstraintLayout detailsConstraintLayout;
-        ImageButton checkoutImageButton;
+        ImageButton registrationButton;
         ImageButton favouriteImageButton;
         public LoansHolder(@NonNull View itemView) {
             super(itemView);
             detailsImageButton = itemView.findViewById(R.id.detailsImageButton);
             detailsConstraintLayout = itemView.findViewById(R.id.detailsConstraintLayout);
-            checkoutImageButton = itemView.findViewById(R.id.checkoutImageButton);
+            registrationButton = itemView.findViewById(R.id.registrationImageButton);
             favouriteImageButton = itemView.findViewById(R.id.favouriteImageButton);
         }
     }

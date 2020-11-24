@@ -70,7 +70,7 @@ public class LoansFragment extends Fragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
         loansRecyclerView.setLayoutManager(linearLayoutManager);
         if(hasConnection) {
-            LoansAdapter loansAdapter = new LoansAdapter(getContext());
+            LoansAdapter loansAdapter = new LoansAdapter(getContext(), "");
             loansRecyclerView.setAdapter(loansAdapter);
         }
         else

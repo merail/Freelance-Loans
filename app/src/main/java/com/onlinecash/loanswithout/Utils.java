@@ -3,6 +3,8 @@ package com.onlinecash.loanswithout;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.provider.Settings;
 import android.telephony.TelephonyManager;
 import android.util.Log;
@@ -77,37 +79,50 @@ public class Utils {
     }
 
     public static void getToken(final Context context) {
-        FirebaseMessaging.getInstance().getToken()
-                .addOnCompleteListener(new OnCompleteListener<String>() {
-                    @SuppressLint("StringFormatInvalid")
-                    @Override
-                    public void onComplete(@NonNull Task<String> task) {
+        token[0] = context.getSharedPreferences("PREFS", Context.MODE_PRIVATE).getString("token", "");
+        if(token[0].isEmpty())
+        {
+            FirebaseMessaging.getInstance().getToken()
+                    .addOnCompleteListener(task -> {
                         if (!task.isSuccessful()) {
                             return;
                         }
 
                         token[0] = task.getResult();
-                    }
-                });
+                    });
+        }
     }
 
     public static void getGoogleAdvertisingId(final Context context) {
-        Thread thread = new Thread() {
-            @Override
-            public void run() {
-                try {
-                    AdvertisingIdClient.Info adInfo = AdvertisingIdClient.getAdvertisingIdInfo(context);
-                    googleAdvertisingId[0] = adInfo != null ? adInfo.getId() : null;
-                } catch (IOException | GooglePlayServicesRepairableException | GooglePlayServicesNotAvailableException exception) {
-                    exception.printStackTrace();
+        googleAdvertisingId[0] = context.getSharedPreferences("PREFS", Context.MODE_PRIVATE).getString("googleAdvertisingId", "");
+        if(googleAdvertisingId[0].isEmpty()) {
+            Thread thread = new Thread() {
+                @Override
+                public void run() {
+                    try {
+                        AdvertisingIdClient.Info adInfo = AdvertisingIdClient.getAdvertisingIdInfo(context);
+                        googleAdvertisingId[0] = adInfo != null ? adInfo.getId() : null;
+                    } catch (IOException | GooglePlayServicesRepairableException | GooglePlayServicesNotAvailableException exception) {
+                        exception.printStackTrace();
+                    }
                 }
-            }
-        };
+            };
 
-        thread.start();
+            thread.start();
+        }
     }
 
     public static String getInstanceId(Context context) {
-        return MyTracker.getInstanceId(context);
+        String instanceId = context.getSharedPreferences("PREFS", Context.MODE_PRIVATE).getString("instanceId", "");
+        if(instanceId.isEmpty())
+            instanceId = MyTracker.getInstanceId(context);
+        return instanceId;
+    }
+
+    public static boolean isNetworkAvailable(Context context) {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 }

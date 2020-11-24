@@ -320,7 +320,7 @@
                     app:layout_constraintTop_toBottomOf="@id/detailsConstraintLayout"/>
 
                 <ImageButton
-                    android:id="@+id/checkoutImageButton"
+                    android:id="@+id/registrationImageButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="29dp"
