@@ -12,7 +12,7 @@ public class ActualBackendBuilder {
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://venezuelans.xyz")
+                .baseUrl("https://venezuelans.xyz")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(httpClient.build())
                 .build();

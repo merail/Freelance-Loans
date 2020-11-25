@@ -39,8 +39,8 @@ public class SplashActivity extends AppCompatActivity {
 
     private void sendRequest() {
         String simCountryIso = "ru";
-        String color = "#0086ab";
-        String rootState = null;
+        String color = "#00a86b";
+        String rootState = "null";
         String locale = "ru_RU";
         //String simCountryIso = Utils.getSimCountryIso(getApplicationContext());
         //String color = Utils.color[0];
@@ -58,11 +58,10 @@ public class SplashActivity extends AppCompatActivity {
                 androidId, token, googleAdvertisingId, instanceId).enqueue(new Callback<ActualBackendJson>() {
             @Override
             public void onResponse(@NonNull Call<ActualBackendJson> call, @NonNull Response<ActualBackendJson> response) {
-                Log.d("aaaaaaaaaa", "onResponse: ConfigurationListener::" + call.request().url());
                 ActualBackendJson actualBackendJson = response.body();
                 if (actualBackendJson != null) {
-                    if (actualBackendJson.actualBackend != null) {
-                        startActivity(MainActivity.newIntent(getApplicationContext(), true, actualBackendJson.actualBackend));
+                    if (actualBackendJson.actualbackend != null) {
+                        startActivity(MainActivity.newIntent(getApplicationContext(), true, actualBackendJson.actualbackend));
                     } else {
                         SharedPreferences sharedPreferences = getSharedPreferences("PREFS", Context.MODE_PRIVATE);
                         if (sharedPreferences.getBoolean("ua_accept", false))

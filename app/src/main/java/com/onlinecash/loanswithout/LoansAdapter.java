@@ -1,10 +1,14 @@
 package com.onlinecash.loanswithout;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.LightingColorFilter;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -31,6 +35,21 @@ public class LoansAdapter extends RecyclerView.Adapter<LoansAdapter.LoansHolder>
 
     @Override
     public void onBindViewHolder(@NonNull final LoansHolder holder, int position) {
+
+        holder.bankLogoImageView.setOnClickListener(v ->
+        {
+            if(holder.detailsConstraintLayout.getVisibility() == View.GONE)
+            {
+                holder.detailsImageButton.setBackgroundResource(R.drawable.hide_details);
+                holder.detailsConstraintLayout.setVisibility(View.VISIBLE);
+            }
+            else
+            {
+                holder.detailsImageButton.setBackgroundResource(R.drawable.details);
+                holder.detailsConstraintLayout.setVisibility(View.GONE);
+            }
+        });
+
         holder.detailsImageButton.setOnClickListener(v -> {
             if(holder.detailsConstraintLayout.getVisibility() == View.GONE)
             {
@@ -57,12 +76,14 @@ public class LoansAdapter extends RecyclerView.Adapter<LoansAdapter.LoansHolder>
     }
 
     static class LoansHolder extends RecyclerView.ViewHolder {
+        ImageView bankLogoImageView;
         ImageButton detailsImageButton;
         ConstraintLayout detailsConstraintLayout;
         ImageButton registrationButton;
         ImageButton favouriteImageButton;
         public LoansHolder(@NonNull View itemView) {
             super(itemView);
+            bankLogoImageView = itemView.findViewById(R.id.bankLogoImageView);
             detailsImageButton = itemView.findViewById(R.id.detailsImageButton);
             detailsConstraintLayout = itemView.findViewById(R.id.detailsConstraintLayout);
             registrationButton = itemView.findViewById(R.id.registrationImageButton);

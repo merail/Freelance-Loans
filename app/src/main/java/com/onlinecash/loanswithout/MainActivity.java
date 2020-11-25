@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -104,17 +105,17 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(@NonNull Call<DateJson> call, @NonNull Response<DateJson> response) {
                 DateJson dateJson = response.body();
                 if (dateJson != null) {
-                    SharedPreferences sharedPreferences = getSharedPreferences("PREFS", Context.MODE_PRIVATE);
-                    if(Objects.equals(sharedPreferences.getString("date", ""), dateJson.date))
-                    {
-
-                    }
-                    else
-                    {
-                        sharedPreferences.edit().putString("date", dateJson.date).apply();
+//                    SharedPreferences sharedPreferences = getSharedPreferences("PREFS", Context.MODE_PRIVATE);
+//                    if(Objects.equals(sharedPreferences.getString("date", ""), dateJson.date))
+//                    {
+//
+//                    }
+//                    else
+//                    {
+//                        sharedPreferences.edit().putString("date", dateJson.date).apply();
 
                         sendDatabaseRequest(actualBackend);
-                    }
+                    //}
                 }
             }
 
@@ -133,6 +134,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(@NonNull Call<DatabaseJson> call, @NonNull Response<DatabaseJson> response) {
                 DatabaseJson databaseJson = response.body();
+                Log.d("aaaaaa", databaseJson.cards[0].cards_credit[0].name);
                 if (databaseJson != null) {
                 }
             }

@@ -37,7 +37,7 @@ public class Utils {
     public static final String[] color = {null};
     public static final String[] googleAdvertisingId = {null};
     public static final String[] token = {null};
-    public static String appMetricaAPIKey = "77704704188920986930";
+    public static String appMetricaAPIKey = "3698e262-68c3-4352-8926-8d61610c9db8";
 
     public static String getSimCountryIso(Context context) {
         TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
