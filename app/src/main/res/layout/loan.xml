@@ -43,7 +43,6 @@
                     android:layout_marginEnd="16dp"
                     android:fontFamily="@font/ubuntu"
                     android:gravity="center"
-                    android:text="4.5"
                     android:textColor="@color/labelColor"
                     android:textSize="14sp"
                     app:layout_constraintTop_toTopOf="@id/starImageView"
@@ -51,17 +50,69 @@
                     app:layout_constraintEnd_toEndOf="parent" />
 
                 <TextView
-                    android:id="@+id/rangeTextView"
+                    android:id="@+id/prefixSumTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
+                    android:layout_marginTop="3dp"
                     android:fontFamily="@font/ubuntu"
                     android:gravity="center"
-                    android:text="от 20 000 до 300 000 руб."
                     android:textColor="@color/textColor"
                     android:textSize="14sp"
                     app:layout_constraintTop_toBottomOf="@id/bankNameTextView"
                     app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/minSumTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="3dp"
+                    android:layout_marginTop="3dp"
+                    android:fontFamily="@font/ubuntu"
+                    android:gravity="center"
+                    android:textColor="@color/textColor"
+                    android:textSize="14sp"
+                    app:layout_constraintTop_toBottomOf="@id/bankNameTextView"
+                    app:layout_constraintStart_toEndOf="@id/prefixSumTextView" />
+
+                <TextView
+                    android:id="@+id/midSumTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="3dp"
+                    android:layout_marginTop="3dp"
+                    android:fontFamily="@font/ubuntu"
+                    android:gravity="center"
+                    android:textColor="@color/textColor"
+                    android:textSize="14sp"
+                    app:layout_constraintTop_toBottomOf="@id/bankNameTextView"
+                    app:layout_constraintStart_toEndOf="@id/minSumTextView" />
+
+                <TextView
+                    android:id="@+id/maxSumTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="3dp"
+                    android:layout_marginTop="3dp"
+                    android:fontFamily="@font/ubuntu"
+                    android:gravity="center"
+                    android:textColor="@color/textColor"
+                    android:textSize="14sp"
+                    app:layout_constraintTop_toBottomOf="@id/bankNameTextView"
+                    app:layout_constraintStart_toEndOf="@id/midSumTextView" />
+
+                <TextView
+                    android:id="@+id/postfixSumTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="3dp"
+                    android:layout_marginTop="3dp"
+                    android:fontFamily="@font/ubuntu"
+                    android:gravity="center"
+                    android:textColor="@color/textColor"
+                    android:textSize="14sp"
+                    app:layout_constraintTop_toBottomOf="@id/bankNameTextView"
+                    app:layout_constraintStart_toEndOf="@id/maxSumTextView" />
 
                 <View
                     android:id="@+id/line"
@@ -70,7 +121,7 @@
                     android:layout_marginHorizontal="16dp"
                     android:layout_marginVertical="20dp"
                     android:background="@drawable/line"
-                    app:layout_constraintTop_toBottomOf="@id/rangeTextView"/>
+                    app:layout_constraintTop_toBottomOf="@id/prefixSumTextView"/>
 
                 <TextView
                     android:id="@+id/rateLabelTextView"
@@ -87,18 +138,42 @@
                     android:layout_marginTop="20dp" />
 
                 <TextView
-                    android:id="@+id/rateTextView"
+                    android:id="@+id/prefixRateTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:fontFamily="@font/ubuntu"
                     android:gravity="center"
-                    android:text="от 0,95% в день"
                     android:textColor="@color/labelColor"
                     android:textSize="14sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/rateLabelTextView"
-                    android:layout_marginTop="15dp" />
+                    android:layout_marginTop="8dp" />
+
+                <TextView
+                    android:id="@+id/rateTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="3dp"
+                    android:fontFamily="@font/ubuntu"
+                    android:gravity="center"
+                    android:textColor="@color/labelColor"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toEndOf="@id/prefixRateTextView"
+                    app:layout_constraintTop_toBottomOf="@id/rateLabelTextView"
+                    android:layout_marginTop="8dp" />
+
+                <TextView
+                    android:id="@+id/postfixRateTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/ubuntu"
+                    android:gravity="center"
+                    android:textColor="@color/labelColor"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toEndOf="@id/rateTextView"
+                    app:layout_constraintTop_toBottomOf="@id/rateLabelTextView"
+                    android:layout_marginTop="8dp" />
 
                 <TextView
                     android:id="@+id/timeLabelTextView"
@@ -115,18 +190,67 @@
                     android:layout_marginTop="20dp" />
 
                 <TextView
-                    android:id="@+id/timeTextView"
+                    android:id="@+id/prefixTermTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
                     android:fontFamily="@font/ubuntu"
                     android:gravity="center"
-                    android:text="от 7 до 30 дней"
                     android:textColor="@color/labelColor"
                     android:textSize="14sp"
                     app:layout_constraintStart_toStartOf="@id/timeLabelTextView"
+                    app:layout_constraintTop_toBottomOf="@id/timeLabelTextView"
+                    android:layout_marginTop="8dp" />
+
+                <TextView
+                    android:id="@+id/minTermTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="3dp"
+                    android:fontFamily="@font/ubuntu"
+                    android:gravity="center"
+                    android:textColor="@color/labelColor"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toEndOf="@id/prefixTermTextView"
                     app:layout_constraintTop_toBottomOf="@id/rateLabelTextView"
-                    android:layout_marginTop="15dp" />
+                    android:layout_marginTop="8dp" />
+                <TextView
+                    android:id="@+id/midTermTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="3dp"
+                    android:fontFamily="@font/ubuntu"
+                    android:gravity="center"
+                    android:textColor="@color/labelColor"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toEndOf="@id/minTermTextView"
+                    app:layout_constraintTop_toBottomOf="@id/rateLabelTextView"
+                    android:layout_marginTop="8dp" />
+
+                <TextView
+                    android:id="@+id/maxTermTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="3dp"
+                    android:fontFamily="@font/ubuntu"
+                    android:gravity="center"
+                    android:textColor="@color/labelColor"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toEndOf="@id/midTermTextView"
+                    app:layout_constraintTop_toBottomOf="@id/rateLabelTextView"
+                    android:layout_marginTop="8dp" />
+
+                <TextView
+                    android:id="@+id/postfixTermTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="3dp"
+                    android:fontFamily="@font/ubuntu"
+                    android:gravity="center"
+                    android:textColor="@color/labelColor"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toEndOf="@id/maxTermTextView"
+                    app:layout_constraintTop_toBottomOf="@id/rateLabelTextView"
+                    android:layout_marginTop="8dp" />
 
                 <TextView
                     android:id="@+id/methodsOfObtainingLabelTextView"
@@ -143,12 +267,52 @@
                     android:layout_marginTop="20dp" />
 
                 <ImageView
-                    android:id="@+id/methodsOfObtainingImageView"
+                    android:id="@+id/visaImageView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/methods_of_obtaining"
+                    android:background="@drawable/visa"
                     android:layout_marginStart="16dp"
                     app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginTop="5dp"
+                    app:layout_constraintTop_toBottomOf="@id/methodsOfObtainingLabelTextView"/>
+
+                <ImageView
+                    android:id="@+id/mastercardImageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/mastercard"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintStart_toEndOf="@id/visaImageView"
+                    android:layout_marginTop="5dp"
+                    app:layout_constraintTop_toBottomOf="@id/methodsOfObtainingLabelTextView"/>
+
+                <ImageView
+                    android:id="@+id/mirImageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/mir"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintStart_toEndOf="@id/mastercardImageView"
+                    android:layout_marginTop="5dp"
+                    app:layout_constraintTop_toBottomOf="@id/methodsOfObtainingLabelTextView"/>
+
+                <ImageView
+                    android:id="@+id/yandexImageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/yandex"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintStart_toEndOf="@id/mirImageView"
+                    android:layout_marginTop="5dp"
+                    app:layout_constraintTop_toBottomOf="@id/methodsOfObtainingLabelTextView"/>
+
+                <ImageView
+                    android:id="@+id/qiwiImageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/qiwi"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintStart_toEndOf="@id/yandexImageView"
                     android:layout_marginTop="5dp"
                     app:layout_constraintTop_toBottomOf="@id/methodsOfObtainingLabelTextView"/>
 
@@ -156,11 +320,10 @@
                     android:id="@+id/bankLogoImageView"
                     android:layout_width="210dp"
                     android:layout_height="128dp"
-                    android:background="@drawable/renaissance_credit_logo"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     android:layout_marginVertical="10dp"
-                    app:layout_constraintTop_toBottomOf="@id/methodsOfObtainingImageView" />
+                    app:layout_constraintTop_toBottomOf="@id/visaImageView" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/detailsConstraintLayout"
@@ -170,141 +333,16 @@
                     app:layout_constraintTop_toBottomOf="@id/bankLogoImageView">
 
                     <TextView
-                        android:id="@+id/documentsLabelTextView"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:fontFamily="@font/ubuntu"
-                        android:text="Документы"
-                        android:textColor="@color/textColor"
-                        android:textSize="14sp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintEnd_toStartOf="@id/scheduleLabelTextView"
-                        android:layout_marginTop="20dp" />
-
-                    <TextView
                         android:id="@+id/documentsTextView"
-                        android:layout_width="0dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:fontFamily="@font/ubuntu"
-                        android:text="Паспорт, телефон"
                         android:textColor="@color/labelColor"
                         android:textSize="14sp"
-                        app:layout_constraintEnd_toStartOf="@id/scheduleTextView"
+                        app:layout_constraintEnd_toStartOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/documentsLabelTextView"
-                        android:layout_marginTop="10dp" />
-
-                    <TextView
-                        android:id="@+id/scheduleLabelTextView"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="16dp"
-                        android:fontFamily="@font/ubuntu"
-                        android:text="График работы"
-                        android:textColor="@color/textColor"
-                        android:textSize="14sp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/documentsLabelTextView"
                         app:layout_constraintTop_toTopOf="parent"
-                        android:layout_marginTop="20dp" />
-
-                    <TextView
-                        android:id="@+id/scheduleTextView"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="16dp"
-                        android:fontFamily="@font/ubuntu"
-                        android:text="от 7 до 30 дней"
-                        android:textColor="@color/labelColor"
-                        android:textSize="14sp"
-                        app:layout_constraintStart_toEndOf="@id/documentsTextView"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/scheduleLabelTextView"
-                        android:layout_marginTop="10dp" />
-
-                    <TextView
-                        android:id="@+id/ageLabelTextView"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:fontFamily="@font/ubuntu"
-                        android:text="Возраст"
-                        android:textColor="@color/textColor"
-                        android:textSize="14sp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/documentsTextView"
-                        app:layout_constraintEnd_toStartOf="@id/considerationLabelTextView"
-                        android:layout_marginTop="20dp" />
-
-                    <TextView
-                        android:id="@+id/ageTextView"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:fontFamily="@font/ubuntu"
-                        android:text="От 21 до 65 лет"
-                        android:textColor="@color/labelColor"
-                        android:textSize="14sp"
-                        app:layout_constraintEnd_toStartOf="@id/considerationTextView"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/ageLabelTextView"
-                        android:layout_marginTop="10dp" />
-
-                    <TextView
-                        android:id="@+id/considerationLabelTextView"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="16dp"
-                        android:fontFamily="@font/ubuntu"
-                        android:text="Рассмотрение"
-                        android:textColor="@color/textColor"
-                        android:textSize="14sp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/ageLabelTextView"
-                        app:layout_constraintTop_toBottomOf="@id/scheduleTextView"
-                        android:layout_marginTop="20dp" />
-
-                    <TextView
-                        android:id="@+id/considerationTextView"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="16dp"
-                        android:fontFamily="@font/ubuntu"
-                        android:text="до 15 минут"
-                        android:textColor="@color/labelColor"
-                        android:textSize="14sp"
-                        app:layout_constraintStart_toEndOf="@id/ageTextView"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/considerationLabelTextView"
-                        android:layout_marginTop="10dp" />
-
-                    <TextView
-                        android:id="@+id/contractLabelTextView"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:fontFamily="@font/ubuntu"
-                        android:text="Лицензионное соглашение"
-                        android:textColor="@color/textColor"
-                        android:textSize="14sp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/ageTextView"
-                        android:layout_marginTop="20dp" />
-
-                    <TextView
-                        android:id="@+id/contractTextView"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:fontFamily="@font/ubuntu"
-                        android:text="№1092378091230835 от 29.08.2013"
-                        android:textColor="@color/labelColor"
-                        android:textSize="14sp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/contractLabelTextView"
                         android:layout_marginTop="10dp" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -325,6 +363,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="29dp"
                     android:layout_marginTop="10dp"
+                    android:fontFamily="@font/ubuntu"
+                    android:includeFontPadding = "false"
+                    android:textSize="14sp"
+                    android:gravity="center"
                     android:background="@drawable/checkout"
                     app:layout_constraintEnd_toStartOf="@id/favouriteImageButton"
                     app:layout_constraintTop_toBottomOf="@id/detailsConstraintLayout"/>

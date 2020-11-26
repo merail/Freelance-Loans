@@ -6,10 +6,14 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Parcelable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -27,7 +31,7 @@ public class LoansFragment extends Fragment {
 
     // TODO: Rename and change types of parameters
     private Boolean hasConnection;
-    private String mParam2;
+    private Loan[] loans;
 
     public LoansFragment() {
         // Required empty public constructor
@@ -37,16 +41,16 @@ public class LoansFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
+     * @param hasConnection Parameter 1.
+     * @param loans Parameter 2.
      * @return A new instance of fragment LoansFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static LoansFragment newInstance(boolean param1, String param2) {
+    public static LoansFragment newInstance(boolean hasConnection, Loan[] loans) {
         LoansFragment fragment = new LoansFragment();
         Bundle args = new Bundle();
-        args.putBoolean(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putBoolean(ARG_PARAM1, hasConnection);
+        args.putParcelableArray(ARG_PARAM2, loans);
         fragment.setArguments(args);
         return fragment;
     }
@@ -56,7 +60,7 @@ public class LoansFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             hasConnection = getArguments().getBoolean(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            loans = (Loan[]) getArguments().getParcelableArray(ARG_PARAM2);
         }
     }
 
@@ -70,7 +74,7 @@ public class LoansFragment extends Fragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
         loansRecyclerView.setLayoutManager(linearLayoutManager);
         if(hasConnection) {
-            LoansAdapter loansAdapter = new LoansAdapter(getContext(), "");
+            LoansAdapter loansAdapter = new LoansAdapter(getContext(), loans);
             loansRecyclerView.setAdapter(loansAdapter);
         }
         else
