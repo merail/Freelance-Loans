@@ -108,12 +108,12 @@ public class MainActivity extends AppCompatActivity {
 
                     Cards[] cards = databaseJson.cards;
 
-                    Log.d("aaaaaaaaaaaa", call.request().url().toString());
+                    Log.d("aaaaaaaaaaaa", String.valueOf(cards.length));
 
                     final FragmentManager fragmentManager = getSupportFragmentManager();
                     final FavouritesFragment favouritesFragment = FavouritesFragment.newInstance(hasConnection, "b");
                     LoansFragment loansFragment = LoansFragment.newInstance(hasConnection, loanArrayList, favouritesFragment);
-                    final CardsFragment cardsFragment = CardsFragment.newInstance(hasConnection, "b");
+                    final CardsFragment cardsFragment = CardsFragment.newInstance(hasConnection, cards, favouritesFragment);
                     final CreditsFragment creditsFragment = CreditsFragment.newInstance(hasConnection, "b");
                     final Fragment[] active = {loansFragment};
                     fragmentManager.beginTransaction().add(R.id.main_container, favouritesFragment, FAVOURITES_FRAGMENT_TAG).hide(favouritesFragment).commit();
