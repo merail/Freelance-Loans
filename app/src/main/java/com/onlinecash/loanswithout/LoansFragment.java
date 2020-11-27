@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Objects;
 
 /**
@@ -22,8 +23,6 @@ import java.util.Objects;
  * create an instance of this fragment.
  */
 public class LoansFragment extends Fragment {
-    private RecyclerView loansRecyclerView;
-    private TextView connectionStatusTextView;
     private OnFavouriteClick onFavouriteClick;
 
     // TODO: Rename parameter arguments, choose names that match
@@ -34,7 +33,7 @@ public class LoansFragment extends Fragment {
 
     // TODO: Rename and change types of parameters
     private Boolean hasConnection;
-    private ArrayList<Loan> loans;
+    private Loan[] loans;
 
     public LoansFragment() {
         // Required empty public constructor
@@ -49,11 +48,11 @@ public class LoansFragment extends Fragment {
      * @return A new instance of fragment LoansFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static LoansFragment newInstance(boolean hasConnection, ArrayList<Loan> loans, OnFavouriteClick onFavouriteClick) {
+    public static LoansFragment newInstance(boolean hasConnection, Loan[] loans, OnFavouriteClick onFavouriteClick) {
         LoansFragment fragment = new LoansFragment();
         Bundle args = new Bundle();
         args.putBoolean(ARG_PARAM1, hasConnection);
-        args.putParcelableArrayList(ARG_PARAM2, loans);
+        args.putParcelableArray(ARG_PARAM2, loans);
         args.putParcelable(ARG_PARAM3, onFavouriteClick);
         fragment.setArguments(args);
         return fragment;
@@ -64,7 +63,7 @@ public class LoansFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             hasConnection = getArguments().getBoolean(ARG_PARAM1);
-            loans = getArguments().getParcelableArrayList(ARG_PARAM2);
+            loans = (Loan[]) getArguments().getParcelableArray(ARG_PARAM2);
             onFavouriteClick = getArguments().getParcelable(ARG_PARAM3);
         }
     }
@@ -74,12 +73,14 @@ public class LoansFragment extends Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_loans, container, false);
 
-        connectionStatusTextView = v.findViewById(R.id.connectionStatusTextView);
-        loansRecyclerView = v.findViewById(R.id.loansRecyclerView);
+        TextView connectionStatusTextView = v.findViewById(R.id.connectionStatusTextView);
+        RecyclerView loansRecyclerView = v.findViewById(R.id.loansRecyclerView);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
         loansRecyclerView.setLayoutManager(linearLayoutManager);
         if(hasConnection) {
-            LoansAdapter loansAdapter = new LoansAdapter(Objects.requireNonNull(getContext()), loans, onFavouriteClick);
+            ArrayList<Loan> loanArrayList = new ArrayList<>();
+            Collections.addAll(loanArrayList, loans);
+            LoansAdapter loansAdapter = new LoansAdapter(Objects.requireNonNull(getContext()), loanArrayList, onFavouriteClick);
             loansRecyclerView.setAdapter(loansAdapter);
         }
         else
