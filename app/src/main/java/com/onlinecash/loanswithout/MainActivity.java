@@ -18,6 +18,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -102,15 +103,18 @@ public class MainActivity extends AppCompatActivity {
                 DatabaseJson databaseJson = response.body();
                 if (databaseJson != null) {
                     Loan[] loans = databaseJson.loans;
+                    ArrayList<Loan> loanArrayList = new ArrayList<>();
+                    Collections.addAll(loanArrayList, loans);
+
                     Cards[] cards = databaseJson.cards;
 
                     Log.d("aaaaaaaaaaaa", call.request().url().toString());
 
                     final FragmentManager fragmentManager = getSupportFragmentManager();
-                    Fragment loansFragment = LoansFragment.newInstance(hasConnection, loans);
-                    final Fragment cardsFragment = CardsFragment.newInstance(hasConnection, "b");
-                    final Fragment creditsFragment = CreditsFragment.newInstance(hasConnection, "b");
-                    final Fragment favouritesFragment = FavouritesFragment.newInstance(hasConnection, "b");
+                    final FavouritesFragment favouritesFragment = FavouritesFragment.newInstance(hasConnection, "b");
+                    LoansFragment loansFragment = LoansFragment.newInstance(hasConnection, loanArrayList, favouritesFragment);
+                    final CardsFragment cardsFragment = CardsFragment.newInstance(hasConnection, "b");
+                    final CreditsFragment creditsFragment = CreditsFragment.newInstance(hasConnection, "b");
                     final Fragment[] active = {loansFragment};
                     fragmentManager.beginTransaction().add(R.id.main_container, favouritesFragment, FAVOURITES_FRAGMENT_TAG).hide(favouritesFragment).commit();
                     fragmentManager.beginTransaction().add(R.id.main_container, creditsFragment, CREDITS_FRAGMENT_TAG).hide(creditsFragment).commit();

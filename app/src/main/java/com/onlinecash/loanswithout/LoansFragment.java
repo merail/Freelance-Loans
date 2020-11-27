@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,15 +24,17 @@ import java.util.ArrayList;
 public class LoansFragment extends Fragment {
     private RecyclerView loansRecyclerView;
     private TextView connectionStatusTextView;
+    private OnFavouriteClick onFavouriteClick;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private static final String ARG_PARAM3 = "param3";
 
     // TODO: Rename and change types of parameters
     private Boolean hasConnection;
-    private Loan[] loans;
+    private ArrayList<Loan> loans;
 
     public LoansFragment() {
         // Required empty public constructor
@@ -46,11 +49,12 @@ public class LoansFragment extends Fragment {
      * @return A new instance of fragment LoansFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static LoansFragment newInstance(boolean hasConnection, Loan[] loans) {
+    public static LoansFragment newInstance(boolean hasConnection, ArrayList<Loan> loans, OnFavouriteClick onFavouriteClick) {
         LoansFragment fragment = new LoansFragment();
         Bundle args = new Bundle();
         args.putBoolean(ARG_PARAM1, hasConnection);
-        args.putParcelableArray(ARG_PARAM2, loans);
+        args.putParcelableArrayList(ARG_PARAM2, loans);
+        args.putParcelable(ARG_PARAM3, onFavouriteClick);
         fragment.setArguments(args);
         return fragment;
     }
@@ -60,7 +64,8 @@ public class LoansFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             hasConnection = getArguments().getBoolean(ARG_PARAM1);
-            loans = (Loan[]) getArguments().getParcelableArray(ARG_PARAM2);
+            loans = getArguments().getParcelableArrayList(ARG_PARAM2);
+            onFavouriteClick = getArguments().getParcelable(ARG_PARAM3);
         }
     }
 
@@ -74,7 +79,7 @@ public class LoansFragment extends Fragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
         loansRecyclerView.setLayoutManager(linearLayoutManager);
         if(hasConnection) {
-            LoansAdapter loansAdapter = new LoansAdapter(getContext(), loans);
+            LoansAdapter loansAdapter = new LoansAdapter(Objects.requireNonNull(getContext()), loans, onFavouriteClick);
             loansRecyclerView.setAdapter(loansAdapter);
         }
         else

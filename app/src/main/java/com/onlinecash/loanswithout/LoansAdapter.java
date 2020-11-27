@@ -1,6 +1,7 @@
 package com.onlinecash.loanswithout;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,14 +15,22 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
+
+import java.util.ArrayList;
 
 public class LoansAdapter extends RecyclerView.Adapter<LoansAdapter.LoansHolder> {
     private final Context context;
-    private final Loan[] loans;
+    private final ArrayList<Loan> loans;
+    private final SharedPreferences sharedPreferences;
+    private OnFavouriteClick onFavouriteClick;
 
-    public LoansAdapter(Context context, Loan[] loans) {
+    public LoansAdapter(Context context, ArrayList<Loan> loans, OnFavouriteClick onFavouriteClick) {
         this.context = context;
         this.loans = loans;
+        this.onFavouriteClick = onFavouriteClick;
+
+        sharedPreferences = context.getSharedPreferences("PREFS", Context.MODE_PRIVATE);
     }
 
 
@@ -35,49 +44,49 @@ public class LoansAdapter extends RecyclerView.Adapter<LoansAdapter.LoansHolder>
 
     @Override
     public void onBindViewHolder(@NonNull final LoansHolder holder, int position) {
-        holder.bankNameTextView.setText(loans[position].name);
+        holder.bankNameTextView.setText(loans.get(position).name);
 
-        holder.markTextView.setText(String.valueOf(loans[position].score));
+        holder.markTextView.setText(String.valueOf(loans.get(position).score));
 
-        if (loans[position].hide_PercentFields == 0) {
+        if (loans.get(position).hide_PercentFields == 0) {
             holder.rateLabelTextView.setVisibility(View.VISIBLE);
-            holder.prefixRateTextView.setText(loans[position].percentPrefix);
-            holder.rateTextView.setText(loans[position].percent);
-            holder.postfixRateTextView.setText(loans[position].percentPostfix);
+            holder.prefixRateTextView.setText(loans.get(position).percentPrefix);
+            holder.rateTextView.setText(loans.get(position).percent);
+            holder.postfixRateTextView.setText(loans.get(position).percentPostfix);
         } else {
             holder.rateLabelTextView.setVisibility(View.INVISIBLE);
         }
 
-        holder.prefixSumTextView.setText(loans[position].summPrefix);
-        holder.postfixSumTextView.setText(loans[position].summPostfix);
-        holder.minSumTextView.setText(loans[position].summMin);
-        holder.midSumTextView.setText(loans[position].summMid);
-        holder.maxSumTextView.setText(loans[position].summMax);
+        holder.prefixSumTextView.setText(loans.get(position).summPrefix);
+        holder.postfixSumTextView.setText(loans.get(position).summPostfix);
+        holder.minSumTextView.setText(loans.get(position).summMin);
+        holder.midSumTextView.setText(loans.get(position).summMid);
+        holder.maxSumTextView.setText(loans.get(position).summMax);
 
-        if (loans[position].hide_TermFields == 0) {
+        if (loans.get(position).hide_TermFields == 0) {
             holder.timeLabelTextView.setVisibility(View.VISIBLE);
-            holder.prefixTermTextView.setText(loans[position].termPrefix);
-            holder.postfixTermTextView.setText(loans[position].termPostfix);
-            holder.minTermTextView.setText(loans[position].termMin);
-            holder.midTermTextView.setText(loans[position].termMid);
-            holder.maxTermTextView.setText(loans[position].termMax);
+            holder.prefixTermTextView.setText(loans.get(position).termPrefix);
+            holder.postfixTermTextView.setText(loans.get(position).termPostfix);
+            holder.minTermTextView.setText(loans.get(position).termMin);
+            holder.midTermTextView.setText(loans.get(position).termMid);
+            holder.maxTermTextView.setText(loans.get(position).termMax);
         } else {
             holder.timeLabelTextView.setVisibility(View.INVISIBLE);
         }
 
-        if(loans[position].show_visa == 0)
+        if(loans.get(position).show_visa == 0)
             holder.visaImageView.setVisibility(View.GONE);
-        if(loans[position].show_mastercard == 0)
+        if(loans.get(position).show_mastercard == 0)
             holder.mastercardImageView.setVisibility(View.GONE);
-        if(loans[position].show_mir == 0)
+        if(loans.get(position).show_mir == 0)
             holder.mirImageView.setVisibility(View.GONE);
-        if(loans[position].show_yandex == 0)
+        if(loans.get(position).show_yandex == 0)
             holder.yandexImageView.setVisibility(View.GONE);
-        if(loans[position].show_qiwi == 0)
+        if(loans.get(position).show_qiwi == 0)
             holder.qiwiImageView.setVisibility(View.GONE);
 
         Glide.with(context)
-                .load(loans[position].screen)
+                .load(loans.get(position).screen)
                 .into(holder.bankLogoImageView);
         holder.bankLogoImageView.setOnClickListener(v ->
         {
@@ -100,19 +109,47 @@ public class LoansAdapter extends RecyclerView.Adapter<LoansAdapter.LoansHolder>
             }
         });
 
-        holder.documentsTextView.setText(Html.fromHtml(loans[position].description));
+        holder.documentsTextView.setText(Html.fromHtml(loans.get(position).description));
 
         holder.registrationImageButton.setOnClickListener(view -> context.startActivity(RegistrationActivity
-                .newIntent(context, loans[position].order)));
+                .newIntent(context, loans.get(position).order)));
 
+        if(sharedPreferences.contains("favourite:" + loans.get(position).name))
+        {
+            holder.favouriteImageButton.setBackgroundResource(R.drawable.favourite_selected);
+        }
         holder.favouriteImageButton.setOnClickListener(view -> {
+            SharedPreferences.Editor prefsEditor = sharedPreferences.edit();
 
+            if(sharedPreferences.contains("favourite:" + loans.get(position).name))
+            {
+                prefsEditor.remove("favourite:" + loans.get(position).name).apply();
+
+                if(onFavouriteClick == null)
+                {
+                    loans.remove(position);
+                    notifyDataSetChanged();
+                }
+                else
+                {
+                    onFavouriteClick.onFavouriteClick(false, loans.get(position));
+                    holder.favouriteImageButton.setBackgroundResource(R.drawable.favourite);
+                }
+            }
+            else {
+                onFavouriteClick.onFavouriteClick(true, loans.get(position));
+                holder.favouriteImageButton.setBackgroundResource(R.drawable.favourite_selected);
+                Gson gson = new Gson();
+                String json = gson.toJson(loans.get(position));
+                prefsEditor.putString("favourite:" + loans.get(position).name, json);
+                prefsEditor.apply();
+            }
         });
     }
 
     @Override
     public int getItemCount() {
-        return loans.length;
+        return loans.size();
     }
 
     static class LoansHolder extends RecyclerView.ViewHolder {
