@@ -96,7 +96,7 @@ public class FormActivity extends AppCompatActivity {
 
         CheckBox personalDataCheckBox = findViewById(R.id.personalDataCheckbox);
         personalDataCheckBox.setOnCheckedChangeListener((compoundButton, b) -> {
-            if(b)
+            if (b)
                 applyImageButton.setVisibility(View.VISIBLE);
             else
                 applyImageButton.setVisibility(View.INVISIBLE);

@@ -3,23 +3,15 @@ package com.onlinecash.loanswithout;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 import java.util.Objects;
 
 import retrofit2.Call;
@@ -57,13 +49,15 @@ public class MainActivity extends AppCompatActivity {
         hasConnection = Objects.requireNonNull(getIntent()).getBooleanExtra(EXTRA_CONNECTION_STATUS, false);
         String actualBackend = Objects.requireNonNull(getIntent().getStringExtra(EXTRA_ACTUAL_BACKEND));
 
-        sendDateRequest(actualBackend);
+        if (hasConnection)
+            sendDateRequest(actualBackend);
+        else
+            setFragments(null, null, null);
 
         pageLabelTextView = findViewById(R.id.pageLabelTextView);
     }
 
-    private void sendDateRequest(String actualBackend)
-    {
+    private void sendDateRequest(String actualBackend) {
         DateService dateService = DateBuilder.build(actualBackend);
 
         dateService.getDate().enqueue(new Callback<DateJson>() {
@@ -80,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
 //                    {
 //                        sharedPreferences.edit().putString("date", dateJson.date).apply();
 
-                        sendDatabaseRequest(actualBackend);
+                    sendDatabaseRequest(actualBackend);
                     //}
                 }
             }
@@ -92,8 +86,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void sendDatabaseRequest(String actualBackend)
-    {
+    private void sendDatabaseRequest(String actualBackend) {
         DatabaseService databaseService = DatabaseBuilder.build(actualBackend);
 
         databaseService.getDatabase().enqueue(new Callback<DatabaseJson>() {
@@ -106,54 +99,51 @@ public class MainActivity extends AppCompatActivity {
                     Cards[] cards = databaseJson.cards;
                     Loan[] credits = databaseJson.credits;
 
-                    Log.d("aaaaaaaaaaaa", String.valueOf(cards.length));
-
-                    final FragmentManager fragmentManager = getSupportFragmentManager();
-                    final FavouritesFragment favouritesFragment = FavouritesFragment.newInstance(hasConnection, "b");
-                    LoansFragment loansFragment = LoansFragment.newInstance(hasConnection, loans, favouritesFragment);
-                    final CardsFragment cardsFragment = CardsFragment.newInstance(hasConnection, cards, favouritesFragment);
-                    final CreditsFragment creditsFragment = CreditsFragment.newInstance(hasConnection, credits, favouritesFragment);
-                    final Fragment[] active = {loansFragment};
-                    fragmentManager.beginTransaction().add(R.id.main_container, favouritesFragment, FAVOURITES_FRAGMENT_TAG).hide(favouritesFragment).commit();
-                    fragmentManager.beginTransaction().add(R.id.main_container, creditsFragment, CREDITS_FRAGMENT_TAG).hide(creditsFragment).commit();
-                    fragmentManager.beginTransaction().add(R.id.main_container, cardsFragment, CARDS_FRAGMENT_TAG).hide(cardsFragment).commit();
-                    fragmentManager.beginTransaction().add(R.id.main_container, loansFragment, LOANS_FRAGMENT_TAG).commit();
-
-                    BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
-
-                    bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
-                        switch (item.getItemId()) {
-                            case R.id.loansPage:
-                                pageLabelTextView.setText(getString(R.string.loans_page));
-                                fragmentManager.beginTransaction().hide(active[0]).show(loansFragment).commit();
-                                active[0] = loansFragment;
-
-                                return true;
-                            case R.id.cardsPage:
-                                pageLabelTextView.setText(getString(R.string.cards_page));
-                                fragmentManager.beginTransaction().hide(active[0]).show(cardsFragment).commit();
-                                active[0] = cardsFragment;
-                                return true;
-                            case R.id.creditsPage:
-                                pageLabelTextView.setText(getString(R.string.credits_page));
-                                fragmentManager.beginTransaction().hide(active[0]).show(creditsFragment).commit();
-                                active[0] = creditsFragment;
-                                return true;
-                            case R.id.favouritesPage:
-                                pageLabelTextView.setText(getString(R.string.favourites_page));
-                                fragmentManager.beginTransaction().hide(active[0]).show(favouritesFragment).commit();
-                                active[0] = favouritesFragment;
-                                return true;
-                            default:
-                                return false;
-                        }
-                    });
+                    setFragments(loans, cards, credits);
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<DatabaseJson> call, @NonNull Throwable t) {
                 t.printStackTrace();
+
+                setFragments(null, null, null);
+            }
+        });
+    }
+
+    @SuppressLint("NonConstantResourceId")
+    public void setFragments(Loan[] loans, Cards[] cards, Loan[] credits) {
+        final FragmentManager fragmentManager = getSupportFragmentManager();
+        LoansFragment loansFragment = LoansFragment.newInstance(hasConnection, loans);
+        fragmentManager.beginTransaction().add(R.id.main_container, loansFragment, LOANS_FRAGMENT_TAG).commit();
+
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.loansPage:
+                    pageLabelTextView.setText(getString(R.string.loans_page));
+                    fragmentManager.beginTransaction().replace(R.id.main_container,
+                            LoansFragment.newInstance(hasConnection, loans), LOANS_FRAGMENT_TAG).commit();
+                    return true;
+                case R.id.cardsPage:
+                    pageLabelTextView.setText(getString(R.string.cards_page));
+                    fragmentManager.beginTransaction().replace(R.id.main_container,
+                            CardsFragment.newInstance(cards), CARDS_FRAGMENT_TAG).commit();
+                    return true;
+                case R.id.creditsPage:
+                    pageLabelTextView.setText(getString(R.string.credits_page));
+                    fragmentManager.beginTransaction().replace(R.id.main_container,
+                            CreditsFragment.newInstance(credits), CREDITS_FRAGMENT_TAG).commit();
+                    return true;
+                case R.id.favouritesPage:
+                    pageLabelTextView.setText(getString(R.string.favourites_page));
+                    fragmentManager.beginTransaction().replace(R.id.main_container,
+                            new FavouritesFragment(), FAVOURITES_FRAGMENT_TAG).commit();
+                    return true;
+                default:
+                    return false;
             }
         });
     }

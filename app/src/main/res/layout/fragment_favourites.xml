@@ -7,10 +7,10 @@
     tools:context=".FavouritesFragment">
 
     <TextView
-        android:id="@+id/connectionStatusTextView"
+        android:id="@+id/favouritesStatusTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Отсутствует интернет-соединение!"
+        android:text="Нет избранных"
         android:fontFamily="@font/ubuntu"
         android:textSize="16sp"
         android:textColor="@color/labelColor"
@@ -21,7 +21,7 @@
         android:visibility="gone"/>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/loansRecyclerView"
+        android:id="@+id/favouritesRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

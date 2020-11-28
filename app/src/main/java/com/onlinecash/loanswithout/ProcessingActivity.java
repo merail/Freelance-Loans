@@ -1,10 +1,10 @@
 package com.onlinecash.loanswithout;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ProgressBar;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class ProcessingActivity extends AppCompatActivity {
 
@@ -16,7 +16,7 @@ public class ProcessingActivity extends AppCompatActivity {
         ProgressBar processingProgressBar = findViewById(R.id.processingProgressBar);
 
         new Thread(() -> {
-            int currentPosition= 0;
+            int currentPosition = 0;
             while (currentPosition <= 100) {
                 try {
                     processingProgressBar.setProgress(currentPosition);

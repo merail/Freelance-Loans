@@ -8,7 +8,6 @@ public class DatabaseBuilder {
 
     public static DatabaseService build(String actualBackend) {
 
-
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
 
         Retrofit retrofit = new Retrofit.Builder()

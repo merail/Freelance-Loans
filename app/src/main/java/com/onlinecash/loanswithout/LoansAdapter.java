@@ -23,12 +23,12 @@ public class LoansAdapter extends RecyclerView.Adapter<LoansAdapter.LoansHolder>
     private final Context context;
     private final ArrayList<Loan> loans;
     private final SharedPreferences sharedPreferences;
-    private OnFavouriteClick onFavouriteClick;
+    private final boolean isFavouriteFragment;
 
-    public LoansAdapter(Context context, ArrayList<Loan> loans, OnFavouriteClick onFavouriteClick) {
+    public LoansAdapter(Context context, ArrayList<Loan> loans, boolean isFavouriteFragment) {
         this.context = context;
         this.loans = loans;
-        this.onFavouriteClick = onFavouriteClick;
+        this.isFavouriteFragment = isFavouriteFragment;
 
         sharedPreferences = context.getSharedPreferences("PREFS", Context.MODE_PRIVATE);
     }
@@ -74,15 +74,15 @@ public class LoansAdapter extends RecyclerView.Adapter<LoansAdapter.LoansHolder>
             holder.timeLabelTextView.setVisibility(View.INVISIBLE);
         }
 
-        if(loans.get(position).show_visa == 0)
+        if (loans.get(position).show_visa == 0)
             holder.visaImageView.setVisibility(View.GONE);
-        if(loans.get(position).show_mastercard == 0)
+        if (loans.get(position).show_mastercard == 0)
             holder.mastercardImageView.setVisibility(View.GONE);
-        if(loans.get(position).show_mir == 0)
+        if (loans.get(position).show_mir == 0)
             holder.mirImageView.setVisibility(View.GONE);
-        if(loans.get(position).show_yandex == 0)
+        if (loans.get(position).show_yandex == 0)
             holder.yandexImageView.setVisibility(View.GONE);
-        if(loans.get(position).show_qiwi == 0)
+        if (loans.get(position).show_qiwi == 0)
             holder.qiwiImageView.setVisibility(View.GONE);
 
         Glide.with(context)
@@ -114,30 +114,21 @@ public class LoansAdapter extends RecyclerView.Adapter<LoansAdapter.LoansHolder>
         holder.registrationImageButton.setOnClickListener(view -> context.startActivity(RegistrationActivity
                 .newIntent(context, loans.get(position).order)));
 
-        if(sharedPreferences.contains("favourite:" + loans.get(position).name))
-        {
+        if (sharedPreferences.contains("favourite:" + loans.get(position).name)) {
             holder.favouriteImageButton.setBackgroundResource(R.drawable.favourite_selected);
         }
         holder.favouriteImageButton.setOnClickListener(view -> {
             SharedPreferences.Editor prefsEditor = sharedPreferences.edit();
 
-            if(sharedPreferences.contains("favourite:" + loans.get(position).name))
-            {
+            if (sharedPreferences.contains("favourite:" + loans.get(position).name)) {
                 prefsEditor.remove("favourite:" + loans.get(position).name).apply();
 
-                if(onFavouriteClick == null)
-                {
+                if (isFavouriteFragment) {
                     loans.remove(position);
                     notifyDataSetChanged();
-                }
-                else
-                {
-                    onFavouriteClick.onFavouriteClick(false, loans.get(position));
+                } else
                     holder.favouriteImageButton.setBackgroundResource(R.drawable.favourite);
-                }
-            }
-            else {
-                onFavouriteClick.onFavouriteClick(true, loans.get(position));
+            } else {
                 holder.favouriteImageButton.setBackgroundResource(R.drawable.favourite_selected);
                 Gson gson = new Gson();
                 String json = gson.toJson(loans.get(position));

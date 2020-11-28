@@ -8,7 +8,6 @@ public class DateBuilder {
 
     public static DateService build(String actualBackend) {
 
-
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
 
         Retrofit retrofit = new Retrofit.Builder()

@@ -1,17 +1,16 @@
 package com.onlinecash.loanswithout;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageButton;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class UserAgreementActivity extends AppCompatActivity {
 
@@ -38,7 +37,7 @@ public class UserAgreementActivity extends AppCompatActivity {
 
         CheckBox userAgreementCheckBox = findViewById(R.id.userAgreementCheckbox);
         userAgreementCheckBox.setOnCheckedChangeListener((compoundButton, b) -> {
-            if(b)
+            if (b)
                 acceptImageButton.setVisibility(View.VISIBLE);
             else
                 acceptImageButton.setVisibility(View.INVISIBLE);

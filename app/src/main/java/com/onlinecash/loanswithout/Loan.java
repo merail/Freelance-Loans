@@ -3,8 +3,19 @@ package com.onlinecash.loanswithout;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Loan implements Parcelable
-{
+public class Loan implements Parcelable {
+
+    public static final Creator<Loan> CREATOR = new Creator<Loan>() {
+        @Override
+        public Loan createFromParcel(Parcel in) {
+            return new Loan(in);
+        }
+
+        @Override
+        public Loan[] newArray(int size) {
+            return new Loan[size];
+        }
+    };
     public int id;
     public String itemId;
     public String name;
@@ -66,18 +77,6 @@ public class Loan implements Parcelable
         hide_TermFields = in.readInt();
         hide_PercentFields = in.readInt();
     }
-
-    public static final Creator<Loan> CREATOR = new Creator<Loan>() {
-        @Override
-        public Loan createFromParcel(Parcel in) {
-            return new Loan(in);
-        }
-
-        @Override
-        public Loan[] newArray(int size) {
-            return new Loan[size];
-        }
-    };
 
     @Override
     public int describeContents() {

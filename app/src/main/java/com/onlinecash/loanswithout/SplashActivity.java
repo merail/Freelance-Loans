@@ -22,18 +22,18 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
 
         final boolean hasConnection = Utils.isNetworkAvailable(getApplicationContext());
+        Log.d("xxxxxxxxxxx", String.valueOf(hasConnection));
 
         if (hasConnection) {
-            Utils.getToken(getApplicationContext());
+            Utils.getFirebaseMessagingToken(getApplicationContext());
             Utils.getGoogleAdvertisingId(getApplicationContext());
             Utils.getColor(SplashActivity.this);
+            Utils.getInstanceId(getApplicationContext());
 
             Handler h = new Handler();
             h.postDelayed(this::sendRequest, 2000);
-        }
-        else
-        {
-        startActivity(MainActivity.newIntent(getApplicationContext(), true, ""));
+        } else {
+            startActivity(MainActivity.newIntent(getApplicationContext(), false, ""));
         }
     }
 
@@ -48,9 +48,9 @@ public class SplashActivity extends AppCompatActivity {
         //String locale = Utils.getLocale();
         String appMetricaAPIKey = Utils.appMetricaAPIKey;
         String androidId = Utils.getAndroidId(getApplicationContext());
-        String token = Utils.token[0];
+        String token = Utils.firebaseMessagingToken[0];
         String googleAdvertisingId = Utils.googleAdvertisingId[0];
-        String instanceId = Utils.getInstanceId(getApplicationContext());
+        String instanceId = Utils.instanceId[0];
 
         ActualBackendService actualBackendService = ActualBackendBuilder.build();
 

@@ -3,19 +3,15 @@ package com.onlinecash.loanswithout;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.provider.Settings;
 import android.telephony.TelephonyManager;
-import android.util.Log;
-
-import androidx.annotation.NonNull;
 
 import com.google.android.gms.ads.identifier.AdvertisingIdClient;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.crashlytics.internal.common.CommonUtils;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
@@ -27,6 +23,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.Locale;
+import java.util.Objects;
 
 public class Utils {
     public static final String LOANS_FRAGMENT_TAG = "onComplete";
@@ -36,7 +33,8 @@ public class Utils {
 
     public static final String[] color = {null};
     public static final String[] googleAdvertisingId = {null};
-    public static final String[] token = {null};
+    public static final String[] firebaseMessagingToken = {null};
+    public static final String[] instanceId = {null};
     public static String appMetricaAPIKey = "3698e262-68c3-4352-8926-8d61610c9db8";
 
     public static String getSimCountryIso(Context context) {
@@ -66,11 +64,11 @@ public class Utils {
         if (CommonUtils.isRooted(context))
             return "granted";
         else
-            return null;
+            return "null";
     }
 
     public static String getLocale() {
-        return Locale.getDefault().getLanguage();
+        return Locale.getDefault().toLanguageTag();
     }
 
     @SuppressLint("HardwareIds")
@@ -78,32 +76,38 @@ public class Utils {
         return Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
     }
 
-    public static void getToken(final Context context) {
-        token[0] = context.getSharedPreferences("PREFS", Context.MODE_PRIVATE).getString("token", "");
-        if(token[0].isEmpty())
-        {
+    public static void getFirebaseMessagingToken(final Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("PREFS", Context.MODE_PRIVATE);
+
+        firebaseMessagingToken[0] = sharedPreferences.getString("firebaseMessagingToken", "");
+        if (Objects.requireNonNull(firebaseMessagingToken[0]).isEmpty()) {
             FirebaseMessaging.getInstance().getToken()
                     .addOnCompleteListener(task -> {
-                        if (!task.isSuccessful()) {
-                            return;
-                        }
-
-                        token[0] = task.getResult();
+                        firebaseMessagingToken[0] = task.getResult();
+                        if (firebaseMessagingToken[0] == null || firebaseMessagingToken[0].isEmpty())
+                            firebaseMessagingToken[0] = "not_available";
+                        sharedPreferences.edit().putString("firebaseMessagingToken", googleAdvertisingId[0]).apply();
                     });
         }
     }
 
     public static void getGoogleAdvertisingId(final Context context) {
-        googleAdvertisingId[0] = context.getSharedPreferences("PREFS", Context.MODE_PRIVATE).getString("googleAdvertisingId", "");
-        if(googleAdvertisingId[0].isEmpty()) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("PREFS", Context.MODE_PRIVATE);
+
+        googleAdvertisingId[0] = sharedPreferences.getString("googleAdvertisingId", "");
+        if (Objects.requireNonNull(googleAdvertisingId[0]).isEmpty()) {
             Thread thread = new Thread() {
                 @Override
                 public void run() {
                     try {
                         AdvertisingIdClient.Info adInfo = AdvertisingIdClient.getAdvertisingIdInfo(context);
-                        googleAdvertisingId[0] = adInfo != null ? adInfo.getId() : null;
+                        googleAdvertisingId[0] = adInfo.getId();
+                        if (googleAdvertisingId[0] == null || googleAdvertisingId[0].isEmpty())
+                            googleAdvertisingId[0] = "not_available";
+                        sharedPreferences.edit().putString("googleAdvertisingId", googleAdvertisingId[0]).apply();
                     } catch (IOException | GooglePlayServicesRepairableException | GooglePlayServicesNotAvailableException exception) {
                         exception.printStackTrace();
+                        sharedPreferences.edit().putString("googleAdvertisingId", googleAdvertisingId[0]).apply();
                     }
                 }
             };
@@ -112,11 +116,20 @@ public class Utils {
         }
     }
 
-    public static String getInstanceId(Context context) {
-        String instanceId = context.getSharedPreferences("PREFS", Context.MODE_PRIVATE).getString("instanceId", "");
-        if(instanceId.isEmpty())
-            instanceId = MyTracker.getInstanceId(context);
-        return instanceId;
+    public static void getInstanceId(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("PREFS", Context.MODE_PRIVATE);
+
+        instanceId[0] = sharedPreferences.getString("instanceId", "");
+        if (Objects.requireNonNull(instanceId[0]).isEmpty()) {
+            Thread thread = new Thread(() -> {
+                instanceId[0] = MyTracker.getInstanceId(context);
+                if (instanceId[0].isEmpty())
+                    instanceId[0] = "not_available";
+                sharedPreferences.edit().putString("instanceId", instanceId[0]).apply();
+            });
+
+            thread.start();
+        }
     }
 
     public static boolean isNetworkAvailable(Context context) {

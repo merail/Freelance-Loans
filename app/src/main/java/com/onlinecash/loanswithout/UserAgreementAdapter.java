@@ -15,12 +15,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class UserAgreementAdapter extends RecyclerView.Adapter<UserAgreementAdapter.TextHolder> {
-    private Context context;
+    private final Context context;
 
-    private ArrayList<HashMap<String, Integer>> textParagraphs;
+    private final ArrayList<HashMap<String, Integer>> textParagraphs;
 
-    public UserAgreementAdapter(Context context)
-    {
+    public UserAgreementAdapter(Context context) {
         this.context = context;
 
         textParagraphs = new ArrayList<>();
@@ -387,7 +386,7 @@ public class UserAgreementAdapter extends RecyclerView.Adapter<UserAgreementAdap
     @NonNull
     @Override
     public TextHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(context).inflate(R.layout.text,parent, false);
+        View v = LayoutInflater.from(context).inflate(R.layout.text, parent, false);
 
         return new TextHolder(v);
     }
@@ -406,6 +405,7 @@ public class UserAgreementAdapter extends RecyclerView.Adapter<UserAgreementAdap
 
     static class TextHolder extends RecyclerView.ViewHolder {
         TextView text;
+
         public TextHolder(@NonNull View itemView) {
             super(itemView);
             text = itemView.findViewById(R.id.userAgreementTextView);

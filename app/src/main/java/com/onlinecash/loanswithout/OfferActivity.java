@@ -8,8 +8,6 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import org.w3c.dom.Text;
-
 public class OfferActivity extends AppCompatActivity {
 
     private int money = 17500;
@@ -30,7 +28,7 @@ public class OfferActivity extends AppCompatActivity {
             public void onProgressChanged(CircularSeekBar circularSeekBar, int progress, boolean fromUser) {
                 money = (int) (5000 + (double) progress / 100 * 25000);
                 moneyProgressTextView.setText(money + " руб.");
-                sumToReturnTextView.setText(String.valueOf((int)(time * 0.001 * money + money)));
+                sumToReturnTextView.setText(String.valueOf((int) (time * 0.001 * money + money)));
             }
 
             @Override
@@ -52,7 +50,7 @@ public class OfferActivity extends AppCompatActivity {
             public void onProgressChanged(CircularSeekBar circularSeekBar, int progress, boolean fromUser) {
                 time = (int) (61 + (double) progress / 100 * 32);
                 timeProgressTextView.setText(time + " дней");
-                sumToReturnTextView.setText(String.valueOf((int)(time * 0.001 * money + money)));
+                sumToReturnTextView.setText(String.valueOf((int) (time * 0.001 * money + money)));
             }
 
             @Override

@@ -6,11 +6,9 @@ import android.annotation.TargetApi;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
@@ -101,9 +99,9 @@ public class RegistrationActivity extends AppCompatActivity {
 
         if (Utils.isNetworkAvailable(getApplicationContext())) {
             webView.getSettings().setJavaScriptEnabled(true);
-            String link = order + "&aff_sub1=" + Utils.getInstanceId(getApplicationContext())
+            String link = order + "&aff_sub1=" + Utils.instanceId[0]
                     + "&aff_sub2=" + "deep"
-                    + "&aff_sub3=" + Utils.token[0]
+                    + "&aff_sub3=" + Utils.firebaseMessagingToken[0]
                     + "&aff_sub4=not_available"
                     + "&aff_sub5=" + Utils.googleAdvertisingId[0];
             webView.loadUrl(link);

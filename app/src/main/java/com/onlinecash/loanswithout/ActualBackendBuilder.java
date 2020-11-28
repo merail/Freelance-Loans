@@ -8,7 +8,6 @@ public class ActualBackendBuilder {
 
     public static ActualBackendService build() {
 
-
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
 
         Retrofit retrofit = new Retrofit.Builder()
