@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -35,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean hasConnection;
 
     private TextView pageLabelTextView;
+    private ProgressBar mainProgressBar;
 
     private SharedPreferences sharedPreferences;
 
@@ -51,6 +54,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mainProgressBar = findViewById(R.id.mainProgressBar);
 
         hasConnection = Objects.requireNonNull(getIntent()).getBooleanExtra(EXTRA_CONNECTION_STATUS, false);
         String actualBackend = Objects.requireNonNull(getIntent().getStringExtra(EXTRA_ACTUAL_BACKEND));
@@ -148,6 +153,8 @@ public class MainActivity extends AppCompatActivity {
 
     @SuppressLint("NonConstantResourceId")
     public void setFragments(Loan[] loans, Cards[] cards, Loan[] credits) {
+        mainProgressBar.setVisibility(View.GONE);
+
         final FragmentManager fragmentManager = getSupportFragmentManager();
         LoansFragment loansFragment = LoansFragment.newInstance(hasConnection, loans);
         fragmentManager.beginTransaction().add(R.id.main_container, loansFragment, LOANS_FRAGMENT_TAG).commit();

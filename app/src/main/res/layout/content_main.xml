@@ -10,4 +10,10 @@
     android:background="@color/backgroundColor"
     android:id="@+id/main_container">
 
+    <ProgressBar
+        android:id="@+id/mainProgressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" />
+
 </FrameLayout>
