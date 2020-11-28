@@ -3,6 +3,7 @@ package com.onlinecash.loanswithout;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.TextView;
 
@@ -11,7 +12,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.gson.Gson;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Objects;
 
 import retrofit2.Call;
@@ -32,6 +36,8 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView pageLabelTextView;
 
+    private SharedPreferences sharedPreferences;
+
     public static Intent newIntent(Context packageContext, Boolean hasConnection, String actualBackend) {
         Intent intent = new Intent(packageContext, MainActivity.class);
 
@@ -49,6 +55,8 @@ public class MainActivity extends AppCompatActivity {
         hasConnection = Objects.requireNonNull(getIntent()).getBooleanExtra(EXTRA_CONNECTION_STATUS, false);
         String actualBackend = Objects.requireNonNull(getIntent().getStringExtra(EXTRA_ACTUAL_BACKEND));
 
+        sharedPreferences = getSharedPreferences("PREFS", Context.MODE_PRIVATE);
+
         if (hasConnection)
             sendDateRequest(actualBackend);
         else
@@ -65,17 +73,27 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(@NonNull Call<DateJson> call, @NonNull Response<DateJson> response) {
                 DateJson dateJson = response.body();
                 if (dateJson != null) {
-//                    SharedPreferences sharedPreferences = getSharedPreferences("PREFS", Context.MODE_PRIVATE);
-//                    if(Objects.equals(sharedPreferences.getString("date", ""), dateJson.date))
-//                    {
-//
-//                    }
-//                    else
-//                    {
-//                        sharedPreferences.edit().putString("date", dateJson.date).apply();
+                    SharedPreferences sharedPreferences = getSharedPreferences("PREFS", Context.MODE_PRIVATE);
+                    if(Objects.equals(sharedPreferences.getString("date", ""), dateJson.date))
+                    {
+                        Gson gson = new Gson();
+                        String jsonLoans = sharedPreferences.getString("loans", "");
+                        Loan[] loans = gson.fromJson(jsonLoans, Loan[].class);
+                        gson = new Gson();
+                        String jsonCards = sharedPreferences.getString("cards", "");
+                        Cards[] cards = gson.fromJson(jsonCards, Cards[].class);
+                        gson = new Gson();
+                        String jsonCredits = sharedPreferences.getString("credits", "");
+                        Loan[] credits = gson.fromJson(jsonCredits, Loan[].class);
 
-                    sendDatabaseRequest(actualBackend);
-                    //}
+                        setFragments(loans, cards, credits);
+                    }
+                    else
+                    {
+                        sharedPreferences.edit().putString("date", dateJson.date).apply();
+
+                        sendDatabaseRequest(actualBackend);
+                    }
                 }
             }
 
@@ -98,6 +116,22 @@ public class MainActivity extends AppCompatActivity {
                     Loan[] loans = databaseJson.loans;
                     Cards[] cards = databaseJson.cards;
                     Loan[] credits = databaseJson.credits;
+
+                    Gson gson = new Gson();
+                    ArrayList<Loan> loansArrayList = new ArrayList<>();
+                    Collections.addAll(loansArrayList, loans);
+                    String jsonLoans = gson.toJson(loansArrayList);
+                    sharedPreferences.edit().putString("loans", jsonLoans).apply();
+                    gson = new Gson();
+                    ArrayList<Cards> cardsArrayList = new ArrayList<>();
+                    Collections.addAll(cardsArrayList, cards);
+                    String jsonCards = gson.toJson(cardsArrayList);
+                    sharedPreferences.edit().putString("cards", jsonCards).apply();
+                    gson = new Gson();
+                    ArrayList<Loan> creditsArrayList = new ArrayList<>();
+                    Collections.addAll(creditsArrayList, credits);
+                    String jsonCredits = gson.toJson(creditsArrayList);
+                    sharedPreferences.edit().putString("credits", jsonCredits).apply();
 
                     setFragments(loans, cards, credits);
                 }
