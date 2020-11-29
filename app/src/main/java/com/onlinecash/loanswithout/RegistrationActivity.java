@@ -15,6 +15,8 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,6 +25,8 @@ import androidx.core.app.ActivityCompat;
 import java.util.Objects;
 
 public class RegistrationActivity extends AppCompatActivity {
+
+    private ProgressBar webProgressBar;
 
     private static final int PICK_FROM_GALLERY = 2;
     private static final String EXTRA_ORDER = "ORDER";
@@ -45,6 +49,8 @@ public class RegistrationActivity extends AppCompatActivity {
 
         String order = Objects.requireNonNull(getIntent().getStringExtra(EXTRA_ORDER));
 
+        ImageButton closeImageButton = findViewById(R.id.closeImageButton);
+        webProgressBar = findViewById(R.id.webProgressBar);
         TextView connectionStatusTextView = findViewById(R.id.connectionStatusTextView);
 
         WebView webView = findViewById(R.id.registrationWebView);
@@ -68,6 +74,8 @@ public class RegistrationActivity extends AppCompatActivity {
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
+
+                webProgressBar.setVisibility(View.GONE);
             }
         });
         webView.setWebChromeClient(new WebChromeClient() {
@@ -106,7 +114,11 @@ public class RegistrationActivity extends AppCompatActivity {
                     + "&aff_sub5=" + Utils.googleAdvertisingId[0];
             webView.loadUrl(link);
         } else {
+            webView.setVisibility(View.GONE);
+            webProgressBar.setVisibility(View.GONE);
             connectionStatusTextView.setVisibility(View.VISIBLE);
         }
+
+        closeImageButton.setOnClickListener(view -> onBackPressed());
     }
 }
