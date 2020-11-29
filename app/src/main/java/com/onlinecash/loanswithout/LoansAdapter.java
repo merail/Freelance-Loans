@@ -50,26 +50,22 @@ public class LoansAdapter extends RecyclerView.Adapter<LoansAdapter.LoansHolder>
 
         if (loans.get(position).hide_PercentFields == 0) {
             holder.rateLabelTextView.setVisibility(View.VISIBLE);
-            holder.prefixRateTextView.setText(loans.get(position).percentPrefix);
-            holder.rateTextView.setText(loans.get(position).percent);
-            holder.postfixRateTextView.setText(loans.get(position).percentPostfix);
+            String rate = loans.get(position).percentPrefix + " " + loans.get(position).percent + loans.get(position).percentPostfix;
+            holder.rateTextView.setText(rate);
         } else {
             holder.rateLabelTextView.setVisibility(View.INVISIBLE);
         }
 
-        holder.prefixSumTextView.setText(loans.get(position).summPrefix);
-        holder.postfixSumTextView.setText(loans.get(position).summPostfix);
-        holder.minSumTextView.setText(loans.get(position).summMin);
-        holder.midSumTextView.setText(loans.get(position).summMid);
-        holder.maxSumTextView.setText(loans.get(position).summMax);
+        String summ = loans.get(position).summPrefix + " " + loans.get(position).summMin + " " + loans.get(position).summMid
+                + " " + loans.get(position).summMax + " " + loans.get(position).summPostfix;
+        holder.sumTextView.setText(summ);
 
         if (loans.get(position).hide_TermFields == 0) {
             holder.timeLabelTextView.setVisibility(View.VISIBLE);
-            holder.prefixTermTextView.setText(loans.get(position).termPrefix);
-            holder.postfixTermTextView.setText(loans.get(position).termPostfix);
-            holder.minTermTextView.setText(loans.get(position).termMin);
-            holder.midTermTextView.setText(loans.get(position).termMid);
-            holder.maxTermTextView.setText(loans.get(position).termMax);
+
+            String term = loans.get(position).termPrefix + " " + loans.get(position).termMin + " " + loans.get(position).termMid
+                    + " " + loans.get(position).termMax + " " + loans.get(position).termPostfix;
+            holder.termTextView.setText(term);
         } else {
             holder.timeLabelTextView.setVisibility(View.INVISIBLE);
         }
@@ -147,20 +143,10 @@ public class LoansAdapter extends RecyclerView.Adapter<LoansAdapter.LoansHolder>
         TextView bankNameTextView;
         TextView markTextView;
         TextView rateLabelTextView;
-        TextView prefixRateTextView;
         TextView rateTextView;
-        TextView postfixRateTextView;
-        TextView prefixSumTextView;
-        TextView minSumTextView;
-        TextView midSumTextView;
-        TextView maxSumTextView;
+        TextView sumTextView;
         TextView timeLabelTextView;
-        TextView postfixSumTextView;
-        TextView prefixTermTextView;
-        TextView minTermTextView;
-        TextView midTermTextView;
-        TextView maxTermTextView;
-        TextView postfixTermTextView;
+        TextView termTextView;
         ImageView visaImageView;
         ImageView mastercardImageView;
         ImageView mirImageView;
@@ -179,20 +165,10 @@ public class LoansAdapter extends RecyclerView.Adapter<LoansAdapter.LoansHolder>
             bankNameTextView = itemView.findViewById(R.id.bankNameTextView);
             markTextView = itemView.findViewById(R.id.markTextView);
             rateLabelTextView = itemView.findViewById(R.id.rateLabelTextView);
-            prefixRateTextView = itemView.findViewById(R.id.prefixRateTextView);
             rateTextView = itemView.findViewById(R.id.rateTextView);
-            postfixRateTextView = itemView.findViewById(R.id.postfixRateTextView);
-            prefixSumTextView = itemView.findViewById(R.id.prefixSumTextView);
-            minSumTextView = itemView.findViewById(R.id.minSumTextView);
-            midSumTextView = itemView.findViewById(R.id.midSumTextView);
-            maxSumTextView = itemView.findViewById(R.id.maxSumTextView);
+            sumTextView = itemView.findViewById(R.id.sumTextView);
             timeLabelTextView = itemView.findViewById(R.id.timeLabelTextView);
-            postfixSumTextView = itemView.findViewById(R.id.postfixSumTextView);
-            prefixTermTextView = itemView.findViewById(R.id.prefixTermTextView);
-            minTermTextView = itemView.findViewById(R.id.minTermTextView);
-            midTermTextView = itemView.findViewById(R.id.midTermTextView);
-            maxTermTextView = itemView.findViewById(R.id.maxTermTextView);
-            postfixTermTextView = itemView.findViewById(R.id.postfixTermTextView);
+            termTextView = itemView.findViewById(R.id.termTextView);
             visaImageView = itemView.findViewById(R.id.visaImageView);
             mastercardImageView = itemView.findViewById(R.id.mastercardImageView);
             mirImageView = itemView.findViewById(R.id.mirImageView);

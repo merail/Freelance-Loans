@@ -4,8 +4,17 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Point;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -36,8 +45,10 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean hasConnection;
 
+    private ImageButton informationImageButton;
     private TextView pageLabelTextView;
     private ProgressBar mainProgressBar;
+    private BottomNavigationView bottomNavigationView;
 
     private SharedPreferences sharedPreferences;
 
@@ -55,7 +66,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        informationImageButton = findViewById(R.id.informationImageButton);
         mainProgressBar = findViewById(R.id.mainProgressBar);
+        bottomNavigationView = findViewById(R.id.bottom_navigation);
 
         hasConnection = Objects.requireNonNull(getIntent()).getBooleanExtra(EXTRA_CONNECTION_STATUS, false);
         String actualBackend = Objects.requireNonNull(getIntent().getStringExtra(EXTRA_ACTUAL_BACKEND));
@@ -82,6 +95,11 @@ public class MainActivity extends AppCompatActivity {
                     if(Objects.equals(sharedPreferences.getString("date", ""), dateJson.date))
                     {
                         Gson gson = new Gson();
+
+                        String jsonAppConfig = sharedPreferences.getString("app_config", "");
+                        AppConfig appConfig = gson.fromJson(jsonAppConfig, AppConfig.class);
+                        setInformationWindow(appConfig.user_term_html);
+
                         String jsonLoans = sharedPreferences.getString("loans", "");
                         Loan[] loans = gson.fromJson(jsonLoans, Loan[].class);
                         gson = new Gson();
@@ -118,11 +136,15 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(@NonNull Call<DatabaseJson> call, @NonNull Response<DatabaseJson> response) {
                 DatabaseJson databaseJson = response.body();
                 if (databaseJson != null) {
+                    AppConfig appConfig = databaseJson.app_config;
                     Loan[] loans = databaseJson.loans;
                     Cards[] cards = databaseJson.cards;
                     Loan[] credits = databaseJson.credits;
 
                     Gson gson = new Gson();
+                    String jsonAppConfig = gson.toJson(appConfig);
+                    sharedPreferences.edit().putString("app_config", jsonAppConfig).apply();
+                    gson = new Gson();
                     ArrayList<Loan> loansArrayList = new ArrayList<>();
                     Collections.addAll(loansArrayList, loans);
                     String jsonLoans = gson.toJson(loansArrayList);
@@ -138,6 +160,7 @@ public class MainActivity extends AppCompatActivity {
                     String jsonCredits = gson.toJson(creditsArrayList);
                     sharedPreferences.edit().putString("credits", jsonCredits).apply();
 
+                    setInformationWindow(appConfig.user_term_html);
                     setFragments(loans, cards, credits);
                 }
             }
@@ -158,8 +181,6 @@ public class MainActivity extends AppCompatActivity {
         final FragmentManager fragmentManager = getSupportFragmentManager();
         LoansFragment loansFragment = LoansFragment.newInstance(hasConnection, loans);
         fragmentManager.beginTransaction().add(R.id.main_container, loansFragment, LOANS_FRAGMENT_TAG).commit();
-
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
@@ -187,5 +208,29 @@ public class MainActivity extends AppCompatActivity {
                     return false;
             }
         });
+    }
+
+    private void setInformationWindow(String user_term_html)
+    {
+        informationImageButton.setOnClickListener(view ->
+        {
+            LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+            Point size = new Point();
+            getWindowManager().getDefaultDisplay().getSize(size);
+
+            @SuppressLint("InflateParams") PopupWindow pw = new PopupWindow(inflater.inflate(R.layout.window_information,
+                    null, false), (int) (size.x * 0.95), (int) (size.y * 0.65), true);
+
+            TextView informationTextView = (TextView)pw.getContentView().findViewById(R.id.informationTextView);
+            informationTextView.setText(Html.fromHtml(user_term_html));
+            informationTextView.setMovementMethod(new ScrollingMovementMethod());
+
+            ImageButton okInformationImageButton = (ImageButton)pw.getContentView().findViewById(R.id.okInformationImageButton);
+            okInformationImageButton.setOnClickListener(view1 -> pw.dismiss());
+
+            pw.showAtLocation(findViewById(R.id.main), Gravity.CENTER, 0, 0);
+        });
+
     }
 }

@@ -50,69 +50,17 @@
                     app:layout_constraintEnd_toEndOf="parent" />
 
                 <TextView
-                    android:id="@+id/prefixSumTextView"
+                    android:id="@+id/sumTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="3dp"
+                    android:layout_marginTop="7dp"
                     android:fontFamily="@font/ubuntu"
                     android:gravity="center"
                     android:textColor="@color/textColor"
                     android:textSize="14sp"
                     app:layout_constraintTop_toBottomOf="@id/bankNameTextView"
                     app:layout_constraintStart_toStartOf="parent" />
-
-                <TextView
-                    android:id="@+id/minSumTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="3dp"
-                    android:layout_marginTop="3dp"
-                    android:fontFamily="@font/ubuntu"
-                    android:gravity="center"
-                    android:textColor="@color/textColor"
-                    android:textSize="14sp"
-                    app:layout_constraintTop_toBottomOf="@id/bankNameTextView"
-                    app:layout_constraintStart_toEndOf="@id/prefixSumTextView" />
-
-                <TextView
-                    android:id="@+id/midSumTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="3dp"
-                    android:layout_marginTop="3dp"
-                    android:fontFamily="@font/ubuntu"
-                    android:gravity="center"
-                    android:textColor="@color/textColor"
-                    android:textSize="14sp"
-                    app:layout_constraintTop_toBottomOf="@id/bankNameTextView"
-                    app:layout_constraintStart_toEndOf="@id/minSumTextView" />
-
-                <TextView
-                    android:id="@+id/maxSumTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="3dp"
-                    android:layout_marginTop="3dp"
-                    android:fontFamily="@font/ubuntu"
-                    android:gravity="center"
-                    android:textColor="@color/textColor"
-                    android:textSize="14sp"
-                    app:layout_constraintTop_toBottomOf="@id/bankNameTextView"
-                    app:layout_constraintStart_toEndOf="@id/midSumTextView" />
-
-                <TextView
-                    android:id="@+id/postfixSumTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="3dp"
-                    android:layout_marginTop="3dp"
-                    android:fontFamily="@font/ubuntu"
-                    android:gravity="center"
-                    android:textColor="@color/textColor"
-                    android:textSize="14sp"
-                    app:layout_constraintTop_toBottomOf="@id/bankNameTextView"
-                    app:layout_constraintStart_toEndOf="@id/maxSumTextView" />
 
                 <View
                     android:id="@+id/line"
@@ -121,7 +69,7 @@
                     android:layout_marginHorizontal="16dp"
                     android:layout_marginVertical="20dp"
                     android:background="@drawable/line"
-                    app:layout_constraintTop_toBottomOf="@id/prefixSumTextView"/>
+                    app:layout_constraintTop_toBottomOf="@id/sumTextView"/>
 
                 <TextView
                     android:id="@+id/rateLabelTextView"
@@ -138,7 +86,7 @@
                     android:layout_marginTop="20dp" />
 
                 <TextView
-                    android:id="@+id/prefixRateTextView"
+                    android:id="@+id/rateTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -147,31 +95,6 @@
                     android:textColor="@color/labelColor"
                     android:textSize="14sp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/rateLabelTextView"
-                    android:layout_marginTop="8dp" />
-
-                <TextView
-                    android:id="@+id/rateTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="3dp"
-                    android:fontFamily="@font/ubuntu"
-                    android:gravity="center"
-                    android:textColor="@color/labelColor"
-                    android:textSize="14sp"
-                    app:layout_constraintStart_toEndOf="@id/prefixRateTextView"
-                    app:layout_constraintTop_toBottomOf="@id/rateLabelTextView"
-                    android:layout_marginTop="8dp" />
-
-                <TextView
-                    android:id="@+id/postfixRateTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/ubuntu"
-                    android:gravity="center"
-                    android:textColor="@color/labelColor"
-                    android:textSize="14sp"
-                    app:layout_constraintStart_toEndOf="@id/rateTextView"
                     app:layout_constraintTop_toBottomOf="@id/rateLabelTextView"
                     android:layout_marginTop="8dp" />
 
@@ -190,7 +113,7 @@
                     android:layout_marginTop="20dp" />
 
                 <TextView
-                    android:id="@+id/prefixTermTextView"
+                    android:id="@+id/termTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/ubuntu"
@@ -199,57 +122,6 @@
                     android:textSize="14sp"
                     app:layout_constraintStart_toStartOf="@id/timeLabelTextView"
                     app:layout_constraintTop_toBottomOf="@id/timeLabelTextView"
-                    android:layout_marginTop="8dp" />
-
-                <TextView
-                    android:id="@+id/minTermTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="3dp"
-                    android:fontFamily="@font/ubuntu"
-                    android:gravity="center"
-                    android:textColor="@color/labelColor"
-                    android:textSize="14sp"
-                    app:layout_constraintStart_toEndOf="@id/prefixTermTextView"
-                    app:layout_constraintTop_toBottomOf="@id/rateLabelTextView"
-                    android:layout_marginTop="8dp" />
-                <TextView
-                    android:id="@+id/midTermTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="3dp"
-                    android:fontFamily="@font/ubuntu"
-                    android:gravity="center"
-                    android:textColor="@color/labelColor"
-                    android:textSize="14sp"
-                    app:layout_constraintStart_toEndOf="@id/minTermTextView"
-                    app:layout_constraintTop_toBottomOf="@id/rateLabelTextView"
-                    android:layout_marginTop="8dp" />
-
-                <TextView
-                    android:id="@+id/maxTermTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="3dp"
-                    android:fontFamily="@font/ubuntu"
-                    android:gravity="center"
-                    android:textColor="@color/labelColor"
-                    android:textSize="14sp"
-                    app:layout_constraintStart_toEndOf="@id/midTermTextView"
-                    app:layout_constraintTop_toBottomOf="@id/rateLabelTextView"
-                    android:layout_marginTop="8dp" />
-
-                <TextView
-                    android:id="@+id/postfixTermTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="3dp"
-                    android:fontFamily="@font/ubuntu"
-                    android:gravity="center"
-                    android:textColor="@color/labelColor"
-                    android:textSize="14sp"
-                    app:layout_constraintStart_toEndOf="@id/maxTermTextView"
-                    app:layout_constraintTop_toBottomOf="@id/rateLabelTextView"
                     android:layout_marginTop="8dp" />
 
                 <TextView
