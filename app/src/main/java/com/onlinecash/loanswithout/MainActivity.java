@@ -231,6 +231,12 @@ public class MainActivity extends AppCompatActivity {
 
             pw.showAtLocation(findViewById(R.id.main), Gravity.CENTER, 0, 0);
         });
+    }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        finishAffinity();
     }
 }

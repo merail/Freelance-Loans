@@ -22,7 +22,6 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
 
         final boolean hasConnection = Utils.isNetworkAvailable(getApplicationContext());
-        Log.d("xxxxxxxxxxx", String.valueOf(hasConnection));
 
         if (hasConnection) {
             Utils.getFirebaseMessagingToken(getApplicationContext());
