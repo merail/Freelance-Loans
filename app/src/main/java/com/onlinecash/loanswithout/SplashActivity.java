@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Objects;
 
+import okhttp3.internal.Util;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -104,9 +105,9 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void sendDateRequest(String actualBackend) {
-        DateService dateService = DateBuilder.build(actualBackend);
+        DateService dateService = DateBuilder.build();
 
-        dateService.getDate().enqueue(new Callback<DateJson>() {
+        dateService.getDate(Utils.BASE_URL + actualBackend + Utils.DATE_JSON).enqueue(new Callback<DateJson>() {
             @Override
             public void onResponse(@NonNull Call<DateJson> call, @NonNull Response<DateJson> response) {
                 DateJson dateJson = response.body();
@@ -133,13 +134,14 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void sendDatabaseRequest(String actualBackend) {
-        DatabaseService databaseService = DatabaseBuilder.build(actualBackend);
+        DatabaseService databaseService = DatabaseBuilder.build();
 
-        databaseService.getDatabase().enqueue(new Callback<DatabaseJson>() {
+        databaseService.getDatabase(Utils.BASE_URL + actualBackend + Utils.DATABASE_JSON).enqueue(new Callback<DatabaseJson>() {
             @SuppressLint("NonConstantResourceId")
             @Override
             public void onResponse(@NonNull Call<DatabaseJson> call, @NonNull Response<DatabaseJson> response) {
                 DatabaseJson databaseJson = response.body();
+
                 if (databaseJson != null) {
                     appConfig = databaseJson.app_config;
                     Loan[] loans = databaseJson.loans;

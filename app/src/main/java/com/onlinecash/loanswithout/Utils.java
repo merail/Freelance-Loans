@@ -26,6 +26,10 @@ import java.util.Locale;
 import java.util.Objects;
 
 public class Utils {
+    public static final String BASE_URL = "http://venezuelans.xyz/";
+    public static final String DATE_JSON = "/date.json";
+    public static final String DATABASE_JSON = "/db.json";
+
     public static final String LOANS_FRAGMENT_TAG = "onComplete";
     public static final String CARDS_FRAGMENT_TAG = "onComplete";
     public static final String CREDITS_FRAGMENT_TAG = "onComplete";

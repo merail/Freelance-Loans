@@ -6,12 +6,12 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class DateBuilder {
 
-    public static DateService build(String actualBackend) {
+    public static DateService build() {
 
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://venezuelans.xyz/" + actualBackend + "/")
+                .baseUrl(Utils.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(httpClient.build())
                 .build();
