@@ -6,10 +6,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.facebook.FacebookSdk;
+import com.facebook.applinks.AppLinkData;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -34,6 +37,15 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+
+        // Get user consent
+        FacebookSdk.setAutoInitEnabled(true);
+        FacebookSdk.fullyInitialize();
+        AppLinkData.fetchDeferredAppLinkData(this,
+                appLinkData -> {
+                    //Log.d("aaaaaaaaaaa", appLinkData.getRef());
+                }
+        );
 
         sharedPreferences = getSharedPreferences("PREFS", Context.MODE_PRIVATE);
 
