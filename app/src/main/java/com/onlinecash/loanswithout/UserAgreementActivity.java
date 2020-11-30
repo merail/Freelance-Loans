@@ -13,15 +13,26 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class UserAgreementActivity extends AppCompatActivity {
+    private static final String EXTRA_UA = "ua";
+
+    public static Intent newIntent(Context packageContext, String ua) {
+        Intent intent = new Intent(packageContext, UserAgreementActivity.class);
+
+        intent.putExtra(EXTRA_UA, ua);
+
+        return intent;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_agreement);
 
+        String ua = getIntent().getStringExtra(EXTRA_UA);
+
         RecyclerView userAgreementRecyclerView = findViewById(R.id.userAgreementRecyclerView);
         userAgreementRecyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
-        userAgreementRecyclerView.setAdapter(new UserAgreementAdapter(this));
+        userAgreementRecyclerView.setAdapter(new UserAgreementAdapter(this, ua));
 
         ImageButton denyImageButton = findViewById(R.id.denyImageButton);
         denyImageButton.setOnClickListener(view -> finishAffinity());

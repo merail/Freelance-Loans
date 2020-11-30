@@ -95,7 +95,7 @@ public class CardsFragment extends Fragment {
     }
 
     private void setList(int listType) {
-        if (Utils.isNetworkAvailable(Objects.requireNonNull(getContext())) && cards != null) {
+        if (cards != null) {
             ArrayList<Loan> cardsArrayList = new ArrayList<>();
             if (listType == 0)
                 Collections.addAll(cardsArrayList, cards[0].cards_credit);

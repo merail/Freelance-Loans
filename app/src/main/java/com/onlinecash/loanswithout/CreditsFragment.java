@@ -62,7 +62,7 @@ public class CreditsFragment extends Fragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
         loansRecyclerView.setLayoutManager(linearLayoutManager);
 
-        if (Utils.isNetworkAvailable(Objects.requireNonNull(getContext())) && credits != null) {
+        if (credits != null) {
             ArrayList<Loan> loanArrayList = new ArrayList<>();
             Collections.addAll(loanArrayList, credits);
             LoansAdapter loansAdapter = new LoansAdapter(Objects.requireNonNull(getContext()), loanArrayList, false);

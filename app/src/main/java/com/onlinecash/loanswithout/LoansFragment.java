@@ -38,15 +38,13 @@ public class LoansFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param hasConnection Parameter 1.
-     * @param loans         Parameter 2.
+     * @param loans Parameter 2.
      * @return A new instance of fragment LoansFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static LoansFragment newInstance(boolean hasConnection, Loan[] loans) {
+    public static LoansFragment newInstance(Loan[] loans) {
         LoansFragment fragment = new LoansFragment();
         Bundle args = new Bundle();
-        args.putBoolean(ARG_PARAM1, hasConnection);
         args.putParcelableArray(ARG_PARAM2, loans);
         fragment.setArguments(args);
         return fragment;
@@ -56,7 +54,6 @@ public class LoansFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            hasConnection = getArguments().getBoolean(ARG_PARAM1);
             loans = (Loan[]) getArguments().getParcelableArray(ARG_PARAM2);
         }
     }
@@ -70,7 +67,7 @@ public class LoansFragment extends Fragment {
         RecyclerView loansRecyclerView = v.findViewById(R.id.favouritesRecyclerView);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
         loansRecyclerView.setLayoutManager(linearLayoutManager);
-        if (hasConnection) {
+        if (loans != null) {
             ArrayList<Loan> loanArrayList = new ArrayList<>();
             Collections.addAll(loanArrayList, loans);
             LoansAdapter loansAdapter = new LoansAdapter(Objects.requireNonNull(getContext()), loanArrayList, false);
