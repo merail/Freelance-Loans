@@ -14,9 +14,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.facebook.FacebookSdk;
 import com.facebook.applinks.AppLinkData;
 import com.google.gson.Gson;
+import com.my.tracker.MyTracker;
+import com.yandex.metrica.YandexMetrica;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 import okhttp3.internal.Util;
@@ -89,7 +93,17 @@ public class SplashActivity extends AppCompatActivity {
             public void onResponse(@NonNull Call<ActualBackendJson> call, @NonNull Response<ActualBackendJson> response) {
                 ActualBackendJson actualBackendJson = response.body();
                 if (actualBackendJson != null) {
-                    sendDateRequest(actualBackendJson.actualbackend);
+                    if(actualBackendJson.actualbackend != null)
+                        sendDateRequest(actualBackendJson.actualbackend);
+                    else
+                    {
+                        String eventParameters = "{\"googleAdvertisingId\":\"" + Utils.googleAdvertisingId[0] + "\"}";
+                        YandexMetrica.reportEvent("actualbackend_null", eventParameters);
+
+                        Map<String, String> eventParams = new HashMap<>();
+                        eventParams.put("googleAdvertisingId", Utils.googleAdvertisingId[0]);
+                        MyTracker.trackEvent("actualbackend_null", eventParams);
+                    }
                 } else {
                     setData(false);
                 }
@@ -110,6 +124,9 @@ public class SplashActivity extends AppCompatActivity {
         dateService.getDate(Utils.BASE_URL + actualBackend + Utils.DATE_JSON).enqueue(new Callback<DateJson>() {
             @Override
             public void onResponse(@NonNull Call<DateJson> call, @NonNull Response<DateJson> response) {
+                YandexMetrica.reportEvent("requestdate");
+                MyTracker.trackEvent("requestdate");
+
                 DateJson dateJson = response.body();
                 if (dateJson != null) {
                     SharedPreferences sharedPreferences = getSharedPreferences("PREFS", Context.MODE_PRIVATE);
@@ -121,7 +138,12 @@ public class SplashActivity extends AppCompatActivity {
                         sendDatabaseRequest(actualBackend);
                     }
                 } else
+                {
+                    YandexMetrica.reportEvent("backend_unavailable");
+                    MyTracker.trackEvent("backend_unavailable");
+
                     setData(false);
+                }
             }
 
             @Override
@@ -140,6 +162,9 @@ public class SplashActivity extends AppCompatActivity {
             @SuppressLint("NonConstantResourceId")
             @Override
             public void onResponse(@NonNull Call<DatabaseJson> call, @NonNull Response<DatabaseJson> response) {
+                YandexMetrica.reportEvent("requestdb");
+                MyTracker.trackEvent("requestdb");
+
                 DatabaseJson databaseJson = response.body();
 
                 if (databaseJson != null) {

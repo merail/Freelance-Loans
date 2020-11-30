@@ -16,6 +16,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
+import com.my.tracker.MyTracker;
+import com.yandex.metrica.YandexMetrica;
 
 import java.util.ArrayList;
 
@@ -108,7 +110,7 @@ public class LoansAdapter extends RecyclerView.Adapter<LoansAdapter.LoansHolder>
         holder.documentsTextView.setText(Html.fromHtml(loans.get(position).description));
 
         holder.registrationImageButton.setOnClickListener(view -> context.startActivity(RegistrationActivity
-                .newIntent(context, loans.get(position).order)));
+                .newIntent(context, loans.get(position).order, loans.get(position).itemId)));
 
         if (sharedPreferences.contains("favourite:" + loans.get(position).name)) {
             holder.favouriteImageButton.setBackgroundResource(R.drawable.favourite_selected);
