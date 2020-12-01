@@ -144,4 +144,5 @@ For more information on what type of information Firebase collects, please visit
     <string name="ua_paragraph_113">Если у вас есть какие-либо вопросы об этой Политике конфиденциальности, пожалуйста, свяжитесь с нами через форму связи на странице приложения в Google Play</string>
     <string name="ua_paragraph_114">"If you have any questions about this Privacy Policy, please contact us via the contact form on the app page on Google Play "</string>
     <string name="default_notification_channel_id">0</string>
+    <string name="notification_channel_name">Channel</string>
 </resources>

@@ -222,10 +222,10 @@ public class SplashActivity extends AppCompatActivity {
                 else
                     startActivity(UserAgreementActivity.newIntent(getApplicationContext(), appConfig.privacy_policy_html));
             } else {
-                startActivity(MainActivity.newIntent(getApplicationContext(), user_term_html));
+                startActivity(MainActivity.newIntent(getApplicationContext(), user_term_html, 0, 0));
             }
         } else {
-            startActivity(MainActivity.newIntent(getApplicationContext(), null));
+            startActivity(MainActivity.newIntent(getApplicationContext(), null, 0, 0));
         }
 
     }

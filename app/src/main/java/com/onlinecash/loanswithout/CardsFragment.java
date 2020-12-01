@@ -24,10 +24,13 @@ import java.util.Objects;
 public class CardsFragment extends Fragment {
 
     private static final String ARG_CARDS = "cards";
+    private static final String ARG_TAB = "tab";
 
     private TextView connectionStatusTextView;
     private RecyclerView cardsRecyclerView;
+
     private Cards[] cards;
+    private int tab;
 
     /**
      * Use this factory method to create a new instance of
@@ -36,11 +39,12 @@ public class CardsFragment extends Fragment {
      * @param cards cards.
      * @return A new instance of fragment CardsFragment.
      */
-    public static CardsFragment newInstance(Cards[] cards) {
+    public static CardsFragment newInstance(Cards[] cards, int tab) {
         CardsFragment fragment = new CardsFragment();
 
         Bundle args = new Bundle();
         args.putParcelableArray(ARG_CARDS, cards);
+        args.putInt(ARG_TAB, tab);
         fragment.setArguments(args);
 
         return fragment;
@@ -51,6 +55,7 @@ public class CardsFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             cards = (Cards[]) getArguments().getParcelableArray(ARG_CARDS);
+            tab = getArguments().getInt(ARG_TAB);
         }
     }
 
@@ -90,6 +95,8 @@ public class CardsFragment extends Fragment {
 
             }
         });
+
+        cardsTabLayout.selectTab(cardsTabLayout.getTabAt(tab));
 
         return v;
     }

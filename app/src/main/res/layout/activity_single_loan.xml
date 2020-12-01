@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SingleLoanActivity"
+    android:layout_marginTop="10dp">
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/mainInformation"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/bankNameTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginVertical="10dp"
+                android:text="Ренессанс Кредит"
+                android:textSize="16sp"
+                android:textColor="@color/labelColor"
+                android:fontFamily="@font/ubuntu"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/starImageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/star"
+                android:layout_marginVertical="10dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/markTextView" />
+
+            <TextView
+                android:id="@+id/markTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:fontFamily="@font/ubuntu"
+                android:gravity="center"
+                android:textColor="@color/labelColor"
+                android:textSize="14sp"
+                app:layout_constraintTop_toTopOf="@id/starImageView"
+                app:layout_constraintBottom_toBottomOf="@id/starImageView"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <TextView
+                android:id="@+id/sumTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="7dp"
+                android:fontFamily="@font/ubuntu"
+                android:gravity="center"
+                android:textColor="@color/textColor"
+                android:textSize="14sp"
+                app:layout_constraintTop_toBottomOf="@id/bankNameTextView"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <View
+                android:id="@+id/line"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginVertical="20dp"
+                android:background="@drawable/line"
+                app:layout_constraintTop_toBottomOf="@id/sumTextView"/>
+
+            <TextView
+                android:id="@+id/rateLabelTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:fontFamily="@font/ubuntu"
+                android:text="Ставка"
+                android:textColor="@color/textColor"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/timeLabelTextView"
+                app:layout_constraintTop_toBottomOf="@id/line"
+                android:layout_marginTop="20dp" />
+
+            <TextView
+                android:id="@+id/rateTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:fontFamily="@font/ubuntu"
+                android:gravity="center"
+                android:textColor="@color/labelColor"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/rateLabelTextView"
+                android:layout_marginTop="8dp" />
+
+            <TextView
+                android:id="@+id/timeLabelTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:fontFamily="@font/ubuntu"
+                android:text="Срок"
+                android:textColor="@color/textColor"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/rateLabelTextView"
+                app:layout_constraintTop_toBottomOf="@id/line"
+                android:layout_marginTop="20dp" />
+
+            <TextView
+                android:id="@+id/termTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/ubuntu"
+                android:gravity="center"
+                android:textColor="@color/labelColor"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="@id/timeLabelTextView"
+                app:layout_constraintTop_toBottomOf="@id/timeLabelTextView"
+                android:layout_marginTop="8dp" />
+
+            <TextView
+                android:id="@+id/methodsOfObtainingLabelTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:fontFamily="@font/ubuntu"
+                android:gravity="center"
+                android:text="Способы получения"
+                android:textColor="@color/textColor"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/rateTextView"
+                android:layout_marginTop="20dp" />
+
+            <ImageView
+                android:id="@+id/visaImageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/visa"
+                android:layout_marginStart="16dp"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="5dp"
+                app:layout_constraintTop_toBottomOf="@id/methodsOfObtainingLabelTextView"/>
+
+            <ImageView
+                android:id="@+id/mastercardImageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/mastercard"
+                android:layout_marginStart="8dp"
+                app:layout_constraintStart_toEndOf="@id/visaImageView"
+                android:layout_marginTop="5dp"
+                app:layout_constraintTop_toBottomOf="@id/methodsOfObtainingLabelTextView"/>
+
+            <ImageView
+                android:id="@+id/mirImageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/mir"
+                android:layout_marginStart="8dp"
+                app:layout_constraintStart_toEndOf="@id/mastercardImageView"
+                android:layout_marginTop="5dp"
+                app:layout_constraintTop_toBottomOf="@id/methodsOfObtainingLabelTextView"/>
+
+            <ImageView
+                android:id="@+id/yandexImageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/yandex"
+                android:layout_marginStart="8dp"
+                app:layout_constraintStart_toEndOf="@id/mirImageView"
+                android:layout_marginTop="5dp"
+                app:layout_constraintTop_toBottomOf="@id/methodsOfObtainingLabelTextView"/>
+
+            <ImageView
+                android:id="@+id/qiwiImageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/qiwi"
+                android:layout_marginStart="8dp"
+                app:layout_constraintStart_toEndOf="@id/yandexImageView"
+                android:layout_marginTop="5dp"
+                app:layout_constraintTop_toBottomOf="@id/methodsOfObtainingLabelTextView"/>
+
+            <ImageView
+                android:id="@+id/bankLogoImageView"
+                android:layout_width="210dp"
+                android:layout_height="128dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginVertical="10dp"
+                app:layout_constraintTop_toBottomOf="@id/visaImageView" />
+
+
+                <TextView
+                    android:id="@+id/documentsTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="16dp"
+                    android:fontFamily="@font/ubuntu"
+                    android:textColor="@color/labelColor"
+                    android:scrollbars="vertical"
+                    android:requiresFadingEdge="vertical"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toStartOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/bankLogoImageView"
+                    app:layout_constraintBottom_toTopOf="@id/registrationImageButton"
+                    android:layout_marginTop="10dp" />
+
+            <ImageButton
+                android:id="@+id/registrationImageButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:fontFamily="@font/ubuntu"
+                android:includeFontPadding = "false"
+                android:textSize="14sp"
+                android:gravity="center"
+                android:layout_marginTop="6dp"
+                android:background="@drawable/checkout"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/documentsTextView"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <ImageButton
+                android:id="@+id/favouriteImageButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginVertical="5dp"
+                android:background="@drawable/favourite"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/documentsTextView"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -30,19 +30,26 @@ import static com.onlinecash.loanswithout.Utils.LOANS_FRAGMENT_TAG;
 public class MainActivity extends AppCompatActivity {
 
     private static final String EXTRA_TERM = "user_term_html";
+    private static final String EXTRA_PAGE = "page";
+    private static final String EXTRA_TAB = "page";
     private static final String EXTRA_LOANS = "loans";
     private static final String EXTRA_CARDS = "cards";
     private static final String EXTRA_CREDITS = "credits";
+
+    private int page = 0;
+    private int tab = 0;
 
     private ImageButton informationImageButton;
     private TextView pageLabelTextView;
     private ProgressBar mainProgressBar;
     private BottomNavigationView bottomNavigationView;
 
-    public static Intent newIntent(Context packageContext, String user_term_html) {
+    public static Intent newIntent(Context packageContext, String user_term_html, int page, int tab) {
         Intent intent = new Intent(packageContext, MainActivity.class);
 
         intent.putExtra(EXTRA_TERM, user_term_html);
+        intent.putExtra(EXTRA_PAGE, page);
+        intent.putExtra(EXTRA_TAB, tab);
 
         return intent;
     }
@@ -62,6 +69,9 @@ public class MainActivity extends AppCompatActivity {
             setInformationWindow(user_term_html);
         }
 
+        page = getIntent().getIntExtra(EXTRA_PAGE, 0);
+        tab = getIntent().getIntExtra(EXTRA_TAB, 0);
+
         SharedPreferences sharedPreferences = getSharedPreferences("PREFS", Context.MODE_PRIVATE);
 
         Gson gson = new Gson();
@@ -74,9 +84,9 @@ public class MainActivity extends AppCompatActivity {
         String jsonCredits = sharedPreferences.getString("credits", "");
         Loan[] credits = gson.fromJson(jsonCredits, Loan[].class);
 
-        setFragments(loans, cards, credits);
-
         pageLabelTextView = findViewById(R.id.pageLabelTextView);
+
+        setFragments(loans, cards, credits);
     }
 
 
@@ -98,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.cardsPage:
                     pageLabelTextView.setText(getString(R.string.cards_page));
                     fragmentManager.beginTransaction().replace(R.id.main_container,
-                            CardsFragment.newInstance(cards), CARDS_FRAGMENT_TAG).commit();
+                            CardsFragment.newInstance(cards, tab), CARDS_FRAGMENT_TAG).commit();
                     return true;
                 case R.id.creditsPage:
                     pageLabelTextView.setText(getString(R.string.credits_page));
@@ -114,6 +124,15 @@ public class MainActivity extends AppCompatActivity {
                     return false;
             }
         });
+
+        if(page == 0)
+            bottomNavigationView.setSelectedItemId(R.id.loansPage);
+        else if(page == 1)
+            bottomNavigationView.setSelectedItemId(R.id.cardsPage);
+        else if(page == 2)
+            bottomNavigationView.setSelectedItemId(R.id.creditsPage);
+        else
+            bottomNavigationView.setSelectedItemId(R.id.favouritesPage);
     }
 
     private void setInformationWindow(String user_term_html) {
