@@ -1,7 +1,6 @@
 package com.onlinecash.loanswithout;
 
-public class AppConfig
-{
+public class AppConfig {
     public int show_news_item;
     public int show_calculator_time;
     public int show_chat;

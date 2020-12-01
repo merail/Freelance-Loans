@@ -125,11 +125,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        if(page == 0)
+        if (page == 0)
             bottomNavigationView.setSelectedItemId(R.id.loansPage);
-        else if(page == 1)
+        else if (page == 1)
             bottomNavigationView.setSelectedItemId(R.id.cardsPage);
-        else if(page == 2)
+        else if (page == 2)
             bottomNavigationView.setSelectedItemId(R.id.creditsPage);
         else
             bottomNavigationView.setSelectedItemId(R.id.favouritesPage);

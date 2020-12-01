@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
@@ -30,12 +29,11 @@ import java.util.Objects;
 
 public class RegistrationActivity extends AppCompatActivity {
 
-    private ProgressBar webProgressBar;
-
     private static final int PICK_FROM_GALLERY = 2;
     private static final String EXTRA_ORDER = "ORDER";
     private static final String EXTRA_ITEM_ID = "item_id";
     private final static int FILE_CHOOSER_RESULT_CODE = 1;
+    private ProgressBar webProgressBar;
     private ValueCallback<Uri[]> uploadMessage;
 
     public static Intent newIntent(Context packageContext, String order, String itemId) {

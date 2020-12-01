@@ -1,7 +1,5 @@
 package com.onlinecash.loanswithout;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,15 +10,18 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Objects;
 
 public class SingleLoanActivity extends AppCompatActivity {
 
+    private static final String EXTRA_TYPE = "type";
+    private static final String EXTRA_POSITION = "position";
     private TextView bankNameTextView;
     private TextView markTextView;
     private TextView rateLabelTextView;
@@ -37,9 +38,6 @@ public class SingleLoanActivity extends AppCompatActivity {
     private TextView documentsTextView;
     private ImageButton registrationImageButton;
     private ImageButton favouriteImageButton;
-
-    private static final String EXTRA_TYPE = "type";
-    private static final String EXTRA_POSITION = "position";
 
     public static Intent newIntent(Context packageContext, String type, String position) {
         Intent intent = new Intent(packageContext, SingleLoanActivity.class);
@@ -59,42 +57,32 @@ public class SingleLoanActivity extends AppCompatActivity {
 
         SharedPreferences sharedPreferences = getSharedPreferences("PREFS", Context.MODE_PRIVATE);
 
-        if(getIntent() != null)
-        {
+        if (getIntent() != null) {
             String type = getIntent().getStringExtra(EXTRA_TYPE);
             int position = getIntent().getIntExtra(EXTRA_POSITION, 0);
 
             Loan[] loansArray;
 
             Gson gson = new Gson();
-            if(type.equals("loans"))
-            {
+            if (type.equals("loans")) {
                 String jsonLoans = sharedPreferences.getString("loans", "");
                 loansArray = gson.fromJson(jsonLoans, Loan[].class);
-            }
-            else if(type.equals("cards_credit"))
-            {
+            } else if (type.equals("cards_credit")) {
                 gson = new Gson();
                 String jsonCards = sharedPreferences.getString("cards", "");
                 Cards[] cards = gson.fromJson(jsonCards, Cards[].class);
                 loansArray = cards[0].cards_credit;
-            }
-            else if(type.equals("cards_debit"))
-            {
+            } else if (type.equals("cards_debit")) {
                 gson = new Gson();
                 String jsonCards = sharedPreferences.getString("cards", "");
                 Cards[] cards = gson.fromJson(jsonCards, Cards[].class);
                 loansArray = cards[1].cards_debit;
-            }
-            else if(type.equals("cards_installment"))
-            {
+            } else if (type.equals("cards_installment")) {
                 gson = new Gson();
                 String jsonCards = sharedPreferences.getString("cards", "");
                 Cards[] cards = gson.fromJson(jsonCards, Cards[].class);
                 loansArray = cards[2].cards_installment;
-            }
-            else
-            {
+            } else {
                 gson = new Gson();
                 String jsonCredits = sharedPreferences.getString("credits", "");
                 loansArray = gson.fromJson(jsonCredits, Loan[].class);

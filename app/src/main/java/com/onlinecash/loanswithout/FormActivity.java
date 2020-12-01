@@ -66,19 +66,16 @@ public class FormActivity extends AppCompatActivity {
         applyImageButton.setOnClickListener(view -> {
             boolean hasError = false;
 
-            if (!Objects.requireNonNull(editTexts.get(0).getEditText()).getText().toString().trim().matches("^[а-яА-Я ]+$"))
-            {
+            if (!Objects.requireNonNull(editTexts.get(0).getEditText()).getText().toString().trim().matches("^[а-яА-Я ]+$")) {
                 hasError = true;
                 editTexts.get(0).setError(errorMessages.get(0));
             }
-            if (Objects.requireNonNull(editTexts.get(1).getEditText()).getText().toString().trim().length() != 10)
-            {
+            if (Objects.requireNonNull(editTexts.get(1).getEditText()).getText().toString().trim().length() != 10) {
                 hasError = true;
                 editTexts.get(1).setError(errorMessages.get(1));
             }
             if (!Objects.requireNonNull(editTexts.get(2).getEditText()).getText().toString().trim().contains("@")
-                    && !Objects.requireNonNull(editTexts.get(2).getEditText()).getText().toString().trim().contains("."))
-            {
+                    && !Objects.requireNonNull(editTexts.get(2).getEditText()).getText().toString().trim().contains(".")) {
                 hasError = true;
                 editTexts.get(2).setError(errorMessages.get(2));
             }

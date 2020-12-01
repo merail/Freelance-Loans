@@ -3,14 +3,11 @@ package com.onlinecash.loanswithout;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.media.RingtoneManager;
 import android.net.Uri;
-import android.os.Build;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -32,7 +29,7 @@ public class MessagingService extends FirebaseMessagingService {
             String title = remoteMessage.getNotification().getTitle();
             String body = remoteMessage.getNotification().getBody();
             String imageUrl = null;
-            if(remoteMessage.getNotification().getImageUrl() != null)
+            if (remoteMessage.getNotification().getImageUrl() != null)
                 imageUrl = remoteMessage.getNotification().getImageUrl().toString();
             String link = remoteMessage.getData().get("link");
 
@@ -48,36 +45,30 @@ public class MessagingService extends FirebaseMessagingService {
     private void sendRegistrationToServer(String token) {
     }
 
-    private void createNotification(String title, String body, String imageUrl, String link){
+    private void createNotification(String title, String body, String imageUrl, String link) {
         PendingIntent pendingIntent;
-        if(link.contains("/"))
-        {
+        if (link.contains("/")) {
             String[] linkList = link.split("/");
 
             pendingIntent = PendingIntent.getActivity(this,
                     0, SingleLoanActivity.newIntent(this, linkList[0], linkList[1]),
                     PendingIntent.FLAG_ONE_SHOT);
-        }
-        else
-        {
+        } else {
             int page = 0;
             int tab = 0;
-            if(link.contains("cards"))
-            {
-                if(link.contains("cards_credit"))
+            if (link.contains("cards")) {
+                if (link.contains("cards_credit"))
                     page = 1;
-                if(link.contains("cards_debit"))
-                {
+                if (link.contains("cards_debit")) {
                     page = 1;
                     tab = 1;
                 }
-                if(link.contains("cards_installment"))
-                {
+                if (link.contains("cards_installment")) {
                     page = 1;
                     tab = 2;
                 }
             }
-            if(link.contains("credits"))
+            if (link.contains("credits"))
                 page = 2;
             pendingIntent = PendingIntent.getActivity(this,
                     0, MainActivity.newIntent(this, link, page, tab),
@@ -89,7 +80,7 @@ public class MessagingService extends FirebaseMessagingService {
                 .getString(R.string.default_notification_channel_id));
         NotificationManager notificationManager = (NotificationManager) this.getSystemService(NOTIFICATION_SERVICE);
 
-        if (android.os.Build.VERSION.SDK_INT >=     android.os.Build.VERSION_CODES.O) {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             NotificationChannel notificationChannel = new NotificationChannel(
                     getResources().getString(R.string.default_notification_channel_id),
                     getResources().getString(R.string.notification_channel_name),

@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,7 +22,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-import okhttp3.internal.Util;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -93,10 +91,9 @@ public class SplashActivity extends AppCompatActivity {
             public void onResponse(@NonNull Call<ActualBackendJson> call, @NonNull Response<ActualBackendJson> response) {
                 ActualBackendJson actualBackendJson = response.body();
                 if (actualBackendJson != null) {
-                    if(actualBackendJson.actualbackend != null)
+                    if (actualBackendJson.actualbackend != null)
                         sendDateRequest(actualBackendJson.actualbackend);
-                    else
-                    {
+                    else {
                         String eventParameters = "{\"googleAdvertisingId\":\"" + Utils.googleAdvertisingId[0] + "\"}";
                         YandexMetrica.reportEvent("actualbackend_null", eventParameters);
 
@@ -137,8 +134,7 @@ public class SplashActivity extends AppCompatActivity {
 
                         sendDatabaseRequest(actualBackend);
                     }
-                } else
-                {
+                } else {
                     YandexMetrica.reportEvent("backend_unavailable");
                     MyTracker.trackEvent("backend_unavailable");
 

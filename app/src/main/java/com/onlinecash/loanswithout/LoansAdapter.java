@@ -16,8 +16,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
-import com.my.tracker.MyTracker;
-import com.yandex.metrica.YandexMetrica;
 
 import java.util.ArrayList;
 
