@@ -25,7 +25,10 @@ import java.util.Objects;
  * create an instance of this fragment.
  */
 @SuppressLint("ParcelCreator")
-public class FavouritesFragment extends Fragment {
+public class FavouritesFragment extends Fragment implements OnLastFavouriteRemoveListener{
+
+    private TextView noFavouritesTextView;
+    private RecyclerView favouritesRecyclerView;
 
     public FavouritesFragment() {
         // Required empty public constructor
@@ -37,9 +40,9 @@ public class FavouritesFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_favourites, container, false);
 
-        TextView noFavouritesTextView = v.findViewById(R.id.favouritesStatusTextView);
+        noFavouritesTextView = v.findViewById(R.id.favouritesStatusTextView);
 
-        RecyclerView favouritesRecyclerView = v.findViewById(R.id.favouritesRecyclerView);
+        favouritesRecyclerView = v.findViewById(R.id.favouritesRecyclerView);
         ArrayList<Loan> favourites = new ArrayList<>();
         SharedPreferences sharedPreferences = Objects.requireNonNull(getContext()).getSharedPreferences("PREFS", Context.MODE_PRIVATE);
         Map<String, ?> allEntries = sharedPreferences.getAll();
@@ -56,9 +59,15 @@ public class FavouritesFragment extends Fragment {
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
         favouritesRecyclerView.setLayoutManager(linearLayoutManager);
-        LoansAdapter loansAdapter = new LoansAdapter(getContext(), favourites, true);
+        LoansAdapter loansAdapter = new LoansAdapter(getContext(), favourites, true, FavouritesFragment.this);
         favouritesRecyclerView.setAdapter(loansAdapter);
 
         return v;
+    }
+
+    @Override
+    public void onLastFavouriteRemove() {
+        noFavouritesTextView.setVisibility(View.VISIBLE);
+        favouritesRecyclerView.setVisibility(View.GONE);
     }
 }

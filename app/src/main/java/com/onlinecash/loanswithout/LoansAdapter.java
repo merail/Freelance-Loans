@@ -24,11 +24,14 @@ public class LoansAdapter extends RecyclerView.Adapter<LoansAdapter.LoansHolder>
     private final ArrayList<Loan> loans;
     private final SharedPreferences sharedPreferences;
     private final boolean isFavouriteFragment;
+    private final OnLastFavouriteRemoveListener onLastFavouriteRemoveListener;
 
-    public LoansAdapter(Context context, ArrayList<Loan> loans, boolean isFavouriteFragment) {
+    public LoansAdapter(Context context, ArrayList<Loan> loans, boolean isFavouriteFragment
+            , OnLastFavouriteRemoveListener onLastFavouriteRemoveListener) {
         this.context = context;
         this.loans = loans;
         this.isFavouriteFragment = isFavouriteFragment;
+        this.onLastFavouriteRemoveListener = onLastFavouriteRemoveListener;
 
         sharedPreferences = context.getSharedPreferences("PREFS", Context.MODE_PRIVATE);
     }
@@ -121,6 +124,8 @@ public class LoansAdapter extends RecyclerView.Adapter<LoansAdapter.LoansHolder>
 
                 if (isFavouriteFragment) {
                     loans.remove(position);
+                    if(loans.isEmpty())
+                        onLastFavouriteRemoveListener.onLastFavouriteRemove();
                     notifyDataSetChanged();
                 } else
                     holder.favouriteImageButton.setBackgroundResource(R.drawable.favourite);

@@ -180,18 +180,26 @@ public class SplashActivity extends AppCompatActivity {
                     String jsonAppConfig = gson.toJson(appConfig);
                     sharedPreferences.edit().putString("app_config", jsonAppConfig).apply();
                     gson = new Gson();
-                    loansArrayList = new ArrayList<>();
-                    Collections.addAll(loansArrayList, loans);
+                    if(loans != null)
+                    {
+                        loansArrayList = new ArrayList<>();
+                        Collections.addAll(loansArrayList, loans);
+                    }
                     String jsonLoans = gson.toJson(loansArrayList);
                     sharedPreferences.edit().putString("loans", jsonLoans).apply();
                     gson = new Gson();
-                    cardsArrayList = new ArrayList<>();
-                    Collections.addAll(cardsArrayList, cards);
+                    if(cards != null)
+                    {
+                        cardsArrayList = new ArrayList<>();
+                        Collections.addAll(cardsArrayList, cards);
+                    }
                     String jsonCards = gson.toJson(cardsArrayList);
                     sharedPreferences.edit().putString("cards", jsonCards).apply();
                     gson = new Gson();
-                    creditsArrayList = new ArrayList<>();
-                    Collections.addAll(creditsArrayList, credits);
+                    if(credits != null) {
+                        creditsArrayList = new ArrayList<>();
+                        Collections.addAll(creditsArrayList, credits);
+                    }
                     String jsonCredits = gson.toJson(creditsArrayList);
                     sharedPreferences.edit().putString("credits", jsonCredits).apply();
 

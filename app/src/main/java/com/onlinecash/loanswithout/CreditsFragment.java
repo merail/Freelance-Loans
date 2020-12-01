@@ -65,7 +65,8 @@ public class CreditsFragment extends Fragment {
         if (credits != null) {
             ArrayList<Loan> loanArrayList = new ArrayList<>();
             Collections.addAll(loanArrayList, credits);
-            LoansAdapter loansAdapter = new LoansAdapter(Objects.requireNonNull(getContext()), loanArrayList, false);
+            LoansAdapter loansAdapter = new LoansAdapter(Objects.requireNonNull(getContext()), loanArrayList,
+                    false, null);
             loansRecyclerView.setAdapter(loansAdapter);
         } else {
             connectionStatusTextView.setVisibility(View.VISIBLE);

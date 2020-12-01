@@ -110,7 +110,8 @@ public class CardsFragment extends Fragment {
                 Collections.addAll(cardsArrayList, cards[1].cards_debit);
             else
                 Collections.addAll(cardsArrayList, cards[2].cards_installment);
-            LoansAdapter loansAdapter = new LoansAdapter(Objects.requireNonNull(getContext()), cardsArrayList, false);
+            LoansAdapter loansAdapter = new LoansAdapter(Objects.requireNonNull(getContext()), cardsArrayList,
+                    false, null);
             cardsRecyclerView.setAdapter(loansAdapter);
         } else {
             connectionStatusTextView.setVisibility(View.VISIBLE);
