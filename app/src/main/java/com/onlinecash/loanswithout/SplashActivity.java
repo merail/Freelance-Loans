@@ -100,6 +100,11 @@ public class SplashActivity extends AppCompatActivity {
                         Map<String, String> eventParams = new HashMap<>();
                         eventParams.put("googleAdvertisingId", Utils.googleAdvertisingId[0]);
                         MyTracker.trackEvent("actualbackend_null", eventParams);
+
+                        if (sharedPreferences.getBoolean("ua_accept", false))
+                            startActivity(new Intent(SplashActivity.this, OfferActivity.class));
+                        else
+                            startActivity(UserAgreementActivity.newIntent(getApplicationContext(), appConfig.privacy_policy_html));
                     }
                 } else {
                     setData(false);
@@ -209,7 +214,7 @@ public class SplashActivity extends AppCompatActivity {
 
             String jsonAppConfig = sharedPreferences.getString("app_config", "");
             appConfig = gson.fromJson(jsonAppConfig, AppConfig.class);
-
+            user_term_html = appConfig.user_term_html;
         }
         if (appConfig != null) {
             if (appConfig.show_privacy_police == 1) {
@@ -223,6 +228,5 @@ public class SplashActivity extends AppCompatActivity {
         } else {
             startActivity(MainActivity.newIntent(getApplicationContext(), null, 0, 0));
         }
-
     }
 }

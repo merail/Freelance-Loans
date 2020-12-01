@@ -71,7 +71,7 @@ public class MessagingService extends FirebaseMessagingService {
             if (link.contains("credits"))
                 page = 2;
             pendingIntent = PendingIntent.getActivity(this,
-                    0, MainActivity.newIntent(this, link, page, tab),
+                    0, MainActivity.newIntent(this, null, page, tab),
                     PendingIntent.FLAG_ONE_SHOT);
         }
 
