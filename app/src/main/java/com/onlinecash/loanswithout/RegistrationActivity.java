@@ -106,7 +106,8 @@ public class RegistrationActivity extends AppCompatActivity {
 
                     ActivityCompat.requestPermissions(RegistrationActivity.this,
                             new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PICK_FROM_GALLERY);
-                    return false;
+
+                    return true;
                 } else {
                     if (uploadMessage != null) {
                         uploadMessage.onReceiveValue(null);
@@ -129,36 +130,36 @@ public class RegistrationActivity extends AppCompatActivity {
             }
         };
         webView.setWebChromeClient(webChromeClient);
-        //new WebChromeClient() {
-//            public boolean onShowFileChooser(WebView mWebView, ValueCallback<Uri[]> filePathCallback, WebChromeClient.FileChooserParams fileChooserParams) {
-//                if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE)
-//                        != PackageManager.PERMISSION_GRANTED)
-//                {
-//                    ActivityCompat.requestPermissions(RegistrationActivity.this,
-//                            new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PICK_FROM_GALLERY);
-//                    return false;
-//                }
-//                else {
-//                    if (uploadMessage != null) {
-//                        uploadMessage.onReceiveValue(null);
-//                        uploadMessage = null;
-//                    }
-//
-//                    uploadMessage = filePathCallback;
-//                    Intent intent = null;
-//                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//                        intent = fileChooserParams.createIntent();
-//                    }
-//                    try {
-//                        startActivityForResult(intent, FILE_CHOOSER_RESULT_CODE);
-//                    } catch (ActivityNotFoundException e) {
-//                        uploadMessage = null;
-//                        return false;
-//                    }
-//                    return true;
-//                }
-//            }
-//        });
+        new WebChromeClient() {
+            public boolean onShowFileChooser(WebView mWebView, ValueCallback<Uri[]> filePathCallback, WebChromeClient.FileChooserParams fileChooserParams) {
+                if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE)
+                        != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(RegistrationActivity.this,
+                            new String[]{Manifest.permission.READ_EXTERNAL_STORAGE
+                            , Manifest.permission.WRITE_EXTERNAL_STORAGE
+                            , Manifest.permission.CAMERA}, PICK_FROM_GALLERY);
+                    return false;
+                } else {
+                    if (uploadMessage != null) {
+                        uploadMessage.onReceiveValue(null);
+                        uploadMessage = null;
+                    }
+
+                    uploadMessage = filePathCallback;
+                    Intent intent = null;
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        intent = fileChooserParams.createIntent();
+                    }
+                    try {
+                        startActivityForResult(intent, FILE_CHOOSER_RESULT_CODE);
+                    } catch (ActivityNotFoundException e) {
+                        uploadMessage = null;
+                        return false;
+                    }
+                    return true;
+                }
+            }
+        };
 
 
         if (Utils.isNetworkAvailable(getApplicationContext())) {
@@ -174,6 +175,10 @@ public class RegistrationActivity extends AppCompatActivity {
 
             webView.getSettings().setDomStorageEnabled(true);
             webView.getSettings().setJavaScriptEnabled(true);
+            webView.getSettings().setAllowContentAccess(true);
+            webView.getSettings().setAllowFileAccess(true);
+            webView.getSettings().setAllowFileAccessFromFileURLs(true);
+            webView.getSettings().setAllowUniversalAccessFromFileURLs(true);
 
             webView.loadUrl(link);
         } else {
@@ -189,10 +194,24 @@ public class RegistrationActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
-        if (requestCode == PICK_FROM_GALLERY) {
+        if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE)
                     == PackageManager.PERMISSION_GRANTED)
                 webChromeClient.onShowFileChooser(chooserWebView, chooserFilePathCallback, chooserFileChooserParams);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode,
+                                    Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
+        if (requestCode == FILE_CHOOSER_RESULT_CODE) {
+            if (null == uploadMessage) return;
+            String result = intent == null || resultCode != RESULT_OK ? null
+                    : intent.getDataString();
+
+            uploadMessage.onReceiveValue(new Uri[]{Uri.parse(result)});
+            uploadMessage = null;
         }
     }
 }
