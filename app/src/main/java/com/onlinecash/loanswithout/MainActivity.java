@@ -8,6 +8,7 @@ import android.graphics.Point;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +20,8 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
+import com.facebook.FacebookSdk;
+import com.facebook.applinks.AppLinkData;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.gson.Gson;
 
@@ -58,6 +61,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Get user consent
+        FacebookSdk.setAutoInitEnabled(true);
+        FacebookSdk.fullyInitialize();
+        AppLinkData.fetchDeferredAppLinkData(this,
+                appLinkData -> {
+                    Log.d("aaaaaaaaaaa", appLinkData.getRef());
+                }
+        );
 
         informationImageButton = findViewById(R.id.informationImageButton);
         mainProgressBar = findViewById(R.id.mainProgressBar);

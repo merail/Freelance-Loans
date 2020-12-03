@@ -14,7 +14,7 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="UnusedAttribute">
-        <activity android:name=".SingleLoanActivity"></activity>
+        <activity android:name=".SingleLoanActivity" />
         <activity android:name=".RegistrationActivity" />
         <activity android:name=".ResultActivity" />
         <activity android:name=".ProcessingActivity" />

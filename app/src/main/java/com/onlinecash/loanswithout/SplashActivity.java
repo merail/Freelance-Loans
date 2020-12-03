@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -41,16 +42,23 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
+        sharedPreferences = getSharedPreferences("PREFS", Context.MODE_PRIVATE);
+
         // Get user consent
         FacebookSdk.setAutoInitEnabled(true);
         FacebookSdk.fullyInitialize();
         AppLinkData.fetchDeferredAppLinkData(this,
                 appLinkData -> {
-                    //Log.d("aaaaaaaaaaa", appLinkData.getRef());
+                    if(appLinkData != null) {
+                        if(appLinkData.getTargetUri() != null)
+                            sharedPreferences.edit().putString("facebook_deeplink", appLinkData.getTargetUri().toString()).apply();
+                        else
+                            sharedPreferences.edit().putString("facebook_deeplink", "not_available").apply();
+                    }
+                    else
+                        sharedPreferences.edit().putString("facebook_deeplink", "not_available").apply();
                 }
         );
-
-        sharedPreferences = getSharedPreferences("PREFS", Context.MODE_PRIVATE);
 
         final boolean hasConnection = Utils.isNetworkAvailable(getApplicationContext());
 
