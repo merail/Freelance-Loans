@@ -62,15 +62,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Get user consent
-        FacebookSdk.setAutoInitEnabled(true);
-        FacebookSdk.fullyInitialize();
-        AppLinkData.fetchDeferredAppLinkData(this,
-                appLinkData -> {
-                    Log.d("aaaaaaaaaaa", appLinkData.getRef());
-                }
-        );
-
         informationImageButton = findViewById(R.id.informationImageButton);
         mainProgressBar = findViewById(R.id.mainProgressBar);
         bottomNavigationView = findViewById(R.id.bottomNavigationBar);

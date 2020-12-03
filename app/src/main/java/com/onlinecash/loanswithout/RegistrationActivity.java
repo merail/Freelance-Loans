@@ -6,9 +6,11 @@ import android.annotation.TargetApi;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
@@ -36,6 +38,8 @@ public class RegistrationActivity extends AppCompatActivity {
     private ProgressBar webProgressBar;
     private ValueCallback<Uri[]> uploadMessage;
 
+    private String facebookDeepLink;
+
     public static Intent newIntent(Context packageContext, String order, String itemId) {
         Intent intent = new Intent(packageContext, RegistrationActivity.class);
 
@@ -50,6 +54,9 @@ public class RegistrationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
+
+        SharedPreferences sharedPreferences = getSharedPreferences("PREFS", Context.MODE_PRIVATE);
+        facebookDeepLink = sharedPreferences.getString("facebook_deep_link", "not_available");
 
         String order = Objects.requireNonNull(getIntent().getStringExtra(EXTRA_ORDER));
         String itemId = Objects.requireNonNull(getIntent().getStringExtra(EXTRA_ITEM_ID));
@@ -112,7 +119,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
         if (Utils.isNetworkAvailable(getApplicationContext())) {
             String link = order + "&aff_sub1=" + Utils.instanceId[0]
-                    + "&aff_sub2=" + "deep"
+                    + "&aff_sub2=" + facebookDeepLink
                     + "&aff_sub3=" + Utils.firebaseMessagingToken[0]
                     + "&aff_sub4=not_available"
                     + "&aff_sub5=" + Utils.googleAdvertisingId[0];
@@ -121,6 +128,9 @@ public class RegistrationActivity extends AppCompatActivity {
             YandexMetrica.reportEvent("external_link", eventParameters);
             MyTracker.trackEvent("external_link");
 
+            Log.d("aaaaaaaaaaaaa", link);
+
+            webView.getSettings().setDomStorageEnabled(true);
             webView.getSettings().setJavaScriptEnabled(true);
 
             webView.loadUrl(link);

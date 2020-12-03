@@ -51,12 +51,12 @@ public class SplashActivity extends AppCompatActivity {
                 appLinkData -> {
                     if(appLinkData != null) {
                         if(appLinkData.getTargetUri() != null)
-                            sharedPreferences.edit().putString("facebook_deeplink", appLinkData.getTargetUri().toString()).apply();
+                            sharedPreferences.edit().putString("facebook_deep_link", appLinkData.getTargetUri().toString()).apply();
                         else
-                            sharedPreferences.edit().putString("facebook_deeplink", "not_available").apply();
+                            sharedPreferences.edit().putString("facebook_deep_link", "not_available").apply();
                     }
                     else
-                        sharedPreferences.edit().putString("facebook_deeplink", "not_available").apply();
+                        sharedPreferences.edit().putString("facebook_deep_link", "not_available").apply();
                 }
         );
 
