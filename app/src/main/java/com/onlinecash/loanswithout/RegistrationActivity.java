@@ -7,10 +7,10 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
@@ -21,6 +21,7 @@ import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
@@ -36,9 +37,12 @@ public class RegistrationActivity extends AppCompatActivity {
     private static final String EXTRA_ITEM_ID = "item_id";
     private final static int FILE_CHOOSER_RESULT_CODE = 1;
     private ProgressBar webProgressBar;
+    private WebChromeClient webChromeClient;
     private ValueCallback<Uri[]> uploadMessage;
 
-    private String facebookDeepLink;
+    private WebView chooserWebView;
+    private ValueCallback<Uri[]> chooserFilePathCallback;
+    private WebChromeClient.FileChooserParams chooserFileChooserParams;
 
     public static Intent newIntent(Context packageContext, String order, String itemId) {
         Intent intent = new Intent(packageContext, RegistrationActivity.class);
@@ -56,7 +60,7 @@ public class RegistrationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_registration);
 
         SharedPreferences sharedPreferences = getSharedPreferences("PREFS", Context.MODE_PRIVATE);
-        facebookDeepLink = sharedPreferences.getString("facebook_deep_link", "not_available");
+        String facebookDeepLink = sharedPreferences.getString("facebook_deep_link", "not_available");
 
         String order = Objects.requireNonNull(getIntent().getStringExtra(EXTRA_ORDER));
         String itemId = Objects.requireNonNull(getIntent().getStringExtra(EXTRA_ITEM_ID));
@@ -90,31 +94,71 @@ public class RegistrationActivity extends AppCompatActivity {
                 webProgressBar.setVisibility(View.GONE);
             }
         });
-        webView.setWebChromeClient(new WebChromeClient() {
+
+        webChromeClient = new WebChromeClient() {
             public boolean onShowFileChooser(WebView mWebView, ValueCallback<Uri[]> filePathCallback, WebChromeClient.FileChooserParams fileChooserParams) {
-                ActivityCompat.requestPermissions(RegistrationActivity.this,
-                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE,
-                                Manifest.permission.WRITE_EXTERNAL_STORAGE}, PICK_FROM_GALLERY);
+                if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE)
+                        != PackageManager.PERMISSION_GRANTED) {
 
-                if (uploadMessage != null) {
-                    uploadMessage.onReceiveValue(null);
-                    uploadMessage = null;
-                }
+                    chooserWebView = mWebView;
+                    chooserFilePathCallback = filePathCallback;
+                    chooserFileChooserParams = fileChooserParams;
 
-                uploadMessage = filePathCallback;
-                Intent intent = null;
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    intent = fileChooserParams.createIntent();
-                }
-                try {
-                    startActivityForResult(intent, FILE_CHOOSER_RESULT_CODE);
-                } catch (ActivityNotFoundException e) {
-                    uploadMessage = null;
+                    ActivityCompat.requestPermissions(RegistrationActivity.this,
+                            new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PICK_FROM_GALLERY);
                     return false;
+                } else {
+                    if (uploadMessage != null) {
+                        uploadMessage.onReceiveValue(null);
+                        uploadMessage = null;
+                    }
+
+                    uploadMessage = filePathCallback;
+                    Intent intent = null;
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        intent = fileChooserParams.createIntent();
+                    }
+                    try {
+                        startActivityForResult(intent, FILE_CHOOSER_RESULT_CODE);
+                    } catch (ActivityNotFoundException e) {
+                        uploadMessage = null;
+                        return false;
+                    }
+                    return true;
                 }
-                return true;
             }
-        });
+        };
+        webView.setWebChromeClient(webChromeClient);
+        //new WebChromeClient() {
+//            public boolean onShowFileChooser(WebView mWebView, ValueCallback<Uri[]> filePathCallback, WebChromeClient.FileChooserParams fileChooserParams) {
+//                if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE)
+//                        != PackageManager.PERMISSION_GRANTED)
+//                {
+//                    ActivityCompat.requestPermissions(RegistrationActivity.this,
+//                            new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PICK_FROM_GALLERY);
+//                    return false;
+//                }
+//                else {
+//                    if (uploadMessage != null) {
+//                        uploadMessage.onReceiveValue(null);
+//                        uploadMessage = null;
+//                    }
+//
+//                    uploadMessage = filePathCallback;
+//                    Intent intent = null;
+//                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//                        intent = fileChooserParams.createIntent();
+//                    }
+//                    try {
+//                        startActivityForResult(intent, FILE_CHOOSER_RESULT_CODE);
+//                    } catch (ActivityNotFoundException e) {
+//                        uploadMessage = null;
+//                        return false;
+//                    }
+//                    return true;
+//                }
+//            }
+//        });
 
 
         if (Utils.isNetworkAvailable(getApplicationContext())) {
@@ -124,11 +168,9 @@ public class RegistrationActivity extends AppCompatActivity {
                     + "&aff_sub4=not_available"
                     + "&aff_sub5=" + Utils.googleAdvertisingId[0];
 
-            String eventParameters = "{\"оффер\":{\"" + itemId + "\":{" + "\"more_details\":{\"" + link + "\"}}}";
+            String eventParameters = "{\"" + itemId + "\":{" + "\"more_details\":{\"" + link + "\"}}";
             YandexMetrica.reportEvent("external_link", eventParameters);
             MyTracker.trackEvent("external_link");
-
-            Log.d("aaaaaaaaaaaaa", link);
 
             webView.getSettings().setDomStorageEnabled(true);
             webView.getSettings().setJavaScriptEnabled(true);
@@ -141,5 +183,16 @@ public class RegistrationActivity extends AppCompatActivity {
         }
 
         closeImageButton.setOnClickListener(view -> onBackPressed());
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == PICK_FROM_GALLERY) {
+            if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE)
+                    == PackageManager.PERMISSION_GRANTED)
+                webChromeClient.onShowFileChooser(chooserWebView, chooserFilePathCallback, chooserFileChooserParams);
+        }
     }
 }
