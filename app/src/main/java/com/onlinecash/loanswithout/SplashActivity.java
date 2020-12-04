@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -36,12 +37,44 @@ public class SplashActivity extends AppCompatActivity {
 
     private SharedPreferences sharedPreferences;
 
+    private int page = 0;
+    private int tab = 0;
+    private int element = 0;
+    private String openType = "offerwall";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
         sharedPreferences = getSharedPreferences("PREFS", Context.MODE_PRIVATE);
+
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            String link = bundle.getString("link");
+            if (link != null) {
+                if (link.contains("cards")) {
+                    if (link.contains("cards_credit"))
+                        page = 1;
+                    if (link.contains("cards_debit")) {
+                        page = 1;
+                        tab = 1;
+                    }
+                    if (link.contains("cards_installment")) {
+                        page = 1;
+                        tab = 2;
+                    }
+                }
+                if (link.contains("credits"))
+                    page = 2;
+
+                if (link.contains("/")) {
+                    openType = "mordetails";
+                    String[] linkList = link.split("/");
+                    element = Integer.parseInt(linkList[1]);
+                }
+            }
+        }
 
         // Get user consent
         FacebookSdk.setAutoInitEnabled(true);
@@ -232,10 +265,10 @@ public class SplashActivity extends AppCompatActivity {
                 else
                     startActivity(UserAgreementActivity.newIntent(getApplicationContext(), appConfig.privacy_policy_html));
             } else {
-                startActivity(MainActivity.newIntent(getApplicationContext(), user_term_html, 0, 0, 0));
+                startActivity(MainActivity.newIntent(getApplicationContext(), user_term_html, page, tab, element, openType));
             }
         } else {
-            startActivity(MainActivity.newIntent(getApplicationContext(), null, 0, 0, 0));
+            startActivity(MainActivity.newIntent(getApplicationContext(), null, page, tab, element, openType));
         }
     }
 }

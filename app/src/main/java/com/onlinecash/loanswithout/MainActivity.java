@@ -15,6 +15,7 @@ import android.widget.ImageButton;
 import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
@@ -36,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String EXTRA_LOANS = "loans";
     private static final String EXTRA_CARDS = "cards";
     private static final String EXTRA_CREDITS = "credits";
+    private static final String EXTRA_OPEN_TYPE = "credits";
 
     private int page = 0;
     private int tab = 0;
@@ -47,13 +49,14 @@ public class MainActivity extends AppCompatActivity {
     private ProgressBar mainProgressBar;
     private BottomNavigationView bottomNavigationView;
 
-    public static Intent newIntent(Context packageContext, String user_term_html, int page, int tab, int element) {
+    public static Intent newIntent(Context packageContext, String user_term_html, int page, int tab, int element, String openType) {
         Intent intent = new Intent(packageContext, MainActivity.class);
 
         intent.putExtra(EXTRA_TERM, user_term_html);
         intent.putExtra(EXTRA_PAGE, page);
         intent.putExtra(EXTRA_TAB, tab);
         intent.putExtra(EXTRA_ELEMENT, element);
+        intent.putExtra(EXTRA_OPEN_TYPE, openType);
 
         return intent;
     }
@@ -76,33 +79,7 @@ public class MainActivity extends AppCompatActivity {
         page = getIntent().getIntExtra(EXTRA_PAGE, 0);
         tab = getIntent().getIntExtra(EXTRA_TAB, 0);
         element = getIntent().getIntExtra(EXTRA_ELEMENT, 0);
-
-        Bundle bundle = getIntent().getExtras();
-        if (bundle != null) {
-            String link = bundle.getString("link");
-            if (link != null) {
-                if (link.contains("cards")) {
-                    if (link.contains("cards_credit"))
-                        page = 1;
-                    if (link.contains("cards_debit")) {
-                        page = 1;
-                        tab = 1;
-                    }
-                    if (link.contains("cards_installment")) {
-                        page = 1;
-                        tab = 2;
-                    }
-                }
-                if (link.contains("credits"))
-                    page = 2;
-
-                if (link.contains("/")) {
-                    openType = "mordetails";
-                    String[] linkList = link.split("/");
-                    element = Integer.parseInt(linkList[1]);
-                }
-            }
-        }
+        openType = getIntent().getStringExtra(EXTRA_OPEN_TYPE);
 
         SharedPreferences sharedPreferences = getSharedPreferences("PREFS", Context.MODE_PRIVATE);
 

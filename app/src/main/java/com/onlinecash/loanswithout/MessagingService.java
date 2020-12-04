@@ -71,7 +71,7 @@ public class MessagingService extends FirebaseMessagingService {
         }
 
         pendingIntent = PendingIntent.getActivity(this,
-                0, MainActivity.newIntent(this, null, page, tab, element),
+                0, MainActivity.newIntent(this, null, page, tab, element, "moredetails"),
                 PendingIntent.FLAG_ONE_SHOT);
 
 
