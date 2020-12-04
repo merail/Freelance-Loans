@@ -46,6 +46,7 @@ public class RegistrationActivity extends AppCompatActivity {
     private static final int PICK_FROM_GALLERY = 2;
     private static final String EXTRA_ORDER = "ORDER";
     private static final String EXTRA_ITEM_ID = "item_id";
+    private static final String EXTRA_TYPE = "type";
     private final static int FILE_CHOOSER_RESULT_CODE = 1;
     private ValueCallback<Uri> mUploadMessage;
     private Uri mCapturedImageURI = null;
@@ -63,11 +64,12 @@ public class RegistrationActivity extends AppCompatActivity {
     private ValueCallback<Uri[]> chooserFilePathCallback;
     private WebChromeClient.FileChooserParams chooserFileChooserParams;
 
-    public static Intent newIntent(Context packageContext, String order, String itemId) {
+    public static Intent newIntent(Context packageContext, String order, String itemId, String type) {
         Intent intent = new Intent(packageContext, RegistrationActivity.class);
 
         intent.putExtra(EXTRA_ORDER, order);
         intent.putExtra(EXTRA_ITEM_ID, itemId);
+        intent.putExtra(EXTRA_TYPE, type);
 
         return intent;
     }
@@ -86,6 +88,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
         String order = Objects.requireNonNull(getIntent().getStringExtra(EXTRA_ORDER));
         String itemId = Objects.requireNonNull(getIntent().getStringExtra(EXTRA_ITEM_ID));
+        String type = getIntent().getStringExtra(EXTRA_TYPE);
 
         ImageButton closeImageButton = findViewById(R.id.closeImageButton);
         webProgressBar = findViewById(R.id.webProgressBar);
@@ -234,7 +237,7 @@ public class RegistrationActivity extends AppCompatActivity {
                     + "&aff_sub4=not_available"
                     + "&aff_sub5=" + Utils.googleAdvertisingId[0];
 
-            String eventParameters = "{\"" + itemId + "\":{" + "\"more_details\":{\"" + link + "\"}}";
+            String eventParameters = "{\"" + itemId + "\":{" + "\"" + type + "\":{\"" + link + "\"}}";
             YandexMetrica.reportEvent("external_link", eventParameters);
             MyTracker.trackEvent("external_link");
 

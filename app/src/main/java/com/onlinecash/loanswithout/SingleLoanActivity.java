@@ -152,7 +152,7 @@ public class SingleLoanActivity extends AppCompatActivity {
             documentsTextView.setText(Html.fromHtml(loans.get(position).description));
 
             registrationImageButton.setOnClickListener(view -> getApplicationContext().startActivity(RegistrationActivity
-                    .newIntent(getApplicationContext(), loans.get(position).order, loans.get(position).itemId)));
+                    .newIntent(getApplicationContext(), loans.get(position).order, loans.get(position).itemId, "more_details")));
 
             if (sharedPreferences.contains("favourite:" + loans.get(position).name)) {
                 favouriteImageButton.setBackgroundResource(R.drawable.favourite_selected);

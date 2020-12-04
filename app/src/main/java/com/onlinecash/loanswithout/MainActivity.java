@@ -34,25 +34,28 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String EXTRA_TERM = "user_term_html";
     private static final String EXTRA_PAGE = "page";
-    private static final String EXTRA_TAB = "page";
+    private static final String EXTRA_TAB = "tab";
+    private static final String EXTRA_ELEMENT = "element";
     private static final String EXTRA_LOANS = "loans";
     private static final String EXTRA_CARDS = "cards";
     private static final String EXTRA_CREDITS = "credits";
 
     private int page = 0;
     private int tab = 0;
+    private int element = 0;
 
     private ImageButton informationImageButton;
     private TextView pageLabelTextView;
     private ProgressBar mainProgressBar;
     private BottomNavigationView bottomNavigationView;
 
-    public static Intent newIntent(Context packageContext, String user_term_html, int page, int tab) {
+    public static Intent newIntent(Context packageContext, String user_term_html, int page, int tab, int element) {
         Intent intent = new Intent(packageContext, MainActivity.class);
 
         intent.putExtra(EXTRA_TERM, user_term_html);
         intent.putExtra(EXTRA_PAGE, page);
         intent.putExtra(EXTRA_TAB, tab);
+        intent.putExtra(EXTRA_ELEMENT, element);
 
         return intent;
     }
@@ -73,7 +76,9 @@ public class MainActivity extends AppCompatActivity {
         }
 
         page = getIntent().getIntExtra(EXTRA_PAGE, 0);
+        Log.d("aaaaaaaaaaaa", String.valueOf(page));
         tab = getIntent().getIntExtra(EXTRA_TAB, 0);
+        element = getIntent().getIntExtra(EXTRA_ELEMENT, 0);
 
         SharedPreferences sharedPreferences = getSharedPreferences("PREFS", Context.MODE_PRIVATE);
 
@@ -98,25 +103,37 @@ public class MainActivity extends AppCompatActivity {
         mainProgressBar.setVisibility(View.GONE);
 
         final FragmentManager fragmentManager = getSupportFragmentManager();
-        LoansFragment loansFragment = LoansFragment.newInstance(loans);
+
+        int loanElement = 0;
+        if (page == 0)
+            loanElement = element;
+        LoansFragment loansFragment = LoansFragment.newInstance(loans, loanElement);
+
         fragmentManager.beginTransaction().add(R.id.main_container, loansFragment, LOANS_FRAGMENT_TAG).commit();
 
+        int finalLoanElement = loanElement;
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
                 case R.id.loansPage:
                     pageLabelTextView.setText(getString(R.string.loans_page));
                     fragmentManager.beginTransaction().replace(R.id.main_container,
-                            LoansFragment.newInstance(loans), LOANS_FRAGMENT_TAG).commit();
+                            LoansFragment.newInstance(loans, finalLoanElement), LOANS_FRAGMENT_TAG).commit();
                     return true;
                 case R.id.cardsPage:
+                    int cardElement = 0;
+                    if (page == 1)
+                        cardElement = element;
                     pageLabelTextView.setText(getString(R.string.cards_page));
                     fragmentManager.beginTransaction().replace(R.id.main_container,
-                            CardsFragment.newInstance(cards, tab), CARDS_FRAGMENT_TAG).commit();
+                            CardsFragment.newInstance(cards, tab, cardElement), CARDS_FRAGMENT_TAG).commit();
                     return true;
                 case R.id.creditsPage:
+                    int creditElement = 0;
+                    if (page == 2)
+                        creditElement = element;
                     pageLabelTextView.setText(getString(R.string.credits_page));
                     fragmentManager.beginTransaction().replace(R.id.main_container,
-                            CreditsFragment.newInstance(credits), CREDITS_FRAGMENT_TAG).commit();
+                            CreditsFragment.newInstance(credits, creditElement), CREDITS_FRAGMENT_TAG).commit();
                     return true;
                 case R.id.favouritesPage:
                     pageLabelTextView.setText(getString(R.string.favourites_page));

@@ -25,9 +25,11 @@ public class CardsFragment extends Fragment {
 
     private static final String ARG_CARDS = "cards";
     private static final String ARG_TAB = "tab";
+    private static final String ARG_ELEMENT = "tab";
 
     private TextView connectionStatusTextView;
     private RecyclerView cardsRecyclerView;
+    private int element;
 
     private Cards[] cards;
     private int tab;
@@ -39,12 +41,14 @@ public class CardsFragment extends Fragment {
      * @param cards cards.
      * @return A new instance of fragment CardsFragment.
      */
-    public static CardsFragment newInstance(Cards[] cards, int tab) {
+    public static CardsFragment newInstance(Cards[] cards, int tab, int element) {
         CardsFragment fragment = new CardsFragment();
 
         Bundle args = new Bundle();
         args.putParcelableArray(ARG_CARDS, cards);
         args.putInt(ARG_TAB, tab);
+        args.putInt(ARG_ELEMENT, element);
+
         fragment.setArguments(args);
 
         return fragment;
@@ -56,6 +60,7 @@ public class CardsFragment extends Fragment {
         if (getArguments() != null) {
             cards = (Cards[]) getArguments().getParcelableArray(ARG_CARDS);
             tab = getArguments().getInt(ARG_TAB);
+            element = getArguments().getInt(ARG_ELEMENT);
         }
     }
 
@@ -113,6 +118,7 @@ public class CardsFragment extends Fragment {
             LoansAdapter loansAdapter = new LoansAdapter(Objects.requireNonNull(getContext()), cardsArrayList,
                     false, null);
             cardsRecyclerView.setAdapter(loansAdapter);
+            cardsRecyclerView.scrollToPosition(element);
         } else {
             connectionStatusTextView.setVisibility(View.VISIBLE);
         }

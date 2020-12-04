@@ -22,8 +22,10 @@ import java.util.Objects;
 public class CreditsFragment extends Fragment {
 
     private static final String ARG_CREDITS = "credits";
+    private static final String ARG_ELEMENT = "element";
 
     private Loan[] credits;
+    private int element;
 
     /**
      * Use this factory method to create a new instance of
@@ -32,11 +34,12 @@ public class CreditsFragment extends Fragment {
      * @param credits credits.
      * @return A new instance of fragment CreditsFragment.
      */
-    public static CreditsFragment newInstance(Loan[] credits) {
+    public static CreditsFragment newInstance(Loan[] credits, int element) {
         CreditsFragment fragment = new CreditsFragment();
 
         Bundle args = new Bundle();
         args.putParcelableArray(ARG_CREDITS, credits);
+        args.putInt(ARG_ELEMENT, element);
         fragment.setArguments(args);
 
         return fragment;
@@ -47,6 +50,7 @@ public class CreditsFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             credits = (Loan[]) getArguments().getParcelableArray(ARG_CREDITS);
+            element = getArguments().getInt(ARG_ELEMENT);
         }
     }
 
@@ -68,6 +72,7 @@ public class CreditsFragment extends Fragment {
             LoansAdapter loansAdapter = new LoansAdapter(Objects.requireNonNull(getContext()), loanArrayList,
                     false, null);
             loansRecyclerView.setAdapter(loansAdapter);
+            loansRecyclerView.scrollToPosition(element);
         } else {
             connectionStatusTextView.setVisibility(View.VISIBLE);
         }

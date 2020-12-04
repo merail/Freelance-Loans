@@ -47,33 +47,33 @@ public class MessagingService extends FirebaseMessagingService {
 
     private void createNotification(String title, String body, String imageUrl, String link) {
         PendingIntent pendingIntent;
+
+        int page = 0;
+        int tab = 0;
+        int element = 0;
+        if (link.contains("cards")) {
+            if (link.contains("cards_credit"))
+                page = 1;
+            if (link.contains("cards_debit")) {
+                page = 1;
+                tab = 1;
+            }
+            if (link.contains("cards_installment")) {
+                page = 1;
+                tab = 2;
+            }
+        }
+        if (link.contains("credits"))
+            page = 2;
+
         if (link.contains("/")) {
             String[] linkList = link.split("/");
-
-            pendingIntent = PendingIntent.getActivity(this,
-                    0, SingleLoanActivity.newIntent(this, linkList[0], linkList[1]),
-                    PendingIntent.FLAG_ONE_SHOT);
-        } else {
-            int page = 0;
-            int tab = 0;
-            if (link.contains("cards")) {
-                if (link.contains("cards_credit"))
-                    page = 1;
-                if (link.contains("cards_debit")) {
-                    page = 1;
-                    tab = 1;
-                }
-                if (link.contains("cards_installment")) {
-                    page = 1;
-                    tab = 2;
-                }
-            }
-            if (link.contains("credits"))
-                page = 2;
-            pendingIntent = PendingIntent.getActivity(this,
-                    0, MainActivity.newIntent(this, null, page, tab),
-                    PendingIntent.FLAG_ONE_SHOT);
+            element = Integer.parseInt(linkList[1]);
         }
+
+        pendingIntent = PendingIntent.getActivity(this,
+                0, MainActivity.newIntent(this, null, page, tab, element),
+                PendingIntent.FLAG_ONE_SHOT);
 
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, getResources()

@@ -111,7 +111,7 @@ public class LoansAdapter extends RecyclerView.Adapter<LoansAdapter.LoansHolder>
         holder.documentsTextView.setText(Html.fromHtml(loans.get(position).description));
 
         holder.registrationImageButton.setOnClickListener(view -> context.startActivity(RegistrationActivity
-                .newIntent(context, loans.get(position).order, loans.get(position).itemId)));
+                .newIntent(context, loans.get(position).order, loans.get(position).itemId, "offerwall")));
 
         if (sharedPreferences.contains("favourite:" + loans.get(position).name)) {
             holder.favouriteImageButton.setBackgroundResource(R.drawable.favourite_selected);

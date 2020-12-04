@@ -1,6 +1,7 @@
 package com.onlinecash.loanswithout;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +30,7 @@ public class LoansFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private Boolean hasConnection;
     private Loan[] loans;
+    private int element;
 
     public LoansFragment() {
         // Required empty public constructor
@@ -42,10 +44,11 @@ public class LoansFragment extends Fragment {
      * @return A new instance of fragment LoansFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static LoansFragment newInstance(Loan[] loans) {
+    public static LoansFragment newInstance(Loan[] loans, int element) {
         LoansFragment fragment = new LoansFragment();
         Bundle args = new Bundle();
-        args.putParcelableArray(ARG_PARAM2, loans);
+        args.putParcelableArray(ARG_PARAM1, loans);
+        args.putInt(ARG_PARAM2, element);
         fragment.setArguments(args);
         return fragment;
     }
@@ -54,7 +57,8 @@ public class LoansFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            loans = (Loan[]) getArguments().getParcelableArray(ARG_PARAM2);
+            loans = (Loan[]) getArguments().getParcelableArray(ARG_PARAM1);
+            element = getArguments().getInt(ARG_PARAM2);
         }
     }
 
@@ -62,7 +66,6 @@ public class LoansFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_loans, container, false);
-
         TextView connectionStatusTextView = v.findViewById(R.id.connectionStatusTextView);
         RecyclerView loansRecyclerView = v.findViewById(R.id.favouritesRecyclerView);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
@@ -73,6 +76,7 @@ public class LoansFragment extends Fragment {
             LoansAdapter loansAdapter = new LoansAdapter(Objects.requireNonNull(getContext()), loanArrayList,
                     false, null);
             loansRecyclerView.setAdapter(loansAdapter);
+            loansRecyclerView.scrollToPosition(element);
         } else {
             connectionStatusTextView.setVisibility(View.VISIBLE);
         }
