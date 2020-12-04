@@ -16,15 +16,18 @@
                 android:layout_height="wrap_content">
                 <TextView
                     android:id="@+id/bankNameTextView"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:maxLines="2"
+                    android:singleLine="false"
                     android:layout_marginStart="16dp"
+                    android:layout_marginEnd="5dp"
                     android:layout_marginVertical="10dp"
-                    android:text="Ренессанс Кредит"
                     android:textSize="16sp"
                     android:textColor="@color/labelColor"
                     android:fontFamily="@font/ubuntu"
                     app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/starImageView"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
