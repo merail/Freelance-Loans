@@ -25,11 +25,13 @@ public class CardsFragment extends Fragment {
 
     private static final String ARG_CARDS = "cards";
     private static final String ARG_TAB = "tab";
-    private static final String ARG_ELEMENT = "tab";
+    private static final String ARG_ELEMENT = "element";
+    private static final String ARG_OPEN_TYPE = "open_type";
 
     private TextView connectionStatusTextView;
     private RecyclerView cardsRecyclerView;
     private int element;
+    private String openType = "offerwall";
 
     private Cards[] cards;
     private int tab;
@@ -41,13 +43,14 @@ public class CardsFragment extends Fragment {
      * @param cards cards.
      * @return A new instance of fragment CardsFragment.
      */
-    public static CardsFragment newInstance(Cards[] cards, int tab, int element) {
+    public static CardsFragment newInstance(Cards[] cards, int tab, int element, String openType) {
         CardsFragment fragment = new CardsFragment();
 
         Bundle args = new Bundle();
         args.putParcelableArray(ARG_CARDS, cards);
         args.putInt(ARG_TAB, tab);
         args.putInt(ARG_ELEMENT, element);
+        args.putString(ARG_OPEN_TYPE, openType);
 
         fragment.setArguments(args);
 
@@ -61,6 +64,7 @@ public class CardsFragment extends Fragment {
             cards = (Cards[]) getArguments().getParcelableArray(ARG_CARDS);
             tab = getArguments().getInt(ARG_TAB);
             element = getArguments().getInt(ARG_ELEMENT);
+            openType = getArguments().getString(ARG_OPEN_TYPE);
         }
     }
 
@@ -116,7 +120,7 @@ public class CardsFragment extends Fragment {
             else
                 Collections.addAll(cardsArrayList, cards[2].cards_installment);
             LoansAdapter loansAdapter = new LoansAdapter(Objects.requireNonNull(getContext()), cardsArrayList,
-                    false, null);
+                    false, null, openType, element);
             cardsRecyclerView.setAdapter(loansAdapter);
             cardsRecyclerView.scrollToPosition(element);
         } else {

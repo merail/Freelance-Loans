@@ -47,7 +47,6 @@ public class MessagingService extends FirebaseMessagingService {
 
     private void createNotification(String title, String body, String imageUrl, String link) {
         PendingIntent pendingIntent;
-
         int page = 0;
         int tab = 0;
         int element = 0;

@@ -1,7 +1,6 @@
 package com.onlinecash.loanswithout;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,11 +25,13 @@ public class LoansFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private static final String ARG_PARAM3 = "param3";
 
     // TODO: Rename and change types of parameters
     private Boolean hasConnection;
     private Loan[] loans;
     private int element;
+    private String openType;
 
     public LoansFragment() {
         // Required empty public constructor
@@ -44,11 +45,12 @@ public class LoansFragment extends Fragment {
      * @return A new instance of fragment LoansFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static LoansFragment newInstance(Loan[] loans, int element) {
+    public static LoansFragment newInstance(Loan[] loans, int element, String openType) {
         LoansFragment fragment = new LoansFragment();
         Bundle args = new Bundle();
         args.putParcelableArray(ARG_PARAM1, loans);
         args.putInt(ARG_PARAM2, element);
+        args.putString(ARG_PARAM3, openType);
         fragment.setArguments(args);
         return fragment;
     }
@@ -59,6 +61,7 @@ public class LoansFragment extends Fragment {
         if (getArguments() != null) {
             loans = (Loan[]) getArguments().getParcelableArray(ARG_PARAM1);
             element = getArguments().getInt(ARG_PARAM2);
+            openType = getArguments().getString(ARG_PARAM3);
         }
     }
 
@@ -74,7 +77,7 @@ public class LoansFragment extends Fragment {
             ArrayList<Loan> loanArrayList = new ArrayList<>();
             Collections.addAll(loanArrayList, loans);
             LoansAdapter loansAdapter = new LoansAdapter(Objects.requireNonNull(getContext()), loanArrayList,
-                    false, null);
+                    false, null, openType, element);
             loansRecyclerView.setAdapter(loansAdapter);
             loansRecyclerView.scrollToPosition(element);
         } else {

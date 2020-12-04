@@ -23,9 +23,11 @@ public class CreditsFragment extends Fragment {
 
     private static final String ARG_CREDITS = "credits";
     private static final String ARG_ELEMENT = "element";
+    private static final String ARG_OPEN_TYPE = "open_type";
 
     private Loan[] credits;
     private int element;
+    private String openType = "offerwall";
 
     /**
      * Use this factory method to create a new instance of
@@ -34,12 +36,13 @@ public class CreditsFragment extends Fragment {
      * @param credits credits.
      * @return A new instance of fragment CreditsFragment.
      */
-    public static CreditsFragment newInstance(Loan[] credits, int element) {
+    public static CreditsFragment newInstance(Loan[] credits, int element, String openType) {
         CreditsFragment fragment = new CreditsFragment();
 
         Bundle args = new Bundle();
         args.putParcelableArray(ARG_CREDITS, credits);
         args.putInt(ARG_ELEMENT, element);
+        args.putString(ARG_OPEN_TYPE, openType);
         fragment.setArguments(args);
 
         return fragment;
@@ -51,6 +54,7 @@ public class CreditsFragment extends Fragment {
         if (getArguments() != null) {
             credits = (Loan[]) getArguments().getParcelableArray(ARG_CREDITS);
             element = getArguments().getInt(ARG_ELEMENT);
+            openType = getArguments().getString(ARG_OPEN_TYPE);
         }
     }
 
@@ -70,7 +74,7 @@ public class CreditsFragment extends Fragment {
             ArrayList<Loan> loanArrayList = new ArrayList<>();
             Collections.addAll(loanArrayList, credits);
             LoansAdapter loansAdapter = new LoansAdapter(Objects.requireNonNull(getContext()), loanArrayList,
-                    false, null);
+                    false, null, openType, element);
             loansRecyclerView.setAdapter(loansAdapter);
             loansRecyclerView.scrollToPosition(element);
         } else {

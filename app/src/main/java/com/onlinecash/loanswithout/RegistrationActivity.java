@@ -238,6 +238,7 @@ public class RegistrationActivity extends AppCompatActivity {
                     + "&aff_sub5=" + Utils.googleAdvertisingId[0];
 
             String eventParameters = "{\"" + itemId + "\":{" + "\"" + type + "\":{\"" + link + "\"}}";
+
             YandexMetrica.reportEvent("external_link", eventParameters);
             MyTracker.trackEvent("external_link");
 

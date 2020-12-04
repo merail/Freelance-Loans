@@ -8,7 +8,6 @@ import android.graphics.Point;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.method.ScrollingMovementMethod;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,8 +19,6 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
-import com.facebook.FacebookSdk;
-import com.facebook.applinks.AppLinkData;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.gson.Gson;
 
@@ -43,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     private int page = 0;
     private int tab = 0;
     private int element = 0;
+    private String openType = "offerwall";
 
     private ImageButton informationImageButton;
     private TextView pageLabelTextView;
@@ -76,9 +74,35 @@ public class MainActivity extends AppCompatActivity {
         }
 
         page = getIntent().getIntExtra(EXTRA_PAGE, 0);
-        Log.d("aaaaaaaaaaaa", String.valueOf(page));
         tab = getIntent().getIntExtra(EXTRA_TAB, 0);
         element = getIntent().getIntExtra(EXTRA_ELEMENT, 0);
+
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            String link = bundle.getString("link");
+            if (link != null) {
+                if (link.contains("cards")) {
+                    if (link.contains("cards_credit"))
+                        page = 1;
+                    if (link.contains("cards_debit")) {
+                        page = 1;
+                        tab = 1;
+                    }
+                    if (link.contains("cards_installment")) {
+                        page = 1;
+                        tab = 2;
+                    }
+                }
+                if (link.contains("credits"))
+                    page = 2;
+
+                if (link.contains("/")) {
+                    openType = "mordetails";
+                    String[] linkList = link.split("/");
+                    element = Integer.parseInt(linkList[1]);
+                }
+            }
+        }
 
         SharedPreferences sharedPreferences = getSharedPreferences("PREFS", Context.MODE_PRIVATE);
 
@@ -107,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
         int loanElement = 0;
         if (page == 0)
             loanElement = element;
-        LoansFragment loansFragment = LoansFragment.newInstance(loans, loanElement);
+        LoansFragment loansFragment = LoansFragment.newInstance(loans, loanElement, openType);
 
         fragmentManager.beginTransaction().add(R.id.main_container, loansFragment, LOANS_FRAGMENT_TAG).commit();
 
@@ -117,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.loansPage:
                     pageLabelTextView.setText(getString(R.string.loans_page));
                     fragmentManager.beginTransaction().replace(R.id.main_container,
-                            LoansFragment.newInstance(loans, finalLoanElement), LOANS_FRAGMENT_TAG).commit();
+                            LoansFragment.newInstance(loans, finalLoanElement, openType), LOANS_FRAGMENT_TAG).commit();
                     return true;
                 case R.id.cardsPage:
                     int cardElement = 0;
@@ -125,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
                         cardElement = element;
                     pageLabelTextView.setText(getString(R.string.cards_page));
                     fragmentManager.beginTransaction().replace(R.id.main_container,
-                            CardsFragment.newInstance(cards, tab, cardElement), CARDS_FRAGMENT_TAG).commit();
+                            CardsFragment.newInstance(cards, tab, cardElement, openType), CARDS_FRAGMENT_TAG).commit();
                     return true;
                 case R.id.creditsPage:
                     int creditElement = 0;
@@ -133,7 +157,7 @@ public class MainActivity extends AppCompatActivity {
                         creditElement = element;
                     pageLabelTextView.setText(getString(R.string.credits_page));
                     fragmentManager.beginTransaction().replace(R.id.main_container,
-                            CreditsFragment.newInstance(credits, creditElement), CREDITS_FRAGMENT_TAG).commit();
+                            CreditsFragment.newInstance(credits, creditElement, openType), CREDITS_FRAGMENT_TAG).commit();
                     return true;
                 case R.id.favouritesPage:
                     pageLabelTextView.setText(getString(R.string.favourites_page));
@@ -153,6 +177,8 @@ public class MainActivity extends AppCompatActivity {
             bottomNavigationView.setSelectedItemId(R.id.creditsPage);
         else
             bottomNavigationView.setSelectedItemId(R.id.favouritesPage);
+
+        openType = "offerwall";
     }
 
     private void setInformationWindow(String user_term_html) {

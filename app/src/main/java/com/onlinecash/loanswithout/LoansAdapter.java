@@ -3,6 +3,7 @@ package com.onlinecash.loanswithout;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,13 +26,17 @@ public class LoansAdapter extends RecyclerView.Adapter<LoansAdapter.LoansHolder>
     private final SharedPreferences sharedPreferences;
     private final boolean isFavouriteFragment;
     private final OnLastFavouriteRemoveListener onLastFavouriteRemoveListener;
+    private String openType = "offerwall";
+    private int element;
 
     public LoansAdapter(Context context, ArrayList<Loan> loans, boolean isFavouriteFragment
-            , OnLastFavouriteRemoveListener onLastFavouriteRemoveListener) {
+            , OnLastFavouriteRemoveListener onLastFavouriteRemoveListener, String openType, int element) {
         this.context = context;
         this.loans = loans;
         this.isFavouriteFragment = isFavouriteFragment;
         this.onLastFavouriteRemoveListener = onLastFavouriteRemoveListener;
+        this.openType = openType;
+        this.element = element;
 
         sharedPreferences = context.getSharedPreferences("PREFS", Context.MODE_PRIVATE);
     }
@@ -110,8 +115,17 @@ public class LoansAdapter extends RecyclerView.Adapter<LoansAdapter.LoansHolder>
 
         holder.documentsTextView.setText(Html.fromHtml(loans.get(position).description));
 
-        holder.registrationImageButton.setOnClickListener(view -> context.startActivity(RegistrationActivity
-                .newIntent(context, loans.get(position).order, loans.get(position).itemId, "offerwall")));
+        holder.registrationImageButton.setOnClickListener(view -> {
+            if (position != element) {
+                Log.d("eeeeeeeeeee", String.valueOf(element));
+                openType = "offerwall";
+                element = -1;
+            }
+            context.startActivity(RegistrationActivity
+                    .newIntent(context, loans.get(position).order, loans.get(position).itemId, openType));
+
+            openType = "offerwall";
+        });
 
         if (sharedPreferences.contains("favourite:" + loans.get(position).name)) {
             holder.favouriteImageButton.setBackgroundResource(R.drawable.favourite_selected);
@@ -124,7 +138,7 @@ public class LoansAdapter extends RecyclerView.Adapter<LoansAdapter.LoansHolder>
 
                 if (isFavouriteFragment) {
                     loans.remove(position);
-                    if(loans.isEmpty())
+                    if (loans.isEmpty())
                         onLastFavouriteRemoveListener.onLastFavouriteRemove();
                     notifyDataSetChanged();
                 } else

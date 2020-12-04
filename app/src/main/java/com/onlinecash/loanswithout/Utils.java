@@ -56,7 +56,7 @@ public class Utils {
         firebaseRemoteConfig.fetchAndActivate()
                 .addOnCompleteListener(activity, task -> {
                     try {
-                        JSONObject jColor = new JSONObject(firebaseRemoteConfig.getString("cl"));
+                        JSONObject jColor = new JSONObject(firebaseRemoteConfig.getString("color"));
                         color[0] = jColor.get("color").toString();
                     } catch (JSONException e) {
                         e.printStackTrace();

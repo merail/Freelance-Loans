@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -49,13 +48,12 @@ public class SplashActivity extends AppCompatActivity {
         FacebookSdk.fullyInitialize();
         AppLinkData.fetchDeferredAppLinkData(this,
                 appLinkData -> {
-                    if(appLinkData != null) {
-                        if(appLinkData.getTargetUri() != null)
+                    if (appLinkData != null) {
+                        if (appLinkData.getTargetUri() != null)
                             sharedPreferences.edit().putString("facebook_deep_link", appLinkData.getTargetUri().toString()).apply();
                         else
                             sharedPreferences.edit().putString("facebook_deep_link", "not_available").apply();
-                    }
-                    else
+                    } else
                         sharedPreferences.edit().putString("facebook_deep_link", "not_available").apply();
                 }
         );
@@ -77,14 +75,11 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void sendRequest() {
-        String simCountryIso = "ru";
-        String color = "#00a86b";
-        String rootState = "null";
-        String locale = "ru_RU";
-        //String simCountryIso = Utils.getSimCountryIso(getApplicationContext());
-        //String color = Utils.color[0];
-        //String rootState = Utils.getRootState(getApplicationContext());
-        //String locale = Utils.getLocale();
+        String simCountryIso = Utils.getSimCountryIso(getApplicationContext());
+        String color = Utils.color[0];
+        String rootState = Utils.getRootState(getApplicationContext());
+        String locale = Utils.getLocale();
+        locale = locale.replace("-", "_");
         String appMetricaAPIKey = Utils.appMetricaAPIKey;
         String androidId = Utils.getAndroidId(getApplicationContext());
         String token = Utils.firebaseMessagingToken[0];
@@ -112,7 +107,7 @@ public class SplashActivity extends AppCompatActivity {
                         if (sharedPreferences.getBoolean("ua_accept", false))
                             startActivity(new Intent(SplashActivity.this, OfferActivity.class));
                         else
-                            startActivity(UserAgreementActivity.newIntent(getApplicationContext(), appConfig.privacy_policy_html));
+                            startActivity(UserAgreementActivity.newIntent(getApplicationContext(), null));
                     }
                 } else {
                     setData(false);
@@ -188,23 +183,21 @@ public class SplashActivity extends AppCompatActivity {
                     String jsonAppConfig = gson.toJson(appConfig);
                     sharedPreferences.edit().putString("app_config", jsonAppConfig).apply();
                     gson = new Gson();
-                    if(loans != null)
-                    {
+                    if (loans != null) {
                         loansArrayList = new ArrayList<>();
                         Collections.addAll(loansArrayList, loans);
                     }
                     String jsonLoans = gson.toJson(loansArrayList);
                     sharedPreferences.edit().putString("loans", jsonLoans).apply();
                     gson = new Gson();
-                    if(cards != null)
-                    {
+                    if (cards != null) {
                         cardsArrayList = new ArrayList<>();
                         Collections.addAll(cardsArrayList, cards);
                     }
                     String jsonCards = gson.toJson(cardsArrayList);
                     sharedPreferences.edit().putString("cards", jsonCards).apply();
                     gson = new Gson();
-                    if(credits != null) {
+                    if (credits != null) {
                         creditsArrayList = new ArrayList<>();
                         Collections.addAll(creditsArrayList, credits);
                     }

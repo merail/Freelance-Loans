@@ -25,7 +25,7 @@ import java.util.Objects;
  * create an instance of this fragment.
  */
 @SuppressLint("ParcelCreator")
-public class FavouritesFragment extends Fragment implements OnLastFavouriteRemoveListener{
+public class FavouritesFragment extends Fragment implements OnLastFavouriteRemoveListener {
 
     private TextView noFavouritesTextView;
     private RecyclerView favouritesRecyclerView;
@@ -59,7 +59,8 @@ public class FavouritesFragment extends Fragment implements OnLastFavouriteRemov
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
         favouritesRecyclerView.setLayoutManager(linearLayoutManager);
-        LoansAdapter loansAdapter = new LoansAdapter(getContext(), favourites, true, FavouritesFragment.this);
+        LoansAdapter loansAdapter = new LoansAdapter(getContext(), favourites, true
+                , FavouritesFragment.this, "offerwall", -1);
         favouritesRecyclerView.setAdapter(loansAdapter);
 
         return v;
