@@ -82,6 +82,8 @@ public class CardsFragment extends Fragment {
         setList(0);
 
         TabLayout cardsTabLayout = v.findViewById(R.id.cardsTabLayout);
+        cardsTabLayout.setTabTextColors(getResources().getColor(R.color.mainColor)
+                , getResources().getColor(R.color.mainColor));
         cardsTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {

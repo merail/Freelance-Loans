@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -102,10 +103,10 @@ public class SplashActivity extends AppCompatActivity {
             Utils.getInstanceId(getApplicationContext());
 
             Handler h = new Handler();
-            h.postDelayed(this::sendRequest, 2000);
+            h.postDelayed(this::sendRequest, 2150);
         } else {
             Handler h = new Handler();
-            h.postDelayed(() -> setData(false), 2000);
+            h.postDelayed(() -> setData(false), 2150);
         }
     }
 
@@ -120,6 +121,8 @@ public class SplashActivity extends AppCompatActivity {
         String token = Utils.firebaseMessagingToken[0];
         String googleAdvertisingId = Utils.googleAdvertisingId[0];
         String instanceId = Utils.instanceId[0];
+
+        Log.d("colorcolorcolor", color);
 
         ActualBackendService actualBackendService = ActualBackendBuilder.build();
 

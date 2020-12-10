@@ -24,8 +24,10 @@
         android:id="@+id/cardsTabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:tabTextAppearance="@style/TabTextStyle"
+        app:tabTextAppearance="@style/CreditsTabTextStyle"
         app:tabMode="fixed"
+        app:tabTextColor="@color/mainColor"
+        app:tabIndicatorColor="@color/mainColor"
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.tabs.TabItem
