@@ -47,6 +47,8 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
+        Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
+
         sharedPreferences = getSharedPreferences("PREFS", Context.MODE_PRIVATE);
 
         Bundle bundle = getIntent().getExtras();

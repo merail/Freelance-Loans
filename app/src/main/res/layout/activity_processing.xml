@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ProcessingActivity"
-    android:background="@color/colorAccent">
+    android:background="#b40001">
 
     <TextView
         android:layout_width="wrap_content"
@@ -28,7 +28,7 @@
         android:layout_centerVertical="true"
         android:max="100"
         android:progress="0"
-        android:progressTint="#FF0054"
+        android:progressTint="@color/colorAccent"
         android:progressBackgroundTint="@color/colorWhite"
         android:layout_marginHorizontal="15dp"
         android:layout_marginBottom="20dp"

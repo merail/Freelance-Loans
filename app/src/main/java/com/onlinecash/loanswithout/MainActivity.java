@@ -117,6 +117,7 @@ public class MainActivity extends AppCompatActivity {
             switch (item.getItemId()) {
                 case R.id.loansPage:
                     pageLabelTextView.setText(getString(R.string.loans_page));
+                    pageLabelTextView.setTextColor(getResources().getColor(R.color.mainColor));
                     fragmentManager.beginTransaction().replace(R.id.main_container,
                             LoansFragment.newInstance(loans, finalLoanElement, openType), LOANS_FRAGMENT_TAG).commit();
                     return true;

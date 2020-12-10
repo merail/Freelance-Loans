@@ -34,6 +34,7 @@ public class FormActivity extends AppCompatActivity {
             int resIconId = getResources().getIdentifier(iconId, "id", this.getPackageName());
 
             editTexts.add(findViewById(resIconId));
+            editTexts.get(i).setErrorTextAppearance(R.style.error_appearance);
         }
 
         for (int i = 0; i < 4; i++) {
@@ -70,7 +71,7 @@ public class FormActivity extends AppCompatActivity {
                 hasError = true;
                 editTexts.get(0).setError(errorMessages.get(0));
             }
-            if (Objects.requireNonNull(editTexts.get(1).getEditText()).getText().toString().trim().length() != 10) {
+            if (Objects.requireNonNull(editTexts.get(1).getEditText()).getText().toString().trim().length() != 12) {
                 hasError = true;
                 editTexts.get(1).setError(errorMessages.get(1));
             }
